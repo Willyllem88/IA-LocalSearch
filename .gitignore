@@ -1,2 +1,27 @@
 # Folders to ignore
-META-INF/
+# IntelliJ IDEA files
+.idea/
+*.iml
+
+# Compiled class files
+*.class
+
+# JAR files
+*.jar
+
+# Output directories
+out/
+build/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Other common ignore patterns
+*.swp
+*.swo
+*.tmp
+*.bak
