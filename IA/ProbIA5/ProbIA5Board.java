@@ -1,17 +1,38 @@
 package IA.ProbIA5;
 
+import java.util.ArrayList; // Para usar ArrayList
+import java.util.List; // Para usar List
+import IA.Azamon.Oferta; // Importar Oferta de Azamon.jar
+import IA.Azamon.Paquete; // Importar Paquete de Azamon.jar
+
 /**
  * Created by bejar on 17/01/17.
  */
 public class ProbIA5Board {
     /* Class independent from AIMA classes
        - It has to implement the state of the problem and its operators
-     *
-
-    /* State data structure
-        vector with the parity of the coins (we can assume 0 = heads, 1 = tails
      */
 
+    /**
+     * Clase que representa una asignación de un paquete a una oferta de transporte
+     */
+    public class Asignacion {
+        public Paquete paquete;
+        public Oferta oferta;
+
+        public Asignacion(Paquete paquete, Oferta oferta) {
+            this.paquete = paquete;
+            this.oferta = oferta;
+        }
+    }
+
+    /* State data structure
+       List with the current assignments of packages to offers
+     */
+    private List<Asignacion> estado = new ArrayList<>();
+
+
+    /// ELIMINAR: esto es el estado de probIA5
     private int [] board;
     private static int [] solution;
 
