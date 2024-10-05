@@ -1,4 +1,4 @@
-package IA.ProbIA5;
+package implementation;
 
 /**
  * Created by bejar on 17/01/17.

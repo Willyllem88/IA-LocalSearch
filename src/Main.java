@@ -1,21 +1,11 @@
-import IA.ProbIA5.ProbIA5Board;
-import IA.ProbIA5.ProbIA5GoalTest;
-import IA.ProbIA5.ProbIA5HeuristicFunction;
-import IA.ProbIA5.ProbIA5SuccesorFunction;
-import IA.Azamon.Oferta;
-import IA.Azamon.Paquete;
-import IA.Azamon.Paquetes;
-import IA.Azamon.Testing;
-import IA.Azamon.Transporte;
+import implementation.*;
+
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.AStarSearch;
 import aima.search.informed.IterativeDeepeningAStarSearch;
-
-import aima.search.informed.HillClimbingSearch;
-import aima.search.informed.SimulatedAnnealingSearch; //
 
 import java.util.Iterator;
 import java.util.List;

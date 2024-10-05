@@ -1,4 +1,4 @@
-package IA.ProbIA5;
+package implementation;
 
 import aima.search.framework.SuccessorFunction;
 import aima.search.framework.Successor;

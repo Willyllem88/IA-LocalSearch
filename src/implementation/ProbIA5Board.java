@@ -1,9 +1,9 @@
-package IA.ProbIA5;
+package implementation;
 
-import java.util.ArrayList; // Para usar ArrayList
-import java.util.List; // Para usar List
-import IA.Azamon.Oferta; // Importar Oferta de Azamon.jar
-import IA.Azamon.Paquete; // Importar Paquete de Azamon.jar
+import java.util.ArrayList;
+import java.util.List;
+import IA.Azamon.Paquete;
+import IA.Azamon.Oferta;
 
 /**
  * Created by bejar on 17/01/17.
@@ -68,8 +68,8 @@ public class ProbIA5Board {
         return val;
     }
 
-     /* Goal test */
-     public boolean is_goal(){
+    /* Goal test */
+    public boolean is_goal(){
         // output board and solution
         //  System.out.println("Board:    " + board[0] + board[1] + board[2] + board[3] + board[4]);
         //  System.out.println("Solution: " + solution[0] + solution[1] + solution[2] + solution[3] + solution[4]);
@@ -80,21 +80,21 @@ public class ProbIA5Board {
                 return false;
             }
         }
-        return true; 
-     }
+        return true;
+    }
 
-     /* auxiliary functions */
-     // Some functions will be needed for creating a copy of the state, getConfiguration()
-     
-     public int[] getConfiguration(){
+    /* auxiliary functions */
+    // Some functions will be needed for creating a copy of the state, getConfiguration()
+
+    public int[] getConfiguration(){
         // return the configuration of the board
         return board;
-     }
+    }
 
-     public int[] getSolution(){
+    public int[] getSolution(){
         // return the solution
         return solution;
-     }
+    }
 
     /* ^^^^^ TO COMPLETE ^^^^^ */
 

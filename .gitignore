@@ -1,8 +1,10 @@
-# Folders to ignore
-# IntelliJ IDEA files
+# Directories
+out/
 .idea/
 *.iml
+*.iws
+*.ipr
 
-# Output directories
-out/
-build/
+# Compiled class files
+*.class
+
