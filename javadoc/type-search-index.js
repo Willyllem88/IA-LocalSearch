@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"implementation","l":"ProbIA5Board.Asignacion"},{"p":"<Unnamed>","l":"Main"},{"p":"implementation","l":"ProbIA5Board"},{"p":"implementation","l":"ProbIA5GoalTest"},{"p":"implementation","l":"ProbIA5HeuristicFunction"},{"p":"implementation","l":"ProbIA5SuccesorFunction"}];updateSearchResults();
