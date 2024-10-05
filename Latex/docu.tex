@@ -1,0 +1,82 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+\title{\textbf{Intel·ligència Artificial:\\
+		Pràctica de Cerca Local}}
+\author{\emph{Guillem Cabré, Carla Cordero, Hannah Röber}}
+\date{Curs 2024-25, Quatrimestre de tardor}
+
+\renewcommand*\contentsname{Continguts}
+\renewcommand{\figurename}{Figura}
+
+\begin{document}
+	
+	\begin{titlepage}
+		\clearpage\maketitle
+		\thispagestyle{empty}
+	\end{titlepage}
+	
+	\tableofcontents
+	\clearpage
+	
+	\section{Part Descriptiva}
+	
+	\subsection{Descripció del problema}
+	
+	La companyia fictícia \emph{Ázamon} ha d'optimitzar els seus enviaments diaris de $n$ paquets a una ciutat, considerant diversos factors. Cada paquet té un pes $w_i$ i una prioritat $p_i$, que defineix el termini màxim per ser entregat. L'empresa rep ofertes diàries de diverses companyies de transport, i el repte és trobar la millor manera de distribuir els paquets entre aquestes ofertes, minimitzant els costos i maximitzant la satisfacció dels clients. \\
+	
+	Els costos inclouen tant el transport, amb preus per quilogram que varien segons l'empresa, com l'emmagatzematge dels paquets que no es recullen immediatament. La felicitat dels clients augmenta si els paquets arriben abans de la data límit prevista. Per tant, cal equilibrar l'eficiència en costos amb la rapidesa en el lliurament per maximitzar la satisfacció del client. \\
+	
+	\subsection{Elements del problema}
+	
+	Cada paquet té un pes $w_i \in \{0.5, 1.0, 1.5, ..., 10.0\}$ kg i una prioritat $p_i \in \{1, 2, 3\}$, que defineix el termini d'entrega: un dia per $p_i = 1$, entre 2 i 3 dies per $p_i = 2$, i entre 4 i 5 dies per $p_i = 3$. A més cada proritat té un cost diferent, $p_i = 1$ val 5 euros, $p_i = 2$ val 3 euros i $p_i = 3$ val 1.5 euros. \\
+	
+	Les empreses de transport ofereixen cada dia $m$ opcions amb una capacitat màxima $C_j \in \{5, 10, 15, ..., 50\}$ kg, un preu per quilogram transportat $c_j$, i un temps d'entrega $t_j \in \{1, 2, 3, 4, 5\}$ dies. A més, si els paquets no es recullen immediatament, cal assumir un cost d'emmagatzematge de 0.25 euros per quilogram i dia. Els clients es mostren més satisfets amb entregues anticipades, la qual cosa augmenta proporcionalment als dies d'antelació. \\
+	
+	\subsection{Espai de cerca}
+	
+	\subsection{Metodologia de resolució}
+	
+	Per resoldre aquest problema, utilitzarem algorismes de cerca local. En particular, s'han seleccionat els algorismes de \emph{Hill Climbing} i \emph{Simulated Annealing}, que exploraran l'espai de cerca format per totes les assignacions possibles dels paquets a les ofertes de transport.
+	
+	\begin{itemize}
+		\item L'algorisme de \emph{Hill Climbing} intentarà millorar successivament la solució actual fent petits canvis a l'assignació dels paquets.
+		\item L'algorisme de \emph{Simulated Annealing} permetrà l'acceptació temporal de solucions pitjors, amb l'objectiu d'evitar quedar-se atrapats en òptims locals.
+	\end{itemize}
+	
+	A través de diversos experiments, es provaran diferents configuracions de paràmetres i es compararan els resultats dels dos algorismes per determinar quin proporciona millors solucions en termes de cost i felicitat.
+	
+	\subsection{Implementació de l'Estat}
+	
+	\subsection{Operadors}
+	
+	\subsection{Generador de Solucions Inicials}
+	
+	\subsection{Funció Heurística}
+	
+	\subsection{Resultats}
+	
+	\newpage
+	\section{Part Experimental}
+	
+	\subsection{Experiment 1}
+	
+	\subsection{Experiment 2}
+	
+	\subsection{Experiment 3}
+	
+	\newpage
+	\section{Conclusions}
+	
+	
+	\newpage
+	\section{Treball d'Innovació: DeepVariant}
+	
+	
+	
+
+\end{document}
