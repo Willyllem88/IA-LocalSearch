@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by bejar on 17/01/17
  */
-public class ProbIA5SuccesorFunction implements SuccessorFunction{
+public class ProbIA5SuccesorFunctionHC implements SuccessorFunction{
 
     public List getSuccessors(Object state){
         ArrayList retval = new ArrayList();

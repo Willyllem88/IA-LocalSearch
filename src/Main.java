@@ -7,6 +7,10 @@ import aima.search.framework.SearchAgent;
 import aima.search.informed.AStarSearch;
 import aima.search.informed.IterativeDeepeningAStarSearch;
 
+// importem els algorismes que hem de fer servir
+import aima.search.informed.HillClimbingSearch;
+import aima.search.informed.SimulatedAnnealingSearch;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -25,9 +29,9 @@ public class Main {
 
         // Create the Problem object
         Problem p = new  Problem(board,
-                                new ProbIA5SuccesorFunction(),
+                                new ProbIA5SuccesorFunctionHC(),
                                 new ProbIA5GoalTest(),
-                                new ProbIA5HeuristicFunction());
+                                new ProbIA5HeuristicFunction1());
 
         // Instantiate the search algorithm
 	// AStarSearch(new GraphSearch()) or IterativeDeepeningAStarSearch()
