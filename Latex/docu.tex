@@ -36,9 +36,23 @@
 	Cada paquet té un pes $w_i \in \{0.5, 1.0, 1.5, ..., 10.0\}$ kg i una prioritat $p_i \in \{1, 2, 3\}$, que defineix el termini d'entrega: un dia per $p_i = 1$, entre 2 i 3 dies per $p_i = 2$, i entre 4 i 5 dies per $p_i = 3$. A més cada proritat té un cost diferent, $p_i = 1$ val 5 euros, $p_i = 2$ val 3 euros i $p_i = 3$ val 1.5 euros. \\
 	
 	Les empreses de transport ofereixen cada dia $m$ opcions amb una capacitat màxima $C_j \in \{5, 10, 15, ..., 50\}$ kg, un preu per quilogram transportat $c_j$, i un temps d'entrega $t_j \in \{1, 2, 3, 4, 5\}$ dies. A més, si els paquets no es recullen immediatament, cal assumir un cost d'emmagatzematge de 0.25 euros per quilogram i dia. Els clients es mostren més satisfets amb entregues anticipades, la qual cosa augmenta proporcionalment als dies d'antelació. \\
-	
+
+	\subsection{Definició solució}
+
+	Una solució segons el problema que se'ns ha descrit és una assignació dels paquets a les ofertes de transport del dia apropiades amb les restriccións que la suma dels pesos dels paquets assignats a una oferta no poden superar la seva capacitat máxima i que tots els paquets arribin dins del termini d'entrega que depén de la seva prioritat. \\
+
+	Formalment, si tenim n paquets i m ofertes de transport, un solució seria una tupla que associa cada paquet $p_i$ a una oferta $o_j$, tal que que $1≤i≤n$ i $1≤j≤m$, amb les restriccions de capacitat i temps respectades. \\
+
+	Aleshores el nostre objectiu serà generar una solució que compleixi els requisists mencionats que serà l'estat inicial per tal d'arribar a una solució més òptima en la qual es té en compte criteris de qualitat, el qual serà l'estat final mitjançant algorismes. \\
+
 	\subsection{Espai de cerca}
-	
+
+	L'espai de cerca dels nostres algorismes és l'espai de solucions al nostre problema, és a dir, la totalitat de les solucions que compleixen els requisits del nostre problema que s'han esmentat en el apartat anterior sense importar la seva qualitat donada per uns criteris en formen part. És important conèixer el tamany de l'espai de cerca per justificar la utilització de certs algorismes per aquest problema en comptes d'utilitzar un algorisme de força bruta senzill. \\
+
+	La grandària de l'espai de cerca està determinat pel nombre de combinacions possibles d'assignació de paquets a ofertes de transport. Aleshores, assumim que $m$ és el nombre de ofertes del dia que hi ha i que tenim $n$ paquets a distribuir amb la seva prioritat. La grandària màxima de l'espai de cerca seria de l'ordre de O($m^n$), la qual cosa representa totes les combinacions possibles d'assignació de paquets que correspon al cas pitjor on totes les combinacions son vàlides, ja que cada paquet pot ser assignat a qualsevol de les $m$ ofertes. \\
+
+	No obstant això, aquest número pot reduir-se significativament a causa de les restriccions que impedeixen unes certes assignacions inviables, com assignar paquets a una oferta que no pot transportar el pes total o assignar paquets d'alta prioritat a una oferta de llarg temps de lliurament. Aquestes restriccions limiten el nombre de combinacions vàlides, però encara així, l'espai de cerca pot ser considerablement gran, especialment quan el nombre de paquets i ofertes augmenta ja que creixerà  exponencialment. Aleshores, es complica la eficiència de l'algorisme de força bruta i, per tant, s'ha d'utilitzar altres algorismes. \\
+
 	\subsection{Metodologia de resolució}
 	
 	Per resoldre aquest problema, utilitzarem algorismes de cerca local. En particular, s'han seleccionat els algorismes de \emph{Hill Climbing} i \emph{Simulated Annealing}, que exploraran l'espai de cerca format per totes les assignacions possibles dels paquets a les ofertes de transport.
