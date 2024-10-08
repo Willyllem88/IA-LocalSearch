@@ -2,6 +2,7 @@
 \usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{hyperref}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 
@@ -78,8 +79,38 @@
 		
 	Inicialment, l'estat es configura assignant \(-1\) a cada paquet de la llista \emph{asignaciones}, indicant que no hi ha cap oferta de transport assignada al paquet. A més, \emph{espacioDisponibleOfertas} s'inicialitza amb la capacitat màxima de cada oferta, que posteriorment s'anirà actualitzant quan els paquets es vagin assignant.\\
 	
-	
 	\subsection{Operadors}
+	
+	Els operadors pels algoritmes de cerca local seran els següents:
+	
+	\begin{itemize}
+		\item \emph{swapPaquet(p1, p2)}: Siguin $p1$ i $p2$ dos paquets que pertanyen a ofertes de transport diferents, mourà $p1$ a la posició de $p2$ i a l'inrevés. Aquesta operació es fara si i només si cap de les dues ofertes sobrepassa la seva capcacitat màxima.
+		\item \emph{mourePaquet(p, o)}: Sigi $p$ un paquet i $o$ una oferta, mourà el paquet $p$ a la oferta $o$. Sempre i quant $p$ càpiga dins de $o$.
+	\end{itemize}
+	
+	Amb aquests dos operadors serem capaços de recòrrer tot l'espai de solucions.
+	
+	\subsection{Generador de Solucions Inicials}
+	
+	Dos generados de solucions incials han estat pensats per resoldre aquest problema, cadascun maximitzant una aspecte difrent, un la felicitat del client i l'altre el preu del transport.
+	
+	\subsubsection{Maximitzar la felicitat}
+	
+	Per tal de maximitzar la felicitat haurem d'aconseguir assignar inicialment els paquets per tal de que s'entreguin tots el més aviat possible. Per això ordenarem la llista d'ofertes de menor dia d'entrega a major ($Ofertes$). Farem el mateix per les prioritats del paquet ($Paquets$). \\
+	
+	Un cop ambdues llistes estàn ordenades intentarem assignar els paquets de la següent manera. Vegeu a continuació el pseudocodi: \\
+	
+	\begin{verbatim}
+	Per a cada paquet p_i que pertany a Paquets:
+	    j = 0
+	    Mentre j < nombre d'ofertes i p_i no estigui assignat:
+	        Si p_i <= C_j:     # C_j és la capacitat de la oferta o_j
+	            Assignar p_i a o_j
+	        Altrament:
+	            Incrementar j  # Provar amb la següent oferta o_{j+1}
+	\end{verbatim}
+
+	\subsubsection{Maximitzar el cost}
 	
 	\subsection{Generador de Solucions Inicials}
 	
