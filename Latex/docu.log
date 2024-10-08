@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.10.7)  7 OCT 2024 12:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.10.7)  7 OCT 2024 13:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -269,62 +269,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 42--43
  []
 
 
-! LaTeX Error: Unicode character ≤ (U+2264)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.44 ...p_i$ a una oferta $o_j$, tal que que $1≤
-                                                  i≤n$ i $1≤j≤m$, amb ...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ≤ (U+2264)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.44 ... a una oferta $o_j$, tal que que $1≤i≤
-                                                  n$ i $1≤j≤m$, amb les ...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ≤ (U+2264)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.44 ...rta $o_j$, tal que que $1≤i≤n$ i $1≤
-                                                  j≤m$, amb les restriccio...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ≤ (U+2264)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.44 ...$o_j$, tal que que $1≤i≤n$ i $1≤j≤
-                                                  m$, amb les restriccions d...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 44--45
 
  []
@@ -344,14 +288,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 52--53
 
  []
 
+[2
 
+]
 Underfull \hbox (badness 10000) in paragraph at lines 54--55
 
  []
 
-[2
 
-]
 Overfull \hbox (10.6407pt too wide) in paragraph at lines 62--63
 []\OT1/cmr/m/n/10 L'algorisme de \OT1/cmr/m/it/10 Sim-u-lated An-neal-ing \OT1/
 cmr/m/n/10 per-metr^^Ra l'acceptaci^^So tem-po-ral de solu-cions pitjors, amb l
@@ -365,13 +309,13 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2627 strings out of 474486
- 40683 string characters out of 5743755
- 1937542 words of memory out of 5000000
- 24909 multiletter control sequences out of 15000+600000
+ 2626 strings out of 474486
+ 40677 string characters out of 5743755
+ 1936542 words of memory out of 5000000
+ 24908 multiletter control sequences out of 15000+600000
  565127 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,7n,65p,673b,255s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,7n,65p,705b,255s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\hanna\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk> <C:\Users\hanna\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
 0\tcbx1728.pk><C:/Users/hanna/AppData/Local/Programs/MiKTeX/fonts/type1/public/
@@ -385,7 +329,7 @@ a/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/U
 sers/hanna/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.
 pfb><C:/Users/hanna/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
 m/cmti12.pfb>
-Output written on docu.pdf (7 pages, 135428 bytes).
+Output written on docu.pdf (7 pages, 136015 bytes).
 PDF statistics:
  81 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
