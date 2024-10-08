@@ -92,6 +92,37 @@ public class Estado {
         };
     }
 
+
+    /* Heuristic function */
+    public double heuristic1(){
+        //Proposta de heurística tenint en compte només el criteris de qualitat sobre els costos
+        double val = 0;
+        val = precio*precio; //minimitzar la funció, (minimitzar costos)
+        return val;
+    }
+
+    /* Heuristic function */
+    public double heuristic2(){
+        //Proposta de heurística tenint en compte els dos criteris de qualitat de solució
+       double val = 0;
+        val = -felicidad*felicidad + precio*precio; //minimitzar la funció, (maximitzar la felicitat i minimitzar costos)
+        return val;
+    }
+
+
+    /* Goal test */  // No se si s'ha d'usar o adaptar al nostre problema o no cal
+    public boolean is_goal(){
+        // compute if board = solution
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != solution[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
 }
     /**
      * Clase que representa una asignación de un paquete a una oferta de transporte

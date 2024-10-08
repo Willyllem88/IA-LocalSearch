@@ -8,10 +8,10 @@ package implementation;
 
 import aima.search.framework.HeuristicFunction;
 
-public class ProbIA5HeuristicFunction2 implements HeuristicFunction {
+public class AzamonHeuristicFunction2 implements HeuristicFunction {
 
     public double getHeuristicValue(Object n){
 
-        return ((ProbIA5Board) n).heuristic();
+        return ((Estado) n).heuristic2();
     }
 }

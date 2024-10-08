@@ -38,9 +38,9 @@ public class Main {
 
         // Create the Problem object
         Problem p = new  Problem(/*board*/azamon,
-                                new ProbIA5SuccesorFunctionHC(),
-                                new ProbIA5GoalTest(),
-                                new ProbIA5HeuristicFunction1());
+                                new AzamonSuccesorFunctionHC(),
+                                new AzamonGoalTest(),
+                                new AzamonHeuristicFunction1());
 
         // Instantiate the search algorithm
 	// AStarSearch(new GraphSearch()) or IterativeDeepeningAStarSearch()
