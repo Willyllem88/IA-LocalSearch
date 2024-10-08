@@ -1,3 +1,5 @@
+import IA.Azamon.Paquetes;
+import IA.Azamon.Transporte;
 import implementation.*;
 
 import aima.search.framework.GraphSearch;
@@ -22,13 +24,20 @@ public class Main {
          *  For a problem to be solvable:
          *    count(0,prob) % 2 == count(0,sol) %2
          */
-        int [] prob = new int []{1 ,1, 1, 0, 0};
-        int [] sol = new int[]{1, 0, 0, 1, 1};
+        // int [] prob = new int []{1 ,1, 1, 0, 0};
+        //int [] sol = new int[]{1, 0, 0, 1, 1};
 
-        ProbIA5Board board = new ProbIA5Board(prob, sol );
+        //ProbIA5Board board = new ProbIA5Board(prob, sol );
+        int n = 30;
+        int seed = 1304;
+        Paquetes paq = new Paquetes(n,seed);
+        double prop = 1.2; //No he entes aquest parametre, ni com el podem treure
+        Transporte ofertas = new Transporte(paq,prop,seed);
+
+        Estado azamon = new Estado(paq, ofertas);
 
         // Create the Problem object
-        Problem p = new  Problem(board,
+        Problem p = new  Problem(/*board*/azamon,
                                 new ProbIA5SuccesorFunctionHC(),
                                 new ProbIA5GoalTest(),
                                 new ProbIA5HeuristicFunction1());

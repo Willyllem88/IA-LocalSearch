@@ -2,6 +2,7 @@ package implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 import IA.Azamon.Paquete;
 import IA.Azamon.Oferta;
 import IA.Azamon.Paquetes;
@@ -21,7 +22,6 @@ public class Estado {
      */
 
 
-
     //*********************això no sé si hauria de ser static
     private Paquetes paquetes;//listado de paquetes a asignar
     private Transporte ofertas;//listado de ofertas de transporte
@@ -30,11 +30,13 @@ public class Estado {
     // la oferta a la está asociado, -1 si no tiene ninguna oferta asignada
     private List<Double> espacioDisponibleOfertas;
     private int felicidad;
+    private double precio;
 
     /* Constructor */
     public Estado(Paquetes paquetes, Transporte ofertas) {
         //inicializamos estado
         felicidad = 0;
+        precio = 0;
         this.paquetes = paquetes;
         this.ofertas = ofertas;
 
@@ -47,28 +49,50 @@ public class Estado {
         for (int i = 0; i < ofertas.size(); i++) {
             espacioDisponibleOfertas.add(ofertas.get(i).getPesomax());
         }
-
     }
 
     //solución inicial. NO RECUERDO CUÁL SE DIJO EN CLASE, esto es básicamente dónde quepa (a cambiar)
-    public void asignarPaquetesIniciales(){
+    public void asignarPaquetesIniciales() {
+
+        //Generar aleatorietat en l'ordre de paquet, els index dels paquets a colocar
+        List<Integer> l = new ArrayList<>();
+        for (int i = 0; i < paquetes.size(); i++) l.add(i);
+
+        Collections.shuffle(l); // Shuffle the list
+
+        //Assignem paquets
         for (int i = 0; i < paquetes.size(); i++) {
-            Paquete paquete = paquetes.get(i);
+            Paquete paquete = paquetes.get(l.get(i));
 
             // Busca una oferta donde haya espacio para el paquete
             for (int j = 0; j < ofertas.size(); j++) {
                 if (espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
-                    // Assignar el paquet a l'oferta
-                    asignaciones.set(i, j);
-                    espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
-                    break;
+                    int fel =  getDiasPaquete(paquete) - ofertas.get(j).getDias(); //veure la diferencia
+                    if (fel >= 0) { //Comproba que s'entregui en el termini, que no sigui negatiu bàsicament
+                        // Assignar el paquet a l'oferta
+                        asignaciones.set(i, j);
+                        espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
+                        felicidad += fel*fel; //Proposta de fer-ho quadrat pero potser millor a la funció heurística
+                        precio = paquete.getPeso()*ofertas.get(j).getPrecio();
+                        break;
+                    }
                 }
             }
         }
     }
 
+    //Retorna el termini d'entrega màxim en dies segons la prioritat d'un paquet
+    private int getDiasPaquete(Paquete paquete) {
+        int pr = paquete.getPrioridad();
+        return switch (pr) {
+            case 0 -> 1;
+            case 1 -> 3;
+            case 2 -> 5;
+            default -> 0;
+        };
+    }
 
-
+}
     /**
      * Clase que representa una asignación de un paquete a una oferta de transporte
      * No borro por no dañar los sentimientos de nadie but creo que ya no hace falta
@@ -89,57 +113,3 @@ public class Estado {
 
 
 
-    /*
-    public void flip_it(int i){
-        // flip the coins i and i + 1
-        board[i] = 1 - board[i];
-        board[(i+1)%board.length] = 1 - board[(i+1)%board.length];
-    }
-
-    //Heuristic function
-    public double heuristic(){
-        // compute the number of coins out of place respect to solution
-        int val = 0;
-        for (int i = 0; i < board.length; i++) {
-            if (board[i] != solution[i]) {
-                val++;
-            }
-        }
-        return val;
-    }
-*/
-    /* Goal test */
-
-    /*
-    public boolean is_goal(){
-        // output board and solution
-        //  System.out.println("Board:    " + board[0] + board[1] + board[2] + board[3] + board[4]);
-        //  System.out.println("Solution: " + solution[0] + solution[1] + solution[2] + solution[3] + solution[4]);
-
-        // compute if board = solution
-        for (int i = 0; i < board.length; i++) {
-            if (board[i] != solution[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-     */
-
-    /* auxiliary functions */
-    // Some functions will be needed for creating a copy of the state, getConfiguration()
-/*
-    public int[] getConfiguration(){
-        // return the configuration of the board
-        return board;
-    }
-
-    public int[] getSolution(){
-        // return the solution
-        return solution;
-    }
-*/
-
-}

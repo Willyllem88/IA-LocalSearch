@@ -4,7 +4,11 @@ out/
 *.iml
 *.iws
 *.ipr
-
+#latex temporary files
+*.log
+*.synctex.gz
+*.toc
+*.aux
 # Compiled class files
 *.class
 
