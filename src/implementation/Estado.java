@@ -52,7 +52,7 @@ public class Estado {
     }
 
     //solución inicial. NO RECUERDO CUÁL SE DIJO EN CLASE, esto es básicamente dónde quepa (a cambiar)
-    public void asignarPaquetesIniciales() {
+    public void asignarPaquetesIniciales1() {
 
         //Generar aleatorietat en l'ordre de paquet, els index dels paquets a colocar
         List<Integer> l = new ArrayList<>();
@@ -67,18 +67,23 @@ public class Estado {
             // Busca una oferta donde haya espacio para el paquete
             for (int j = 0; j < ofertas.size(); j++) {
                 if (espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
-                    int fel =  getDiasPaquete(paquete) - ofertas.get(j).getDias(); //veure la diferencia
+                    int fel =  felicitatPaquetAOferta(paquete, ofertas.get(j)); //veure la diferencia
                     if (fel >= 0) { //Comproba que s'entregui en el termini, que no sigui negatiu bàsicament
                         // Assignar el paquet a l'oferta
                         asignaciones.set(i, j);
                         espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
-                        felicidad += fel*fel; //Proposta de fer-ho quadrat pero potser millor a la funció heurística
-                        precio = paquete.getPeso()*ofertas.get(j).getPrecio();
+                        felicidad += fel;
+                        precio += preuPaquetAOferta(paquete, ofertas.get(j));
                         break;
                     }
                 }
             }
         }
+    }
+
+    //Una altra proposta de generació de solució inicial encara no implementada
+    public void asignarPaquetesIniciales2() {
+
     }
 
     //Retorna el termini d'entrega màxim en dies segons la prioritat d'un paquet
@@ -92,8 +97,72 @@ public class Estado {
         };
     }
 
+    /*Funcions  auxiliar per als operadors*/
 
-    /* Heuristic function */
+    //Retorna per un paquet p si es pot assignar en la oferta o, tenint en compte les restriccions de pes i temps
+    private boolean compleixCondicioAplicabilitat(Paquete p, Oferta o, int i, double incrementPes) {
+        int priorPaq = getDiasPaquete(p);
+        return o.getDias() <= priorPaq && espacioDisponibleOfertas.get(i) >= incrementPes;
+    }
+
+    //Retorna el preu de un paquet p a una oferta o
+    private double preuPaquetAOferta(Paquete p, Oferta o) {
+        return p.getPeso()*o.getPrecio();
+    }
+
+    //Retorna la felicitat dels clients d'un paquet p assignat a una oferta o, negatiu  si el paquet no arriba a temps
+    private int felicitatPaquetAOferta(Paquete p, Oferta o) {
+        return getDiasPaquete(p) - o.getDias();
+    }
+
+    /*Operadors del problema*/
+
+    //Intercanvia dos paquets que estiguin en ofertes diferents.
+    //Condició d'aplicabilitat: després del swap cap de les 2 oferta excedeix la seva capacitat màxima i els paquets intercanviats arriben dins el termini
+    public void swapPaquets(int p1, int p2) { //index dels paquet a intercanviar
+        int oferta1 = asignaciones.get(p1);
+        int oferta2 = asignaciones.get(p2);
+
+        if (oferta1 != oferta2) { //Només si no estan a la mateixa oferta
+            Paquete paq1 = paquetes.get(p1);
+            Paquete paq2 = paquetes.get(p2);
+            Oferta o1 = ofertas.get(oferta1);
+            Oferta o2 = ofertas.get(oferta2);
+            double incPes1 =  paquetes.get(p1).getPeso() - paquetes.get(p2).getPeso(); //posar dif de pes de p1 a 02
+            double incPes2 =  paquetes.get(p2).getPeso() - paquetes.get(p1).getPeso(); //posar dif de pes de p2 a 01
+
+            //Fem l'intercanvi després de fer les comprovacions
+            if (compleixCondicioAplicabilitat(paq1, o2, oferta2, Math.max(0.0,incPes1)) && compleixCondicioAplicabilitat(paq2, o1, oferta2,Math.max(0.0, incPes2))) {
+                Collections.swap(asignaciones, p1, p2);
+                felicidad  += (felicitatPaquetAOferta(paq1, o2) - felicitatPaquetAOferta(paq1, o1)) + (felicitatPaquetAOferta(paq2, o1) - felicitatPaquetAOferta(paq2, o2)); //Recalcul de la felicitat
+                precio += (preuPaquetAOferta(paq1, o2) - preuPaquetAOferta(paq1, o1)) + (preuPaquetAOferta(paq2, o1) - preuPaquetAOferta(paq2, o2)); //Recalcul del preu
+                //Actualitzem l'espai disponible
+                espacioDisponibleOfertas.set(oferta1, espacioDisponibleOfertas.get(oferta1)-incPes2);
+                espacioDisponibleOfertas.set(oferta2, espacioDisponibleOfertas.get(oferta2)-incPes1);
+            }
+        }
+    }
+
+    //Mou un paquet p a un oferta o diferent a la qual està
+    //Condició d'aplicabilitat: després del moviment la oferta no excedeix la seva capacitat màxima i el paquet mogut arriba dins el termini
+    public void mourePaquet(int p, int o) { //index del paquet i de la oferta
+        int oActual = asignaciones.get(p);
+
+        if (o != oActual) { //Nomes si es una oferta diferent a la qual esta
+            double pes = paquetes.get(p).getPeso();
+            if (compleixCondicioAplicabilitat(paquetes.get(p), ofertas.get(o), o, pes)) { //Assignem al paquet p la oferta o si compleix la condicio d'aplicabilitat
+                asignaciones.set(p, o);
+                //Actualitzem les característiques de l'estat
+                felicidad += felicitatPaquetAOferta(paquetes.get(p), ofertas.get(o)) - felicitatPaquetAOferta(paquetes.get(p), ofertas.get(oActual));
+                precio += preuPaquetAOferta(paquetes.get(p), ofertas.get(o)) - preuPaquetAOferta(paquetes.get(p), ofertas.get(oActual));
+                espacioDisponibleOfertas.set(o, espacioDisponibleOfertas.get(o)-pes);
+                espacioDisponibleOfertas.set(oActual, espacioDisponibleOfertas.get(oActual)+pes);
+
+            }
+        }
+    }
+
+    /* Heuristic function 1*/
     public double heuristic1(){
         //Proposta de heurística tenint en compte només el criteris de qualitat sobre els costos
         double val = 0;
@@ -101,10 +170,10 @@ public class Estado {
         return val;
     }
 
-    /* Heuristic function */
+    /* Heuristic function 2*/
     public double heuristic2(){
         //Proposta de heurística tenint en compte els dos criteris de qualitat de solució
-       double val = 0;
+        double val = 0;
         val = -felicidad*felicidad + precio*precio; //minimitzar la funció, (maximitzar la felicitat i minimitzar costos)
         return val;
     }
@@ -113,11 +182,12 @@ public class Estado {
     /* Goal test */  // No se si s'ha d'usar o adaptar al nostre problema o no cal
     public boolean is_goal(){
         // compute if board = solution
+        /*
         for (int i = 0; i < board.length; i++) {
             if (board[i] != solution[i]) {
                 return false;
             }
-        }
+        }*/
         return true;
     }
 
