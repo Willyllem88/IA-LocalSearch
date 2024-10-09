@@ -1,6 +1,7 @@
 package implementation;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Collections;
 import IA.Azamon.Paquete;
@@ -60,6 +61,15 @@ public class Estado {
 
         Collections.shuffle(l); // Shuffle en la lista
 
+        l.sort(Comparator.comparingInt(i -> paquetes.get(i).getPrioridad()));//ordenamos por prioridad
+/*
+        Collections.sort(paquetes, new Comparator<Paquete>() {
+            @Override
+            public int compare(Paquete p1, Paquete p2) {
+                return Integer.compare(p1.getPrioridad(), p2.getPrioridad());
+            }
+        });
+*/
         //Asignamos paquetes
         for (int i = 0; i < paquetes.size(); i++) {
             Paquete paquete = paquetes.get(l.get(i));
