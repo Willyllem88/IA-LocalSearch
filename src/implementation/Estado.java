@@ -33,7 +33,7 @@ public class Estado {
     private int felicidad;
     private double precio;
 
-    /* Constructor */
+    /* Método Constructora */
     public Estado(Paquetes paquetes, Transporte ofertas) {
         //inicializamos estado
         felicidad = 0;
@@ -52,17 +52,41 @@ public class Estado {
         }
     }
 
-    //solución inicial.
+    /* Método copiadora */
+    public Estado copiar() {
+        Estado copia = new Estado(this.paquetes, this.ofertas);
+
+        // Copiar atributos del estado
+        copia.asignaciones = new ArrayList<>(this.asignaciones);
+        copia.espacioDisponibleOfertas = new ArrayList<>(this.espacioDisponibleOfertas);
+        copia.felicidad = this.felicidad;
+        copia.precio = this.precio;
+
+        return copia;
+    }
+
+    /* Get número de paquetes */
+    public int getNbPaquetes() {
+        return this.paquetes.size();
+    }
+
+    /* Get número de ofertas */
+    public int getNbOfertas() {
+        return this.ofertas.size();
+    }
+
+    /* Popuesta 'buena' de soluciones iniciales. Más costosa pero más cerana a la solución final. */
     public void asignarPaquetesIniciales1() {
 
-        //Generar aleatoriedad en el orden de paquete, el índice de los paquetes a colocar
+        // Generar aleatoriedad en el orden de paquete, el índice de los paquetes a colocar
         List<Integer> l = new ArrayList<>();
         for (int i = 0; i < paquetes.size(); i++) l.add(i);
 
         Collections.shuffle(l); // Shuffle en la lista
 
         l.sort(Comparator.comparingInt(i -> paquetes.get(i).getPrioridad()));//ordenamos por prioridad
-/*
+
+        /* FIX: potser no és necesari, només per si no funciona l'altre sort.
         Collections.sort(paquetes, new Comparator<Paquete>() {
             @Override
             public int compare(Paquete p1, Paquete p2) {
