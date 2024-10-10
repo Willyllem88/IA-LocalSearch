@@ -29,6 +29,7 @@ public class AzamonSuccesorFunctionSA implements SuccessorFunction{
                 numPaq2 = (int)(Math.random() * estado.getNbPaquetes());
             }
             estado.swapPaquets(numPaq1, numPaq2);
+            retval.add(new Successor("mover " + numPaq1 + " " + numPaq2, estado));
         }
         else {
             //Usar operador move
@@ -38,9 +39,10 @@ public class AzamonSuccesorFunctionSA implements SuccessorFunction{
             numOferta = (int)(Math.random() * estado.getNbOfertas());
 
             estado.moverPaquete(numPaq, numOferta);
+            retval.add(new Successor("mover " + numPaq + " " + numOferta, estado));
         }
 
-        retval.add(estado);
+
         return retval;
     }
 }

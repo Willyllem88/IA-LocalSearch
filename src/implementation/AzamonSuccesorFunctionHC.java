@@ -12,17 +12,30 @@ public class AzamonSuccesorFunctionHC implements SuccessorFunction{
 
     public List getSuccessors(Object state){
         ArrayList retval = new ArrayList();
-        ProbIA5Board board = (ProbIA5Board) state;
+        Estado amazon = (Estado) state;
 
         // Some code here
-        // (flip all the consecutive pairs of coins and generate new states
-        // Add the states to retval as Succesor("flip i j", new_state)
+        // Add the states to retval as Succesor("action i j", new_state)
         // new_state has to be a copy of state
 
-        for (int i = 0; i < 5; i++) {
-            ProbIA5Board new_state = new ProbIA5Board(board.getConfiguration(), board.getSolution());
-            new_state.flip_it(i);
-            retval.add(new Successor("flip " + i + " " + (i + 1)%5, new_state));
+        //Todas las combinaciones de swap paquetes
+        for(int i = 0; i < amazon.getNbPaquetes(); i++){
+            for (int j = 0; j < amazon.getNbPaquetes(); j++){
+                //Solo si no coinciden los paquetes (no tiene sentido hacer swap de dos paquetes iguales)
+                if (i != j) {
+                    Estado new_state = amazon.copiar();
+                    new_state.swapPaquets(i, j);
+                    retval.add(new Successor("swap " + i + " " + j, new_state));
+                }
+            }
+        }
+        //Todas las combinaciones de mover paquete a oferta
+        for (int i = 0; i < amazon.getNbPaquetes(); i++) {
+            for (int j = 0; j < amazon.getNbOfertas(); j++) {
+                Estado new_state = amazon.copiar();
+                new_state.moverPaquete(i, j);
+                retval.add(new Successor("mover " + i + " " + j, new_state));
+            }
         }
 
         return retval;

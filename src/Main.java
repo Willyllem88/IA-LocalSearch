@@ -6,10 +6,11 @@ import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
-import aima.search.informed.AStarSearch;
-import aima.search.informed.IterativeDeepeningAStarSearch;
+//Ya no hacen falta estos algoritmos
+//import aima.search.informed.AStarSearch;
+//import aima.search.informed.IterativeDeepeningAStarSearch;
 
-// importem els algorismes que hem de fer servir
+// importamos los algoritmos que usamos para la práctica
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
@@ -43,8 +44,12 @@ public class Main {
                                 new AzamonHeuristicFunction1());
 
         // Instantiate the search algorithm
-	// AStarSearch(new GraphSearch()) or IterativeDeepeningAStarSearch()
-        Search alg = new AStarSearch(new GraphSearch());
+	    // AStarSearch(new GraphSearch()) or IterativeDeepeningAStarSearch()
+        // Search alg1 = new AStarSearch(new GraphSearch());
+        //Ponemos nuestro algoritmo Hill Climbing por ejemplo
+        Search alg = new HillClimbingSearch(); //no le hace falta pasar ningun argumento
+
+
 
         // Instantiate the SearchAgent object
         SearchAgent agent = new SearchAgent(p, alg);
