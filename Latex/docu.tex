@@ -69,13 +69,13 @@
 	
 	L'estat del nostre problema s'implementa mitjançant la classe \emph{Estado}, que gestiona l'assignació dels paquets a les diferents ofertes de transport. Aquest estat inclou les següents estructures de dades:
 	
-		\begin{itemize}
+	\begin{itemize}
 		\item \emph{Paquetes paquetes}: Conté la llista de paquets que s'han de distribuir.
 		\item \emph{Transporte ofertas}: Una llista que guarda les ofertes de transport disponibles.
 		\item \emph{List$<$Integer$>$ asignaciones}: Una llista que representa les assignacions actuals dels paquets a les ofertes. Cada element de la llista correspon a un paquet. El valor assignat que contenen aquests paquets correspon a l'índex de l'oferta a la qual s'ha assignat (o \(-1\) si no està assignat a cap oferta).
 		\item \emph{List$<$Double$>$ espacioDisponibleOfertas}: Guarda l'espai disponible per a cada oferta de transport, que permet controlar la capacitat restant per a cada una de les ofertes assignades.
 		\item \emph{Integer felicidad}: Aquest valor guarda la felicitat total acumulada, que s'augmenta quan els paquets s'entreguen abans del que estava previst.
-		\end{itemize}
+	\end{itemize}
 		
 	Inicialment, l'estat es configura assignant \(-1\) a cada paquet de la llista \emph{asignaciones}, indicant que no hi ha cap oferta de transport assignada al paquet. A més, \emph{espacioDisponibleOfertas} s'inicialitza amb la capacitat màxima de cada oferta, que posteriorment s'anirà actualitzant quan els paquets es vagin assignant.\\
 	
@@ -90,31 +90,56 @@
 	
 	Amb aquests dos operadors serem capaços de recòrrer tot l'espai de solucions.
 	
+	
 	\subsection{Generador de Solucions Inicials}
 	
-	Dos generados de solucions incials han estat pensats per resoldre aquest problema, cadascun maximitzant una aspecte difrent, un la felicitat del client i l'altre el preu del transport.
+	El fet de tenir dues funcions generadores de solucions inicials ens permetrà analitzar el comportament dels dos algorismes de cerca local que utilitzarem. Veurem com la configuració de l'estat inicial ens permetrà, o no, fer una búsqueda eficaç a través de l'espai de cerca i si ens estancarem, o no, en mínims locals. I sobretot, quina de les dues funcions generadores de solucions inicials ens dona un millor rendiment per cadascun dels algorismes. \\
 	
-	\subsubsection{Maximitzar la felicitat}
+	\subsubsection{Entrega just al dia}
 	
-	Per tal de maximitzar la felicitat haurem d'aconseguir assignar inicialment els paquets per tal de que s'entreguin tots el més aviat possible. Per això ordenarem la llista d'ofertes de menor dia d'entrega a major ($Ofertes$). Farem el mateix per les prioritats del paquet ($Paquets$). \\
-	
-	Un cop ambdues llistes estàn ordenades intentarem assignar els paquets de la següent manera. Vegeu a continuació el pseudocodi: \\
+	Aquesta funció no té en compte la maximització de la felicitat dels clients ni la reducció de costos. Simplement, envia els paquets el dia esperat, assignant-los a una oferta que coincideixi exactament amb la data d'entrega especificada. La idea principal és buscar una oferta que compleixi amb aquesta condició i tingui espai suficient per al paquet. Per tant, es pot resumir així: \\
 	
 	\begin{verbatim}
-	Per a cada paquet p_i que pertany a Paquets:
-	    j = 0
-	    Mentre j < nombre d'ofertes i p_i no estigui assignat:
-	        Si p_i <= C_j:     # C_j és la capacitat de la oferta o_j
-	            Assignar p_i a o_j
-	        Altrament:
-	            Incrementar j  # Provar amb la següent oferta o_{j+1}
+		Per a cada paquet p_i que pertany a Paquets:
+		    j = 0
+		    Mentre j < nombre d'ofertes i p_i no estigui assignat:
+		        # C_j és la capacitat de la oferta
+		        Si p_i <= C_j i i dia_entrega(p_i) == dia_oferta(o_j):
+		            Assignar p_i a o_j
+		        Altrament:
+		            Incrementar j  # Provar amb la següent oferta o_{j+1}
 	\end{verbatim}
-
-	\subsubsection{Maximitzar el cost}
 	
-	\subsection{Generador de Solucions Inicials}
 	
+	\subsubsection{Maximitzar la felicitat i minimitzar els costos}
+	
+	El segon mètode intenta generar una solució inicial que no només respecti els terminis d'entrega, sinó que també busqui maximitzar la felicitat dels clients i minimitzar els costos. \\
+	
+	Per maximitzar la felicitat haurem d'aconseguir assignar els paquets per tal que s'entreguin tots tan aviat com es pugui. Per fer això, ordenarem la llista d'ofertes de menor a major segons el dia d'entrega ($Ofertes$). Farem el mateix per les prioritats del paquet ($Paquets$). I el mateix per minimitzar els costos: endreçarem primer les ofertes més barates. D'aquesta manera, s'enviaran els paquets el més aviat possible i, en cas d'empat, amb les ofertes de menor cost. \\
+	
+	Un cop ambdues llistes estan ordenades intentarem assignar els paquets de la següent manera. Vegeu a continuació el pseudocodi: \\
+	
+	\begin{verbatim}
+		Ordenar paquets per ordre de prioritat i per cost
+		Ordenar ofertes per dies d'entrega i cost
+		Per a cada paquet p_i que pertany a Paquets:
+		    j = 0
+		    Mentre j < nombre d'ofertes i p_i no estigui assignat:
+		        # C_j és la capacitat de la oferta o_j
+		        Si p_i <= C_j:
+		            Assignar p_i a o_j
+		        Altrament:
+		            Incrementar j  # Provar amb la següent oferta o_{j+1}
+	\end{verbatim}
+		
 	\subsection{Funció Heurística}
+	
+	Hem creat dues funcions heurístiques per poder comparar els resultats que ens generen. Cada una d'elles tindrà criteris diferents:
+	
+	\begin{itemize}
+		\item \emph{Heurístic 1}: $H_1 = \text{cost}^2$, aquest heurístic està dissenyat per minimitzar exclusivament els costos, sense tenir en compte ningún altre factor de qualitat. La funció d'evaluació es defineix com el quadrat del cost. Aquest heurístic ens permetrà minimitzar el cost de la assignació de paquets.
+		\item \emph{Heurístic 2}: $H_2 = -\text{felicitat}^2 + \text{cost}^2$, per altra banda, aquest heurístic ens permetrà tenir en compte la felicitat total de la assignació de paquets. La funció d'evaluació serà igual que la anterior però li resterem el quadrat de la  felicitat. Així doncs estarem maximitzant felicitat i minimitzant cost a la vegada.
+	\end{itemize}
 	
 	\subsection{Resultats}
 	
