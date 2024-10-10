@@ -1,31 +1,46 @@
 package implementation;
 
-import aima.search.framework.Successor;
-import aima.search.framework.SuccessorFunction;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import aima.search.framework.Successor;
+import aima.search.framework.SuccessorFunction;
 
 /**
  * Created by bejar on 17/01/17
  */
 public class AzamonSuccesorFunctionSA implements SuccessorFunction{
 
-    public List getSuccessors(Object state){
+    public List getSuccessors(Object eActual){
         ArrayList retval = new ArrayList();
-        ProbIA5Board board = (ProbIA5Board) state;
+        Estado estado = ((Estado) eActual).copiar();
 
-        // Some code here
-        // (flip all the consecutive pairs of coins and generate new states
-        // Add the states to retval as Succesor("flip i j", new_state)
-        // new_state has to be a copy of state
+        // Elegiremos que operador usamos, si opRGN < 0.5, entonces haremos swap. En caso contrário haremos un move.
+        double opRGN = Math.random();
+        if (opRGN < 0.5){
+            // Usar operador swap
 
-        for (int i = 0; i < 5; i++) {
-            ProbIA5Board new_state = new ProbIA5Board(board.getConfiguration(), board.getSolution());
-            new_state.flip_it(i);
-            retval.add(new Successor("flip " + i + " " + (i + 1)%5, new_state));
+            int numPaq1, numPaq2;
+            numPaq1 = numPaq2 = 0;
+
+            // Cogeremos dos enteros aleatorios entre [0, n) que sean distintos entre ellos
+            while (numPaq1 == numPaq2) {
+                numPaq1 = (int)(Math.random() * estado.getNbPaquetes());
+                numPaq2 = (int)(Math.random() * estado.getNbPaquetes());
+            }
+            estado.swapPaquets(numPaq1, numPaq2);
+        }
+        else {
+            //Usar operador move
+
+            int numPaq, numOferta;
+            numPaq = (int)(Math.random() * estado.getNbPaquetes());
+            numOferta = (int)(Math.random() * estado.getNbOfertas());
+
+            estado.moverPaquete(numPaq, numOferta);
         }
 
+        retval.add(estado);
         return retval;
     }
 }
