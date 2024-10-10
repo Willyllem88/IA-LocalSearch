@@ -9,6 +9,7 @@ out/
 *.synctex.gz
 *.toc
 *.aux
+*.out
 # Compiled class files
 *.class
 
