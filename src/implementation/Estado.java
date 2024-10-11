@@ -75,6 +75,24 @@ public class Estado {
         return this.ofertas.size();
     }
 
+    /* Get felicidad */
+    public int getFelicidad() { return felicidad; }
+
+    /* Get precio */
+    public double getPrecio() { return precio; }
+
+    /* Get dias paquete */
+    //Devuelve el plazo de entrega máximo en días según la prioridad de un paquete
+    private int getDiasPaquete(Paquete paquete) {
+        int pr = paquete.getPrioridad();
+        return switch (pr) {
+            case 0 -> 1;
+            case 1 -> 3;
+            case 2 -> 5;
+            default -> 0;
+        };
+    }
+
     /* Popuesta 'buena' de soluciones iniciales. Más costosa pero más cerana a la solución final.
      *  Intenta maximizar la felicidad y minimizar los costes */
     public void asignarPaquetesIniciales1() {
@@ -87,17 +105,9 @@ public class Estado {
 
         l.sort(Comparator.comparingInt(i -> paquetes.get(i).getPrioridad()));//ordenamos por prioridad
 
-       Collections.sort(ofertas, Comparator.comparingInt(Oferta::getDias)
+        Collections.sort(ofertas, Comparator.comparingInt(Oferta::getDias)
                 .thenComparingDouble(Oferta::getPrecio));
-/*
-        // FIX: potser no és necesari, només per si no funciona l'altre sort.
-        Collections.sort(paquetes, new Comparator<Paquete>() {
-            @Override
-            public int compare(Paquete p1, Paquete p2) {
-                return Integer.compare(p1.getPrioridad(), p2.getPrioridad());
-            }
-        });
-*/
+
         //Asignamos paquetes
         for (int i = 0; i < paquetes.size(); i++) {
             Paquete paquete = paquetes.get(l.get(i));
@@ -172,18 +182,6 @@ public class Estado {
 
     }
 
-
-    //Devuelve el plazo de entrega máximo en días según la prioridad de un paquete
-    private int getDiasPaquete(Paquete paquete) {
-        int pr = paquete.getPrioridad();
-        return switch (pr) {
-            case 0 -> 1;
-            case 1 -> 3;
-            case 2 -> 5;
-            default -> 0;
-        };
-    }
-
     /*Funciones  auxiliares para los operadores*/
 
     //Devuelve por un paquete p si se puede asignar en la oferta o, teniendo en cuenta las restricciones de peso y tiempo
@@ -232,7 +230,7 @@ public class Estado {
 
     //Mueve un paquete para una oferta o diferente a la que está
     //Condición de aplicabilidad: después del movimiento la oferta no excede su capacidad máxima y el paquete movido llega dentro del plazo
-   public void moverPaquete(int p, int o) { //índice del paquete y de la oferta
+    public void moverPaquete(int p, int o) { //índice del paquete y de la oferta
         int oActual = asignaciones.get(p);
 
         if (o != oActual) { //Solo si es una oferta diferente a la que está
@@ -265,14 +263,10 @@ public class Estado {
         return val;
     }
 
-
     /* Goal test */
     public boolean is_goal(){
         return false;
     }
-
-
-
 }
 
 
