@@ -47,7 +47,12 @@ public class Main {
 
         // Se crea el estado inicial de Azamon con los paquetes y las ofertas generadas
         Estado azamon = new Estado(paq, ofertas);
-        azamon.asignarPaquetesIniciales1();
+        System.out.println("Escoge generador de estado inicial");
+        System.out.println(" [0] Solución más 'buena'");
+        System.out.println(" [1] Solución más aleatoria");
+        int tipoGen = scanner.nextInt();
+        if (tipoGen == 0) azamon.asignarPaquetesIniciales1();
+        else azamon.asignarPaquetesIniciales2();
 
         // Printeamos los parámetros del estado inicial
         System.out.println("PARÁMETROS DEL ESTADO INICIAL:");
@@ -62,9 +67,9 @@ public class Main {
                 new AzamonHeuristicFunction1());
 
         // Pedimos al usuario el algoritmo a usar a escoger entre 2
-        System.out.print("Escoge un algoritmo a usar: ");
-        System.out.print("Hill Climbing: 0");
-        System.out.print("Simulated Annealing: 1:");
+        System.out.println("Escoge un algoritmo a usar: ");
+        System.out.println(" [0] Hill Climbing");
+        System.out.println(" [1] Simulated Annealing");
         int tipoAlg = scanner.nextInt();
 
         Search alg; //Objeto ara el algoritmo
