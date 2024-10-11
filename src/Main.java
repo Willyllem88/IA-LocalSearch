@@ -18,13 +18,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+
+//Classe importada para leer desde la terminal
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) throws Exception{
         // Se define el número de paquetes (n) y la semilla (seed) para generar aleatoriedad
         int n = 30;
         int seed = 1304;
-        double prop = 1.2;
+        double prop = 1.3;
+
+        // Creamos el Scanner para leer input
+        Scanner scanner = new Scanner(System.in);
+
+        // Pedimos al usuario configuraciones
+        System.out.print("Introduce número de paquetes, semilla y una proporcion: ");
+        n = scanner.nextInt();
+        seed = scanner.nextInt();
+        prop = scanner.nextDouble();
+
 
         // Se crean los conjuntos de paquetes y ofertas
         Paquetes paq = new Paquetes(n,seed);
@@ -38,7 +52,7 @@ public class Main {
         // Printeamos los parámetros del estado inicial
         System.out.println("PARÁMETROS DEL ESTADO INICIAL:");
         System.out.println("  - Felicidad: " + azamon.getFelicidad());
-        System.out.println("  - Percio: " + azamon.getPrecio());
+        System.out.println("  - Precio: " + azamon.getPrecio());
 
         // Se crea el objeto Problem, que incluye el estado inicial (azamon), la función sucesora,
         // el test de objetivo y la función heurística
@@ -47,8 +61,25 @@ public class Main {
                 new AzamonGoalTest(),
                 new AzamonHeuristicFunction1());
 
+        // Pedimos al usuario el algoritmo a usar a escoger entre 2
+        System.out.print("Escoge un algoritmo a usar: ");
+        System.out.print("Hill Climbing: 0");
+        System.out.print("Simulated Annealing: 1:");
+        int tipoAlg = scanner.nextInt();
+
+        Search alg; //Objeto ara el algoritmo
+
         // Se instancia el algoritmo de búsqueda Hill Climbing (subida de colinas)
-        Search alg = new HillClimbingSearch(); // No requiere argumentos adicionales
+        if (tipoAlg == 0) alg = new HillClimbingSearch(); // No requiere argumentos adicionales
+        else {
+            System.out.print("Introduce los siguientes parámetros del algoritmo,  steps, nIteraciones, k, lambda: ");
+            int steps = scanner.nextInt();
+            int nIter = scanner.nextInt();
+            int k = scanner.nextInt();
+            double lambda  = scanner.nextDouble();
+            alg = new SimulatedAnnealingSearch(steps, nIter, k, lambda); //Simulated Annealing escogido
+        }
+
 
         // Se instancia el agente de búsqueda, que ejecuta el problema con el algoritmo especificado
         SearchAgent agent = new SearchAgent(p, alg);
@@ -58,7 +89,7 @@ public class Main {
         printActions(agent.getActions());
         printInstrumentation(agent.getInstrumentation());
 
-        // Se printea los paraámetros resultantes
+        // Se printea los parámetros resultantes
         Estado goal = (Estado)alg.getGoalState();
         System.out.println();
         System.out.println("PARÁMETROS DEL ESTADO RESULTANTE:");
