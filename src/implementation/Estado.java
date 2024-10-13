@@ -115,7 +115,7 @@ public class Estado {
             // Busca una oferta donde haya espacio para el paquete
             for (int j = 0; j < ofertas.size(); j++) {
                 if (espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
-                    int fel = felicitatPaquetAOferta(paquete, ofertas.get(j)); //ver la diferencia
+                    int fel = felicidadPaquetAOferta(paquete, ofertas.get(j)); //ver la diferencia
                     if (fel >= 0) { //Comprueba que se entregue en el plazo, que no sea negativo básicamente
                         //Asignar el paquete a la oferta
                         asignaciones.set(i, j);
@@ -129,67 +129,24 @@ public class Estado {
         }
     }
 
-    /*
-        public void asignarPaquetesIniciales2() {
 
-            // Generar aleatoriedad en el orden de paquete, el índice de los paquetes a colocar
-            List<Integer> l = new ArrayList<>();
-            for (int i = 0; i < paquetes.size(); i++) l.add(i);
-
-            Collections.shuffle(l); // Shuffle en la lista
-
-            l.sort(Comparator.comparingInt(i -> paquetes.get(i).getPrioridad()));//ordenamos por prioridad
-
-            //Asignamos paquetes
-            for (int i = 0; i < paquetes.size(); i++) {
-                Paquete paquete = paquetes.get(l.get(i));
-
-                // Busca una oferta donde haya espacio para el paquete
-                for (int j = 0; j < ofertas.size(); j++) {
-                    if (espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
-                        int fel =  felicitatPaquetAOferta(paquete, ofertas.get(j)); //ver la diferencia
-                        if (fel >= 0) { //Comprueba que se entregue en el plazo, que no sea negativo básicamente
-                            //Asignar el paquete a la oferta
-                            asignaciones.set(i, j);
-                            espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
-                            felicidad += fel;
-                            precio += precioPaqueteAOferta(paquete, ofertas.get(j));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    */
     //Otra propuesta de generación de solución inicial, más lejos de la solución final
     public void asignarPaquetesIniciales2() {
+        paquetes.sort(Comparator.comparingInt(Paquete::getPrioridad));//ordenamos por prioridad
 
         //Enviamos los paquetes justo cuando toca, no buscamos si hay espacio en ofertas que se entreguen antes (no habrá felicidad)
         for (int i = 0; i < paquetes.size(); i++) {
             Paquete paquete = paquetes.get(i);
             int diasEntrega = getDiasPaquete(paquetes.get(i));
-            boolean asignado = false;
 
             for (int j = 0; j < ofertas.size(); j++) {
                 //Si coincide plazo de entrega y cabe, lo asignamos
-                if((diasEntrega == ofertas.get(j).getDias()) && (espacioDisponibleOfertas.get(j) >= paquete.getPeso())){//si coincide el plazo de entrega y cabe, lo asignamos
+                if((diasEntrega >= ofertas.get(j).getDias()) && (espacioDisponibleOfertas.get(j) >= paquete.getPeso())){//si coincide el plazo de entrega y cabe, lo asignamos
                     asignaciones.set(i, j);
                     espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
+                    felicidad += felicidadPaquetAOferta(paquete, ofertas.get(j));
                     precio += precioPaqueteAOferta(paquete, ofertas.get(j));
-                    asignado = true;
                     break;
-                }
-            }
-            /* Codi nou, NO TÉ PQ FUNCIONAR SEMPRE, PRIMER JO PROVARIA D'ASSIGNAR ALS DE UNA PRIORITAT MENYS, SI NO HI CAP, A DOS PRIORITATS MENYS*/
-            if (!asignado) {
-                for (int j = 0; j < ofertas.size(); j++) {
-                    if (diasEntrega >= ofertas.get(j).getDias() && espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
-                        // Asignar a la oferta más cercana
-                        asignaciones.set(i, j);
-                        espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
-                        precio += precioPaqueteAOferta(paquete, ofertas.get(j));
-                        break; // Salir del bucle al asignar
-                    }
                 }
             }
         }
@@ -209,7 +166,7 @@ public class Estado {
     }
 
     //Retorna la felicidad de los clientes de un paquete p asignado a una oferta o, negativo  si el paquete no llega a tiempo
-    private int felicitatPaquetAOferta(Paquete p, Oferta o) {
+    private int felicidadPaquetAOferta(Paquete p, Oferta o) {
         return getDiasPaquete(p) - o.getDias();
     }
 
@@ -234,7 +191,7 @@ public class Estado {
             //Hacemos el intercambio después de realizar las comprobaciones
             if (cumpleCondicionAplicabilidad(paq1, o2, oferta2, Math.max(0.0,incPes1)) && cumpleCondicionAplicabilidad(paq2, o1, oferta2,Math.max(0.0, incPes2))) {
                 Collections.swap(asignaciones, p1, p2);
-                felicidad  += (felicitatPaquetAOferta(paq1, o2) - felicitatPaquetAOferta(paq1, o1)) + (felicitatPaquetAOferta(paq2, o1) - felicitatPaquetAOferta(paq2, o2)); //Recalcular la felicidad
+                felicidad  += (felicidadPaquetAOferta(paq1, o2) - felicidadPaquetAOferta(paq1, o1)) + (felicidadPaquetAOferta(paq2, o1) - felicidadPaquetAOferta(paq2, o2)); //Recalcular la felicidad
                 precio += (precioPaqueteAOferta(paq1, o2) - precioPaqueteAOferta(paq1, o1)) + (precioPaqueteAOferta(paq2, o1) - precioPaqueteAOferta(paq2, o2)); //Recalcular el precio
                 //Actualizamos el espacio disponible
                 espacioDisponibleOfertas.set(oferta1, espacioDisponibleOfertas.get(oferta1)-incPes2);
@@ -253,7 +210,7 @@ public class Estado {
             if (cumpleCondicionAplicabilidad(paquetes.get(p), ofertas.get(o), o, pes)) { //Asignamos al paquete p la oferta o si cumple la condición de aplicabilidad
                 asignaciones.set(p, o);
                 //Actualizamos las características del estado
-                felicidad += felicitatPaquetAOferta(paquetes.get(p), ofertas.get(o)) - felicitatPaquetAOferta(paquetes.get(p), ofertas.get(oActual));
+                felicidad += felicidadPaquetAOferta(paquetes.get(p), ofertas.get(o)) - felicidadPaquetAOferta(paquetes.get(p), ofertas.get(oActual));
                 precio += precioPaqueteAOferta(paquetes.get(p), ofertas.get(o)) - precioPaqueteAOferta(paquetes.get(p), ofertas.get(oActual));
                 espacioDisponibleOfertas.set(o, espacioDisponibleOfertas.get(o)-pes);
                 espacioDisponibleOfertas.set(oActual, espacioDisponibleOfertas.get(oActual)+pes);
