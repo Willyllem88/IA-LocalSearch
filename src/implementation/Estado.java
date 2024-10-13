@@ -31,7 +31,7 @@ public class Estado {
     // la oferta a la está asociado, -1 si no tiene ninguna oferta asignada
     private List<Double> espacioDisponibleOfertas;
     private int felicidad;
-    private double precio;
+    private double precio; //incluye precio envío y almacenamiento (0.25€/kg/dia)
 
     /* Método Constructora */
     public Estado(Paquetes paquetes, Transporte ofertas) {
@@ -162,7 +162,12 @@ public class Estado {
 
     //Retorna el precio de un paquete p a una oferta o
     private double precioPaqueteAOferta(Paquete p, Oferta o) {
-        return p.getPeso()*o.getPrecio();
+        //Un paquete que se ha asignado a un envío de 3 o 4 días se recoge en 1 día, y un paquete con un envío de 5 días
+        // se recoge dos días después. Almacenamiento = 0.25euros/kg/día
+        double costeAlmacenamiento = 0;
+        if(o.getDias() == 5) costeAlmacenamiento = 0.25 * 2 * p.getPeso();
+        else if(o.getDias() >= 3) costeAlmacenamiento = 0.25 * p.getPeso();
+        return p.getPeso()*o.getPrecio() + costeAlmacenamiento;//precio envío + precio almacenamiento
     }
 
     //Retorna la felicidad de los clientes de un paquete p asignado a una oferta o, negativo  si el paquete no llega a tiempo
