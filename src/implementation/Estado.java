@@ -108,6 +108,11 @@ public class Estado {
         Collections.sort(ofertas, Comparator.comparingInt(Oferta::getDias)
                 .thenComparingDouble(Oferta::getPrecio));
 
+        espacioDisponibleOfertas = new ArrayList<Double>(ofertas.size());
+        for (int i = 0; i < ofertas.size(); i++) {
+            espacioDisponibleOfertas.add(ofertas.get(i).getPesomax());
+        }
+
         //Asignamos paquetes
         for (int i = 0; i < paquetes.size(); i++) {
             Paquete paquete = paquetes.get(l.get(i));
