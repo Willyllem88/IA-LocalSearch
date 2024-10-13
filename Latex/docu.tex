@@ -97,14 +97,15 @@
 	
 	\subsubsection{Entrega just al dia}
 	
-	Aquesta funció no té en compte la maximització de la felicitat dels clients ni la reducció de costos. Simplement, envia els paquets el dia esperat, assignant-los a una oferta que coincideixi exactament amb la data d'entrega especificada. La idea principal és buscar una oferta que compleixi amb aquesta condició i tingui espai suficient per al paquet. Per tant, es pot resumir així: \\
+	Aquesta funció no té en compte la maximització de la felicitat dels clients ni la reducció de costos. Simplement, assigna els paquets a una oferta que compleixi els requisits d'entrega. La idea principal és buscar una oferta que compleixi amb aquesta condició i tingui espai suficient per al paquet. Per evitar quedar-nos sense espai a les ofertes de major prioritat, endrecem la llista de paquets segons aquesta prioritat. D'aquesta manera, assignem abans els paquets més urgents. Per tant, es pot resumir així: \\
 	
 	\begin{verbatim}
+		Ordenar paquets per ordre de prioritat
 		Per a cada paquet p_i que pertany a Paquets:
 		    j = 0
 		    Mentre j < nombre d'ofertes i p_i no estigui assignat:
 		        # C_j és la capacitat de la oferta
-		        Si p_i <= C_j i i dia_entrega(p_i) == dia_oferta(o_j):
+		        Si p_i <= C_j i i dia_entrega(p_i) <= dia_oferta(o_j):
 		            Assignar p_i a o_j
 		        Altrament:
 		            Incrementar j  # Provar amb la següent oferta o_{j+1}
@@ -160,12 +161,28 @@
 	\section{Treball d'Innovació: DeepVariant}
 	
 	\subsection{Tema}
+	Hem escollit DeepVariant, un algorisme de machine learning desenvolupat per Google, que utilitza xarxes neuronals profundes per identificar variants genètiques en dades de seqüenciació de l'ADN. Mitjançant imatges generades a partir de les lectures de seqüència, DeepVariant detecta mutacions petites amb una precisió superior respecte a altres mètodes tradicionals.
 	
 	\subsection{Responsabilitats d'equip}
 	
-	\subsection{Progrés realitzat}
-	
 	\subsection{Fonts}
+	\begin{itemize}
+		\item \emph{Creating a universal SNP and small indel variant caller with deep neural networks}:
+		Rellevància: Base teòrica de DeepVariant i explicació de l'ús de xarxes neuronales.
+		Data d'accés: 13 d'octubre de 2024
+		Enllaç: https://doi.org/10.1101/092890
+		***********SEGONA PART AL WHATS
+		\item \emph{}:
+		Enllaç: https://github.com/google/deepvariant
+		També porta a altres documents com: https://google.github.io/deepvariant/posts/2020-02-20-looking-through-deepvariants-eyes/
+	\end{itemize}
+	
+	\subsection{Dificultats}
+	\begin{itemize}
+		\item \emph{Accés a referències}: Alguns articles rellevants requereixen subscripcions per poder obtenir informació detallada.
+		\item \emph{Informació tècnica}: Hem hagut de fer un sobreesforç perquè es requereix d'un mínim de coneixements sobre l'ADN per entendre la proposta.
+	\end{itemize}
+
 	
 	
 	
