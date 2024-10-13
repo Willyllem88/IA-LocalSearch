@@ -115,7 +115,7 @@ public class Estado {
             // Busca una oferta donde haya espacio para el paquete
             for (int j = 0; j < ofertas.size(); j++) {
                 if (espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
-                    int fel =  felicitatPaquetAOferta(paquete, ofertas.get(j)); //ver la diferencia
+                    int fel = felicitatPaquetAOferta(paquete, ofertas.get(j)); //ver la diferencia
                     if (fel >= 0) { //Comprueba que se entregue en el plazo, que no sea negativo básicamente
                         //Asignar el paquete a la oferta
                         asignaciones.set(i, j);
@@ -168,18 +168,31 @@ public class Estado {
         for (int i = 0; i < paquetes.size(); i++) {
             Paquete paquete = paquetes.get(i);
             int diasEntrega = getDiasPaquete(paquetes.get(i));
+            boolean asignado = false;
+
             for (int j = 0; j < ofertas.size(); j++) {
+                //Si coincide plazo de entrega y cabe, lo asignamos
                 if((diasEntrega == ofertas.get(j).getDias()) && (espacioDisponibleOfertas.get(j) >= paquete.getPeso())){//si coincide el plazo de entrega y cabe, lo asignamos
                     asignaciones.set(i, j);
                     espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
                     precio += precioPaqueteAOferta(paquete, ofertas.get(j));
+                    asignado = true;
                     break;
                 }
-
             }
-
+            /* Codi nou, NO TÉ PQ FUNCIONAR SEMPRE, PRIMER JO PROVARIA D'ASSIGNAR ALS DE UNA PRIORITAT MENYS, SI NO HI CAP, A DOS PRIORITATS MENYS*/
+            if (!asignado) {
+                for (int j = 0; j < ofertas.size(); j++) {
+                    if (diasEntrega >= ofertas.get(j).getDias() && espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
+                        // Asignar a la oferta más cercana
+                        asignaciones.set(i, j);
+                        espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
+                        precio += precioPaqueteAOferta(paquete, ofertas.get(j));
+                        break; // Salir del bucle al asignar
+                    }
+                }
+            }
         }
-
     }
 
     /*Funciones  auxiliares para los operadores*/
@@ -207,6 +220,8 @@ public class Estado {
     public void swapPaquets(int p1, int p2) { //índice de los paquetes a intercambiar
         int oferta1 = asignaciones.get(p1);
         int oferta2 = asignaciones.get(p2);
+
+        System.out.println("oferta1: " + oferta1 + ", oferta2: " + oferta2);
 
         if (oferta1 != oferta2) { //Sólo si no están en la misma oferta
             Paquete paq1 = paquetes.get(p1);
