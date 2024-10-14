@@ -59,12 +59,28 @@ public class Main {
         System.out.println("  - Felicidad: " + azamon.getFelicidad());
         System.out.println("  - Precio: " + azamon.getPrecio());
 
-        // Se crea el objeto Problem, que incluye el estado inicial (azamon), la función sucesora,
-        // el test de objetivo y la función heurística
-        Problem p = new Problem(/*board*/azamon,
-                new AzamonSuccesorFunctionHC(),
-                new AzamonGoalTest(),
-                new AzamonHeuristicFunction1());
+        //Pedimos al usuario que escoga entre las dos heurísticas
+        System.out.println("Escoge heurística del algoritmo:");
+        System.out.println(" [1] Precio");
+        System.out.println(" [2] Precio + felicidad");
+        int heur = scanner.nextInt();
+
+        Problem p;
+        if (heur == 1) { //Heurística 1
+            // Se crea el objeto Problem, que incluye el estado inicial (azamon), la función sucesora,
+            // el test de objetivo y la función heurística
+             p = new Problem(azamon,
+                    new AzamonSuccesorFunctionHC(),
+                    new AzamonGoalTest(),
+                    new AzamonHeuristicFunction1());
+        }
+        else { //Heurística 2
+            p = new Problem(azamon,
+                    new AzamonSuccesorFunctionHC(),
+                    new AzamonGoalTest(),
+                    new AzamonHeuristicFunction2());
+        }
+
 
         // Pedimos al usuario el algoritmo a usar a escoger entre 2
         System.out.println("Escoge un algoritmo a usar: ");
@@ -99,7 +115,7 @@ public class Main {
         System.out.println();
         System.out.println("PARÁMETROS DEL ESTADO RESULTANTE:");
         System.out.println("  - Felicidad: " + goal.getFelicidad());
-        System.out.println("  - Percio: " + goal.getPrecio());
+        System.out.println("  - Precio: " + goal.getPrecio());
     }
 
     // Método para imprimir las propiedades de instrumentación, como el tiempo de ejecución, nodos expandidos, etc.
