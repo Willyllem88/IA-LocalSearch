@@ -44,6 +44,13 @@ public class Main {
         Paquetes paq = new Paquetes(n,seed);
         Transporte ofertas = new Transporte(paq,prop,seed);
 
+        //Printeamos los paquetes y las ofertas disponibles
+        for(int i = 0; i < paq.size(); i++){
+            System.out.println(paq.get(i));
+        }
+        for(int i = 0; i < ofertas.size(); i++){
+            System.out.println(ofertas.get(i));
+        }
 
         // Se crea el estado inicial de Azamon con los paquetes y las ofertas generadas
         Estado azamon = new Estado(paq, ofertas);
@@ -58,6 +65,9 @@ public class Main {
         System.out.println("PARÁMETROS DEL ESTADO INICIAL:");
         System.out.println("  - Felicidad: " + azamon.getFelicidad());
         System.out.println("  - Precio: " + azamon.getPrecio());
+
+        //Printeamos las asignaciones
+        azamon.printAsignaciones();
 
         //Pedimos al usuario que escoga entre las dos heurísticas
         System.out.println("Escoge heurística del algoritmo:");
@@ -116,6 +126,8 @@ public class Main {
         System.out.println("PARÁMETROS DEL ESTADO RESULTANTE:");
         System.out.println("  - Felicidad: " + goal.getFelicidad());
         System.out.println("  - Precio: " + goal.getPrecio());
+
+        goal.printAsignaciones();
     }
 
     // Método para imprimir las propiedades de instrumentación, como el tiempo de ejecución, nodos expandidos, etc.

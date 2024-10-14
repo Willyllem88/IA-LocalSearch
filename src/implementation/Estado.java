@@ -93,7 +93,7 @@ public class Estado {
         };
     }
 
-    /* Popuesta 'buena' de soluciones iniciales. Más costosa pero más cerana a la solución final.
+    /* Propuesta 'buena' de soluciones iniciales. Más costosa pero más cercana a la solución final.
      *  Intenta maximizar la felicidad y minimizar los costes */
     public void asignarPaquetesIniciales1() {
 
@@ -119,16 +119,13 @@ public class Estado {
 
             // Busca una oferta donde haya espacio para el paquete
             for (int j = 0; j < ofertas.size(); j++) {
-                if (espacioDisponibleOfertas.get(j) >= paquete.getPeso()) {
-                    int fel = felicidadPaquetAOferta(paquete, ofertas.get(j)); //ver la diferencia
-                    if (fel >= 0) { //Comprueba que se entregue en el plazo, que no sea negativo básicamente
-                        //Asignar el paquete a la oferta
-                        asignaciones.set(i, j);
-                        espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
-                        felicidad += fel;
-                        precio += precioPaqueteAOferta(paquete, ofertas.get(j));
-                        break;
-                    }
+                if(cumpleCondicionAplicabilidad(paquete, ofertas.get(j), j, paquete.getPeso())) {   //Comprueba que se entregue en el plazo i quepa en la oferta
+                    //Asignar el paquete a la oferta
+                    asignaciones.set(l.get(i), j);
+                    espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
+                    felicidad += felicidadPaquetAOferta(paquete, ofertas.get(j));
+                    precio += precioPaqueteAOferta(paquete, ofertas.get(j));
+                    break;
                 }
             }
         }
@@ -136,8 +133,15 @@ public class Estado {
 
 
     //Otra propuesta de generación de solución inicial, más lejos de la solución final
+    //hacemos un shuffle en el orden a visitar las ofertas y donde quepa asignamos el paquete
     public void asignarPaquetesIniciales2() {
         paquetes.sort(Comparator.comparingInt(Paquete::getPrioridad));//ordenamos por prioridad
+
+        // Generar aleatoriedad en el orden de ofertas, el índice de las ofertas
+        List<Integer> l = new ArrayList<>();
+        for (int i = 0; i < ofertas.size(); i++) l.add(i);
+
+        Collections.shuffle(l); // Shuffle en la lista
 
         //Enviamos los paquetes justo cuando toca, no buscamos si hay espacio en ofertas que se entreguen antes (no habrá felicidad)
         for (int i = 0; i < paquetes.size(); i++) {
@@ -146,11 +150,12 @@ public class Estado {
 
             for (int j = 0; j < ofertas.size(); j++) {
                 //Si coincide plazo de entrega y cabe, lo asignamos
-                if((diasEntrega >= ofertas.get(j).getDias()) && (espacioDisponibleOfertas.get(j) >= paquete.getPeso())){//si coincide el plazo de entrega y cabe, lo asignamos
-                    asignaciones.set(i, j);
-                    espacioDisponibleOfertas.set(j, espacioDisponibleOfertas.get(j) - paquete.getPeso());
-                    felicidad += felicidadPaquetAOferta(paquete, ofertas.get(j));
-                    precio += precioPaqueteAOferta(paquete, ofertas.get(j));
+                int newJ = l.get(j);
+                if((diasEntrega >= ofertas.get(newJ).getDias()) && (espacioDisponibleOfertas.get(newJ) >= paquete.getPeso())){//si coincide el plazo de entrega y cabe, lo asignamos
+                    asignaciones.set(i, newJ);
+                    espacioDisponibleOfertas.set(newJ, espacioDisponibleOfertas.get(newJ) - paquete.getPeso());
+                    felicidad += felicidadPaquetAOferta(paquete, ofertas.get(newJ));
+                    precio += precioPaqueteAOferta(paquete, ofertas.get(newJ));
                     break;
                 }
             }
@@ -199,7 +204,7 @@ public class Estado {
             double incPes2 =  paquetes.get(p2).getPeso() - paquetes.get(p1).getPeso(); //poner dif de peso de p2 a 01
 
             //Hacemos el intercambio después de realizar las comprobaciones
-            if (cumpleCondicionAplicabilidad(paq1, o2, oferta2, Math.max(0.0,incPes1)) && cumpleCondicionAplicabilidad(paq2, o1, oferta2,Math.max(0.0, incPes2))) {
+            if (cumpleCondicionAplicabilidad(paq1, o2, oferta2, Math.max(0.0,incPes1)) && cumpleCondicionAplicabilidad(paq2, o1, oferta1, Math.max(0.0, incPes2))) {
                 Collections.swap(asignaciones, p1, p2);
                 felicidad  += (felicidadPaquetAOferta(paq1, o2) - felicidadPaquetAOferta(paq1, o1)) + (felicidadPaquetAOferta(paq2, o1) - felicidadPaquetAOferta(paq2, o2)); //Recalcular la felicidad
                 precio += (precioPaqueteAOferta(paq1, o2) - precioPaqueteAOferta(paq1, o1)) + (precioPaqueteAOferta(paq2, o1) - precioPaqueteAOferta(paq2, o2)); //Recalcular el precio
@@ -241,13 +246,20 @@ public class Estado {
     public double heuristic2(){
         //Propuesta de heurística teniendo en cuenta los dos criterios de calidad de solución
         double val = 0;
-        val = -felicidad*felicidad + precio*precio; //minimizar la función, (maximizar la felicidad y minimizar costes)
+        val = -7*felicidad + precio; //minimizar la función, (maximizar la felicidad y minimizar costes)
         return val;
     }
 
     /* Goal test */
     public boolean is_goal(){
         return false;
+    }
+
+    //Printea la asignacion actual de los paquetes a las ofertas
+    public void printAsignaciones() {
+        for (int i = 0; i < asignaciones.size(); i++) {
+            System.out.println("paquete " + i + " tiene asignado la oferta " + asignaciones.get(i));
+        }
     }
 }
 
