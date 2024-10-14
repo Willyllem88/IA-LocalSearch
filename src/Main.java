@@ -93,7 +93,7 @@ public class Main {
         // Se instancia el algoritmo de búsqueda Hill Climbing (subida de colinas)
         if (tipoAlg == 0) alg = new HillClimbingSearch(); // No requiere argumentos adicionales
         else {
-            System.out.print("Introduce los siguientes parámetros del algoritmo,  steps, nIteraciones, k, lambda: ");
+            System.out.print("Introduce los siguientes parámetros del algoritmo: steps, nIteraciones, k, lambda: ");
             int steps = scanner.nextInt();
             int nIter = scanner.nextInt();
             int k = scanner.nextInt();
