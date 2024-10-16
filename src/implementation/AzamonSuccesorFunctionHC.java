@@ -12,11 +12,7 @@ public class AzamonSuccesorFunctionHC implements SuccessorFunction{
 
     public List getSuccessors(Object state){
         ArrayList retval = new ArrayList();
-        Estado amazon = (Estado) state;
-
-        // Some code here
-        // Add the states to retval as Succesor("action i j", new_state)
-        // new_state has to be a copy of state
+        Estado amazon = (Estado) state;//copia estado
 
         //Todas las combinaciones de swap paquetes
         for(int i = 0; i < amazon.getNbPaquetes(); i++){

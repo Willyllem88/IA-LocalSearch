@@ -75,22 +75,6 @@ public class Main {
         System.out.println(" [2] Precio + felicidad");
         int heur = scanner.nextInt();
 
-        Problem p;
-        if (heur == 1) { //Heurística 1
-            // Se crea el objeto Problem, que incluye el estado inicial (azamon), la función sucesora,
-            // el test de objetivo y la función heurística
-             p = new Problem(azamon,
-                    new AzamonSuccesorFunctionHC(),
-                    new AzamonGoalTest(),
-                    new AzamonHeuristicFunction1());
-        }
-        else { //Heurística 2
-            p = new Problem(azamon,
-                    new AzamonSuccesorFunctionHC(),
-                    new AzamonGoalTest(),
-                    new AzamonHeuristicFunction2());
-        }
-
 
         // Pedimos al usuario el algoritmo a usar a escoger entre 2
         System.out.println("Escoge un algoritmo a usar: ");
@@ -110,7 +94,21 @@ public class Main {
             double lambda  = scanner.nextDouble();
             alg = new SimulatedAnnealingSearch(steps, nIter, k, lambda); //Simulated Annealing escogido
         }
-
+        Problem p;
+        if (heur == 1) { //Heurística 1
+            // Se crea el objeto Problem, que incluye el estado inicial (azamon), la función sucesora,
+            // el test de objetivo y la función heurística
+            p = new Problem(azamon,
+                    (tipoAlg == 1) ? new AzamonSuccesorFunctionSA() : new AzamonSuccesorFunctionHC(),
+                    new AzamonGoalTest(),
+                    new AzamonHeuristicFunction1());
+        }
+        else { //Heurística 2
+            p = new Problem(azamon,
+                    (tipoAlg == 1) ? new AzamonSuccesorFunctionSA() : new AzamonSuccesorFunctionHC(),
+                    new AzamonGoalTest(),
+                    new AzamonHeuristicFunction2());
+        }
 
         // Se instancia el agente de búsqueda, que ejecuta el problema con el algoritmo especificado
         SearchAgent agent = new SearchAgent(p, alg);
@@ -143,8 +141,8 @@ public class Main {
     // Método para imprimir las acciones realizadas por el agente durante la búsqueda
     private static void printActions(List actions) {
         for (int i = 0; i < actions.size(); i++) {
-            String action = (String) actions.get(i);
-            System.out.println(action);
+            Object action = actions.get(i);
+            System.out.println(action.toString());
         }
     }
 }
