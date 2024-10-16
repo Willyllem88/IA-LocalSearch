@@ -15,7 +15,7 @@ public class AzamonSuccesorFunctionSA implements SuccessorFunction{
         ArrayList retval = new ArrayList();
         Estado estado = ((Estado) eActual).copiar();
 
-        int posiblesSwaps = estado.getNbPaquetes() * estado.getNbPaquetes();
+        int posiblesSwaps = (estado.getNbPaquetes() * (estado.getNbPaquetes()-1))/2;
         int posiblesOfertas = estado.getNbPaquetes() * estado.getNbOfertas();
 
         int opSel = (int)(Math.random()*(posiblesSwaps+posiblesOfertas));

@@ -16,7 +16,7 @@ public class AzamonSuccesorFunctionHC implements SuccessorFunction{
 
         //Todas las combinaciones de swap paquetes
         for(int i = 0; i < amazon.getNbPaquetes(); i++){
-            for (int j = 0; j < amazon.getNbPaquetes(); j++){
+            for (int j = i+1; j < amazon.getNbPaquetes(); j++){
                 //Solo si no coinciden los paquetes (no tiene sentido hacer swap de dos paquetes iguales)
                 if (i != j) {
                     Estado new_state = amazon.copiar();
