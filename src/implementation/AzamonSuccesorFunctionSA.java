@@ -15,9 +15,14 @@ public class AzamonSuccesorFunctionSA implements SuccessorFunction{
         ArrayList retval = new ArrayList();
         Estado estado = ((Estado) eActual).copiar();
 
+        int posiblesSwaps = estado.getNbPaquetes() * estado.getNbPaquetes();
+        int posiblesOfertas = estado.getNbPaquetes() * estado.getNbOfertas();
+
+        int opSel = (int)(Math.random()*(posiblesSwaps+posiblesOfertas));
+
         // Elegiremos que operador usamos, si opRGN < 0.5, entonces haremos swap. En caso contrário haremos un move.
         double opRGN = Math.random();
-        if (opRGN < 0.5){
+        if (opSel < posiblesSwaps){
             // Usar operador swap
 
             int numPaq1, numPaq2;
