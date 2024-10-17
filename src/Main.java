@@ -17,6 +17,7 @@ import aima.search.informed.SimulatedAnnealingSearch;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 
 //Classe importada para leer desde la terminal
@@ -30,6 +31,8 @@ public class Main {
         int seed = 1304;
         double prop = 1.3;
 
+        Random random = new Random(seed);
+
         // Creamos el Scanner para leer input
         Scanner scanner = new Scanner(System.in);
 
@@ -39,21 +42,12 @@ public class Main {
         seed = scanner.nextInt();
         prop = scanner.nextDouble();
 
-
         // Se crean los conjuntos de paquetes y ofertas
         Paquetes paq = new Paquetes(n,seed);
         Transporte ofertas = new Transporte(paq,prop,seed);
 
-        //Printeamos los paquetes y las ofertas disponibles
-        for(int i = 0; i < paq.size(); i++){
-            System.out.println(paq.get(i));
-        }
-        for(int i = 0; i < ofertas.size(); i++){
-            System.out.println(ofertas.get(i));
-        }
-
         // Se crea el estado inicial de Azamon con los paquetes y las ofertas generadas
-        Estado azamon = new Estado(paq, ofertas);
+        Estado azamon = new Estado(paq, ofertas, random);
         System.out.println("Escoge generador de estado inicial");
         System.out.println(" [0] Solución más 'buena'");
         System.out.println(" [1] Solución más aleatoria");
@@ -61,18 +55,10 @@ public class Main {
         if (tipoGen == 0) azamon.asignarPaquetesIniciales1();
         else azamon.asignarPaquetesIniciales2();
 
-        // Printeamos los parámetros del estado inicial
-        System.out.println("PARÁMETROS DEL ESTADO INICIAL:");
-        System.out.println("  - Felicidad: " + azamon.getFelicidad());
-        System.out.println("  - Precio: " + azamon.getPrecio());
-
-        //Printeamos las asignaciones
-        azamon.printAsignaciones();
-
         //Pedimos al usuario que escoga entre las dos heurísticas
         System.out.println("Escoge heurística del algoritmo:");
-        System.out.println(" [1] Precio");
-        System.out.println(" [2] Precio + felicidad");
+        System.out.println(" [0] Precio");
+        System.out.println(" [1] Precio + felicidad");
         int heur = scanner.nextInt();
 
 
@@ -81,6 +67,8 @@ public class Main {
         System.out.println(" [0] Hill Climbing");
         System.out.println(" [1] Simulated Annealing");
         int tipoAlg = scanner.nextInt();
+
+        long startTime = System.currentTimeMillis();
 
         Search alg; //Objeto ara el algoritmo
 
@@ -95,7 +83,7 @@ public class Main {
             alg = new SimulatedAnnealingSearch(steps, nIter, k, lambda); //Simulated Annealing escogido
         }
         Problem p;
-        if (heur == 1) { //Heurística 1
+        if (heur == 0) { //Heurística 1
             // Se crea el objeto Problem, que incluye el estado inicial (azamon), la función sucesora,
             // el test de objetivo y la función heurística
             p = new Problem(azamon,
@@ -113,10 +101,18 @@ public class Main {
         // Se instancia el agente de búsqueda, que ejecuta el problema con el algoritmo especificado
         SearchAgent agent = new SearchAgent(p, alg);
 
+        long endTime = System.currentTimeMillis();
+
         // Se imprimen las acciones realizadas por el agente durante la búsqueda y las propiedades de instrumentación que brindan detalles sobre la búsqueda
+        //System.out.println();
+        //printActions(agent.getActions());
+        //printInstrumentation(agent.getInstrumentation());
+
+        // Printeamos los parámetros del estado inicial
         System.out.println();
-        printActions(agent.getActions());
-        printInstrumentation(agent.getInstrumentation());
+        System.out.println("PARÁMETROS DEL ESTADO INICIAL:");
+        System.out.println("  - Felicidad: " + azamon.getFelicidad());
+        System.out.println("  - Precio: " + azamon.getPrecio());
 
         // Se printea los parámetros resultantes
         Estado goal = (Estado)alg.getGoalState();
@@ -125,7 +121,9 @@ public class Main {
         System.out.println("  - Felicidad: " + goal.getFelicidad());
         System.out.println("  - Precio: " + goal.getPrecio());
 
-        goal.printAsignaciones();
+        // Pintamos cuanto tiempo se ha tardado en obtener el resultado
+        System.out.println();
+        System.out.println("Tiempo requerido: " + (endTime - startTime) + "ms");
     }
 
     // Método para imprimir las propiedades de instrumentación, como el tiempo de ejecución, nodos expandidos, etc.

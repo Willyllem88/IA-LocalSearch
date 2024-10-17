@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Collections;
+import java.util.Random;
 import IA.Azamon.Paquete;
 import IA.Azamon.Oferta;
 import IA.Azamon.Paquetes;
@@ -33,13 +34,16 @@ public class Estado {
     private int felicidad;
     private double precio; //incluye precio envío y almacenamiento (0.25€/kg/dia)
 
+    private Random random;
+
     /* Método Constructora */
-    public Estado(Paquetes paquetes, Transporte ofertas) {
+    public Estado(Paquetes paquetes, Transporte ofertas, Random random) {
         //inicializamos estado
         felicidad = 0;
         precio = 0;
         this.paquetes = paquetes;
         this.ofertas = ofertas;
+        this.random = random;
 
         asignaciones = new ArrayList<Integer>(paquetes.size());
         for (int i = 0; i < paquetes.size(); i++) {
@@ -54,7 +58,7 @@ public class Estado {
 
     /* Método copiadora */
     public Estado copiar() {
-        Estado copia = new Estado(this.paquetes, this.ofertas);
+        Estado copia = new Estado(this.paquetes, this.ofertas, this.random);
 
         // Copiar atributos del estado
         copia.asignaciones = new ArrayList<>(this.asignaciones);
@@ -101,7 +105,7 @@ public class Estado {
         List<Integer> l = new ArrayList<>();
         for (int i = 0; i < paquetes.size(); i++) l.add(i);
 
-        Collections.shuffle(l); // Shuffle en la lista
+        Collections.shuffle(l, random); // Shuffle en la lista
 
         l.sort(Comparator.comparingInt(i -> paquetes.get(i).getPrioridad()));//ordenamos por prioridad
 
@@ -141,7 +145,7 @@ public class Estado {
         List<Integer> l = new ArrayList<>();
         for (int i = 0; i < ofertas.size(); i++) l.add(i);
 
-        Collections.shuffle(l); // Shuffle en la lista
+        Collections.shuffle(l, random); // Shuffle en la lista
 
         //Enviamos los paquetes justo cuando toca, no buscamos si hay espacio en ofertas que se entreguen antes (no habrá felicidad)
         for (int i = 0; i < paquetes.size(); i++) {
@@ -202,8 +206,6 @@ public class Estado {
     public void swapPaquets(int p1, int p2) { //índice de los paquetes a intercambiar
         int oferta1 = asignaciones.get(p1);
         int oferta2 = asignaciones.get(p2);
-
-        System.out.println("oferta1: " + oferta1 + ", oferta2: " + oferta2);
 
         if (oferta1 != oferta2) { //Sólo si no están en la misma oferta
             Paquete paq1 = paquetes.get(p1);
