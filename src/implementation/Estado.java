@@ -182,7 +182,17 @@ public class Estado {
 
     //Retorna la felicidad de los clientes de un paquete p asignado a una oferta o, negativo  si el paquete no llega a tiempo
     private int felicidadPaquetAOferta(Paquete p, Oferta o) {
-        return getDiasPaquete(p) - o.getDias();
+       // return getDiasPaquete(p) - o.getDias();
+
+        //Puede que hace falta cambiarla por lo que se dice en el apartado 3.5, 6)
+
+        int dp = getDiasPaquete(p);
+        int dof = o.getDias();
+        if (dp == 1) return dp - dof;
+        else  {
+            if (dp > dof) return dp - dof - 1; //minimo de dias en el que deberia lleagr - dias en que llega
+            else return dp - dof;
+        }
     }
 
     /*Operadores del problema*/
@@ -246,7 +256,7 @@ public class Estado {
     public double heuristic2(){
         //Propuesta de heurística teniendo en cuenta los dos criterios de calidad de solución
         double val = 0;
-        val = -7*felicidad + precio; //minimizar la función, (maximizar la felicidad y minimizar costes)
+        val = -10*felicidad + precio; //minimizar la función, (maximizar la felicidad y minimizar costes)
         return val;
     }
 
