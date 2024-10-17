@@ -4,6 +4,8 @@
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{array}
 \graphicspath{ {./images/} }
 
 \title{\textbf{Intel·ligència Artificial:\\
@@ -148,6 +150,53 @@
 	\section{Part Experimental}
 	
 	\subsection{Experiment 1}
+	
+	Un factor clau en els algoritmes de cerca local és el mètode utilitzat per recórrer l'espai de cerca. Per aquest motiu, emprem operadors, que apliquen modificacions a un estat base i ens permeten navegar a través d'aquest espai. En un conjunt d'operadors, l'objectiu és minimitzar el factor de ramificació, amb l'aspiració de millorar principalment l'eficiència temporal, tot i que també es busca una millor eficiència espacial. \\
+	
+	Per provar la hipòtesi que certs conjunts d'operadors donen millors resultats en una funció heurística, realitzarem un experiment amb un escenari en què s'han d'enviar 100 paquets, i la proporció del pes transportable per les ofertes és de 1,2. Utilitzarem l'algoritme de \textit{Hill Climbing} per a aquest propòsit. Els diferents conjunts d'operadors seran $C_{\texttt{1}} = \{\texttt{move}\}$, $C_{\texttt{2}} = \{\texttt{swap}\}$, $C_{\texttt{3}} = \{\texttt{move}, \texttt{swap}\}$. \\
+	
+	A més també hem de establir quin algorisme generador de solucions inicial emprarem. En aquest cas establirem que l'algorisme que sempre usarem serà el que genera les solucions més aleatòries.
+	
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Observació & Com afecten els diferents conjunts d'operadors per trobar resultats més òptims. \\
+			\hline
+			Plantejament & Farem ús de diferents conjunts d'operadors per veure com difereixen les solucions que troben. \\
+			\hline
+			Hipòtesi & El conjunt amb els operadors \textit{swap} i \textit{move} serà el més optim. \\
+			\hline
+			Mètode & 
+			\begin{itemize}
+				\item Agafarem un conjunt de $10$ llavors aleatòries.
+				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions aleatòri.
+				\item Executarem 10 experiment els conjunts d'operadors $C_{\texttt{1}}$, $C_{\texttt{2}}$ i $C_{\texttt{3}}$, un per cada llavor.
+				\item Executarem un experiment amb l'operador \textit{swap} per cada llavor.
+				\item Executarem un experiment amb els operadors \textit{move} i \textit{swap} per cada llavor.
+			\end{itemize} \\
+			\hline
+		\end{tabular}
+		\label{tab:apartats}
+	\end{table}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp1_boxplot.png}
+		\caption{Boxplot del preu resultant de diferents operator sets}
+		\label{fig:exp1_boxplot}
+	\end{figure}
+	
+	
+	\textbf{Observació}: \\
+	
+	\textbf{Plantejament}: \\
+	
+	\textbf{Mètode}: \\
+	
+	\textbf{Resultats}: \\
+	
+	\textbf{Conclusions}: \\
 	
 	\subsection{Experiment 2}
 	

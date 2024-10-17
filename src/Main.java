@@ -124,6 +124,8 @@ public class Main {
         // Pintamos cuanto tiempo se ha tardado en obtener el resultado
         System.out.println();
         System.out.println("Tiempo requerido: " + (endTime - startTime) + "ms");
+
+        main(args);
     }
 
     // Método para imprimir las propiedades de instrumentación, como el tiempo de ejecución, nodos expandidos, etc.
