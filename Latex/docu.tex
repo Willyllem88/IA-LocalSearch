@@ -65,6 +65,12 @@
 		\item L'algorisme de \emph{Simulated Annealing} permetrà l'acceptació temporal de solucions pitjors, amb l'objectiu d'evitar quedar-se atrapats en òptims locals.
 	\end{itemize}
 	
+	Una de les principals raons per utilitzar algorismes de cerca local és la seva eficàcia per a explorar espais de solucions grans i complexos. Aquests algorismes permeten explorar l'entorn d'una solució inicial i fer petits canvis successius, el que facilita trobar solucions millorades de forma ràpida. \\
+	
+	Una de les seves grans avantatges és que no requereixen conèixer tota l'estructura de l'espai de solucions, sinó que operen localment a partir d'una única solució. A més, l'algorisme de \emph{Simulated Annealing} és particularment útil perquè permet escapar dels òptims locals, una característica crucial en problemes amb espais de cerca irregulars o amb molts màxims i mínims locals. \\
+	
+	D'aquesta manera, utilitzant la cerca local, podem obtenir solucions raonablement bones en un temps raonable, ajustant paràmetres i comparant diferents configuracions en els experiments. \\
+	
 	A través de diversos experiments, es provaran diferents configuracions de paràmetres i es compararan els resultats dels dos algorismes per determinar quin proporciona millors solucions en termes de cost i felicitat.
 	
 	\subsection{Implementació de l'Estat}
@@ -140,7 +146,7 @@
 	Hem creat dues funcions heurístiques per poder comparar els resultats que ens generen. Cada una d'elles tindrà criteris diferents:
 	
 	\begin{itemize}
-		\item \emph{Heurístic 1}: $H_1 = \text{cost}^2$, aquest heurístic està dissenyat per minimitzar exclusivament els costos, sense tenir en compte ningún altre factor de qualitat. La funció d'evaluació es defineix com el quadrat del cost. Aquest heurístic ens permetrà minimitzar el cost de la assignació de paquets.
+		\item \emph{Heurístic 1}: $H_1 = \text{cost}$, aquest heurístic està dissenyat per minimitzar exclusivament els costos, sense tenir en compte ningún altre factor de qualitat. Aquest heurístic ens permetrà minimitzar el cost de la assignació de paquets.
 		\item \emph{Heurístic 2}: $H_2 = -\text{felicitat}^2 + \text{cost}^2$, per altra banda, aquest heurístic ens permetrà tenir en compte la felicitat total de la assignació de paquets. La funció d'evaluació serà igual que la anterior però li resterem el quadrat de la  felicitat. Així doncs estarem maximitzant felicitat i minimitzant cost a la vegada, ja que volem minimitzar la funció heurística.
 	\end{itemize}
 	
@@ -172,13 +178,14 @@
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
 				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions aleatòri.
 				\item Executarem 10 experiment els conjunts d'operadors $C_{\texttt{1}}$, $C_{\texttt{2}}$ i $C_{\texttt{3}}$, un per cada llavor.
-				\item Executarem un experiment amb l'operador \textit{swap} per cada llavor.
-				\item Executarem un experiment amb els operadors \textit{move} i \textit{swap} per cada llavor.
+				\item Medirem els resultats i n'extreurem conclusions.
 			\end{itemize} \\
 			\hline
 		\end{tabular}
-		\label{tab:apartats}
+		\label{tab:exp1_apartats}
 	\end{table}
+	
+	Ja amb els experiment executats, hem colocat els resultats al projecte \textit{GitHub} (vegeu l'annex per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex1.csv}. A partir d'aquestes dades farem un box plot per tenir una representació més visual d'aquestes. Vegeu el boxplot a continuació.
 	
 	\begin{figure}[H]
 		\centering
@@ -187,16 +194,35 @@
 		\label{fig:exp1_boxplot}
 	\end{figure}
 	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\textbf{Operador} & \textbf{Mediana} & \textbf{Q1} & \textbf{Q3} & \textbf{IQR} \\
+			\hline
+			Move & 981.245 & 917.275 & 1003.02 & 85.745 \\
+			\hline
+			Swap & 1025.675 & 992.235 & 1046.285 & 54.05 \\
+			\hline
+			Move + Swap & 980.87 & 916.525 & 1002.11 & 85.5875\\
+			\hline
+		\end{tabular}
+		\caption{Estadístiques del preu de diferents operator sets}
+		\label{tab:exp1_estadisticas}
+	\end{table}
 	
-	\textbf{Observació}: \\
+	Com podem observar en la figura \ref{fig:exp1_boxplot}, el resultat obtingut amb l'operador \textit{swap} dista molt dels altres. Així que serà el primer que comentarem. Per començar, cal entendre que amb només un \textit{swap} no recorrerem tot l'espai de cerca per un simple motiu: una oferta de transport que inicialment tingui un paquet assignat mai més podrà estar buida. Aquesta limitació es reflecteix en una mediana major. Podem consultar les dades numèriques de l'experiment a la taula \ref{tab:exp1_estadisticas}. A més, veiem que el rang interquantílic (IQR) amb \textit{swap} és el menor, la qual cosa indica que aquest operador ens proporciona resultats consistents, però no els millors. \\
 	
-	\textbf{Plantejament}: \\
+	Per altra banda, observem que els resultats de \textit{move} i \textit{move + swap} són molt similars. Això implica que amb el \textit{move} podem explorar la gran majoria de l'espai de cerca, ja que no té la restricció que presenta l'altre operador. En aquest cas, la única limitació que tindríem es donaria quan volguéssim fer un swap de dos paquets. Amb l'operador de \textit{move}, aquest procés s'ha de realitzar en dues operacions com a norma general; però, si un dels paquets no hi càpiga en l'altra oferta, necessitarem tres operacions, utilitzant una oferta auxiliar per assignar temporalment aquell paquet. \\
 	
-	\textbf{Mètode}: \\
+	En casos puntuals, seria probable que no poguéssim fer aquest swap només amb el \textit{move}. Aquest escenari s'ha donat durant els experiments, ja que en alguns casos hem observat una diferència molt petita en el cost, ja que el \textit{swap} ha pogut complementar el que el \textit{move} no podia. Per aquesta raó, els dos conjunts d'operadors que estem analitzant presenten resultats similars, però el conjunt que inclou l'operador \textit{swap} obté resultats lleugerament millors en alguns casos. \\
 	
-	\textbf{Resultats}: \\
+	Respecte a la nostra hipòtesi inicial, observem que s'ha complert, ja que el conjunt d'operadors que inclou tant \textit{move} com \textit{swap} ha mostrat un rendiment lleugerament superior en alguns casos. No obstant això, no esperàvem una similitud tan notable entre els resultats obtinguts amb els conjunts d'operadors $C_{\texttt{2}}$ i $C_{\texttt{3}}$. Aquesta similitud indica que l'operador \textit{swap} pot no ser essencial per millorar significativament els resultats en la majoria dels escenaris analitzats. \\
 	
-	\textbf{Conclusions}: \\
+	A partir d'aquesta observació, podríem considerar l'opció de reduir el factor de ramificació eliminant l'operador \textit{swap} del conjunt d'operadors utilitzats. La raó darrere d'aquesta decisió es fonamenta en el principi d'eficiència: simplificar el conjunt d'operadors pot conduir a una reducció del temps de càlcul i a una millora en la velocitat d'exploració de l'espai de cerca. \\
+	
+	En resum, els resultats indiquen que, tot i que el \textit{swap} aporta certes millores en situacions particulars, la seva presència no és extremadament rellevant. Això suggereix que una aproximació més eficient podria ser treballar exclusivament amb l'operador \textit{move}, permetent-nos explorar l'espai de cerca de manera més àgil i reduint potencialment el factor de ramificació, facilitant així la millora del rendiment global de l'algoritme. \\
+	
 	
 	\subsection{Experiment 2}
 	
