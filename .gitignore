@@ -4,11 +4,17 @@ out/
 *.iml
 *.iws
 *.ipr
-#latex temporary files
+
+# Latex temporary files
 *.log
 *.synctex.gz
 *.toc
 *.aux
 *.out
+
 # Compiled class files
 *.class
+
+# R related files
+.RData
+.Rhistory
