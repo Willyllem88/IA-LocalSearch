@@ -34,16 +34,13 @@ public class Estado {
     private int felicidad;
     private double precio; //incluye precio envío y almacenamiento (0.25€/kg/dia)
 
-    private Random random;
-
     /* Método Constructora */
-    public Estado(Paquetes paquetes, Transporte ofertas, Random random) {
+    public Estado(Paquetes paquetes, Transporte ofertas) {
         //inicializamos estado
         felicidad = 0;
         precio = 0;
         this.paquetes = paquetes;
         this.ofertas = ofertas;
-        this.random = random;
 
         asignaciones = new ArrayList<Integer>(paquetes.size());
         for (int i = 0; i < paquetes.size(); i++) {
@@ -58,7 +55,7 @@ public class Estado {
 
     /* Método copiadora */
     public Estado copiar() {
-        Estado copia = new Estado(this.paquetes, this.ofertas, this.random);
+        Estado copia = new Estado(this.paquetes, this.ofertas);
 
         // Copiar atributos del estado
         copia.asignaciones = new ArrayList<>(this.asignaciones);
@@ -99,7 +96,7 @@ public class Estado {
 
     /* Propuesta 'buena' de soluciones iniciales. Más costosa pero más cercana a la solución final.
      *  Intenta maximizar la felicidad y minimizar los costes */
-    public void asignarPaquetesIniciales1() {
+    public void asignarPaquetesIniciales1(Random random) {
 
         // Generar aleatoriedad en el orden de paquete, el índice de los paquetes a colocar
         List<Integer> l = new ArrayList<>();
@@ -138,7 +135,7 @@ public class Estado {
 
     //Otra propuesta de generación de solución inicial, más lejos de la solución final
     //hacemos un shuffle en el orden a visitar las ofertas y donde quepa asignamos el paquete
-    public void asignarPaquetesIniciales2() {
+    public void asignarPaquetesIniciales2(Random random) {
         paquetes.sort(Comparator.comparingInt(Paquete::getPrioridad));//ordenamos por prioridad
 
         // Generar aleatoriedad en el orden de ofertas, el índice de las ofertas

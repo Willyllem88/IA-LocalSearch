@@ -47,13 +47,13 @@ public class Main {
         Transporte ofertas = new Transporte(paq,prop,seed);
 
         // Se crea el estado inicial de Azamon con los paquetes y las ofertas generadas
-        Estado azamon = new Estado(paq, ofertas, random);
+        Estado azamon = new Estado(paq, ofertas);
         System.out.println("Escoge generador de estado inicial");
         System.out.println(" [0] Solución más 'buena'");
         System.out.println(" [1] Solución más aleatoria");
         int tipoGen = scanner.nextInt();
-        if (tipoGen == 0) azamon.asignarPaquetesIniciales1();
-        else azamon.asignarPaquetesIniciales2();
+        if (tipoGen == 0) azamon.asignarPaquetesIniciales1(random);
+        else azamon.asignarPaquetesIniciales2(random);
 
         //Pedimos al usuario que escoga entre las dos heurísticas
         System.out.println("Escoge heurística del algoritmo:");
