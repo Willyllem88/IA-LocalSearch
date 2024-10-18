@@ -78,22 +78,25 @@
 	L'estat del nostre problema s'implementa mitjançant la classe \emph{Estado}, que gestiona l'assignació dels paquets a les diferents ofertes de transport. Aquest estat inclou les següents estructures de dades:
 	
 	\begin{itemize}
-		\item \emph{Paquetes paquetes}: Conté la llista de paquets que s'han de distribuir.
-		\item \emph{Transporte ofertas}: Una llista que guarda les ofertes de transport disponibles.
-		\item \emph{List$<$Integer$>$ asignaciones}: Una llista que representa les assignacions actuals dels paquets a les ofertes. Cada element de la llista correspon a un paquet. El valor assignat que contenen aquests paquets correspon a l'índex de l'oferta a la qual s'ha assignat (o \(-1\) si no està assignat a cap oferta).
-		\item \emph{List$<$Double$>$ espacioDisponibleOfertas}: Guarda l'espai disponible per a cada oferta de transport, que permet controlar la capacitat restant per a cada una de les ofertes assignades.
-		\item \emph{Integer felicidad}: Aquest valor guarda la felicitat total acumulada, que s'augmenta quan els paquets s'entreguen abans del que estava previst.
+		\item \emph{Paquetes paquetes}: Conté la llista de paquets que s'han de distribuir, que s'han generat de manera aleatoria per a un problema.
+		\item \emph{Transporte ofertas}: Una llista que guarda les ofertes de transport disponibles, generats a partir dels paquets de manera aleatoria de manera que sempre hi hagi espai per a enviar tots els paquets dins el termini d'entrega.
+		\item \emph{List$<$Integer$>$ asignaciones}: Una llista que representa les assignacions actuals dels paquets a les ofertes. Cada element de la llista correspon a un paquet. El valor assignat que contenen aquests paquets correspon a l'índex de l'oferta a la qual s'ha assignat (o \(-1\) si no està assignat a cap oferta). És a dir \emph{asignaaciones$[i] = j$} vol dir que el paquet amb índex $i$ a \emph{paquetes} té assignat la oferta amb índex $j$ a \emph{ofertas}.
+		\item \emph{List$<$Double$>$ espacioDisponibleOfertas}: Guarda l'espai disponible per a cada oferta de transport, que permet controlar la capacitat restant per a cada una de les ofertes assignades i per saber si un paquet pot ser assignat a una oferta.
+		\item \emph{Integer felicidad}: Aquest valor guarda la felicitat total acumulada, que s'augmenta quan els paquets s'entreguen abans del que estava previst. Obtenim un punt de felicitat per cada dia abans que s'entrega el paquet del dia mínim que s'ha d'entregar segons la prioritat escollida pel client.
+		\item \emph{Double precio}: Aquest valor guarda el preu total que té assignar els paquets a les ofertes segons $asignaciones$, incloent els costos de transport de cada paquet en la seva oferta assignada i els d'emmagatzematge si estan assignats a ofertes que triguen \(3\) o més dies.
 	\end{itemize}
 		
-	Inicialment, l'estat es configura assignant \(-1\) a cada paquet de la llista \emph{asignaciones}, indicant que no hi ha cap oferta de transport assignada al paquet. A més, \emph{espacioDisponibleOfertas} s'inicialitza amb la capacitat màxima de cada oferta, que posteriorment s'anirà actualitzant quan els paquets es vagin assignant.\\
+	Inicialment, l'estat es configura assignant \(-1\) a cada paquet de la llista \emph{asignaciones}, indicant que no hi ha cap oferta de transport assignada al paquet. A més, \emph{espacioDisponibleOfertas} s'inicialitza amb la capacitat màxima de cada oferta, que posteriorment s'anirà actualitzant quan els paquets es vagin assignant. El preu i la felicitat s'inicialitzen a \(0\) ja que no hi ha cap assignació fet a cap paquet; al generar la solució inicial i aplicar els operadors ja es van actualitzant conforment.\\
 	
 	\subsection{Operadors}
 	
-	Els operadors pels algoritmes de cerca local seran els següents:
+	Per executar els algoritmes de cerca local hem definit i implementat un conjunt d'operadors. Per parlar del seu factor de ramificació considereem $n$ el nombre de paquets a assignar i $m$ el nombre de ofertes de transport disponibles per repartir els paquets. Els operadors escollits seran els següents:
 	
 	\begin{itemize}
-		\item \emph{swapPaquet(p1, p2)}: Siguin $p1$ i $p2$ dos paquets que pertanyen a ofertes de transport diferents, mourà $p1$ a la posició de $p2$ i a l'inrevés. Aquesta operació es fara si i només si cap de les dues ofertes sobrepassa la seva capcacitat màxima.
-		\item \emph{mourePaquet(p, o)}: Sigi $p$ un paquet i $o$ una oferta, mourà el paquet $p$ a la oferta $o$. Sempre i quant $p$ càpiga dins de $o$.
+		\item \emph{swapPaquet(p1, p2)}: Siguin $p1$ i $p2$ dos paquets diferents que pertanyen a ofertes de transport diferents, mourà $p1$ a la posició de $p2$ i a l'inrevés. La condició d'aplicabilitat d'aquesta operació és que cap de les dues ofertes sobrepassa la seva capcacitat màxima i que cap paquet s'entrega més tard que el màxim de dies segons la prioritat després de fer el swap. Aquest operador té un factor de ramificació de \( O(n^2) \) ja que per cada paquet el podem intercanviar amb la resta de paquets en el cas pitjor. Per ser més precisos el factor de ramificació és \(O(\frac{n·(n-1)}{2})\), això surt dels nombres combinatoris, d'agafar els $n$ paquets de 2 en 2 on l'ordre no importa; aleshores obtenim el nombre combinatori \( \binom{n}{2} \). Segons la fórmula per trobar el valor d'un nombre combinatori genèric \( \binom{n}{m} = \frac{n!}{m!·(n-k)!}\) obtenim la següent expressió \( \frac{n!}{2!·(n-2)!}\), la qual es pot simplificar en l'expressió donada abans \( \frac{n·(n-1)}{2}\).
+
+
+		\item \emph{mourePaquet(p, o)}: Sigi $p$ un paquet i $o$ una oferta diferent a la qual ja està assignada, mourà el paquet $p$ a la oferta $o$. La condició d'aplicabilitat d'aquest operador és que $p$ càpiga dins de $o$ i s'entregui abans del màxim de dies d'entrega associada a la prioritat del paquet. El factor de ramificació d'aquest operador és de l'ordre de \(O(n(m-1))\), ja que tenim que per cada paquet el podem assignar a totes les ofertes que hi ha menys a la que ja està assignada.
 	\end{itemize}
 	
 	Amb aquests dos operadors serem capaços de recòrrer tot l'espai de solucions.
@@ -147,7 +150,7 @@
 	
 	\begin{itemize}
 		\item \emph{Heurístic 1}: $H_1 = \text{cost}$, aquest heurístic està dissenyat per minimitzar exclusivament els costos, sense tenir en compte ningún altre factor de qualitat. Aquest heurístic ens permetrà minimitzar el cost de la assignació de paquets.
-		\item \emph{Heurístic 2}: $H_2 = -\text{felicitat}^2 + \text{cost}^2$, per altra banda, aquest heurístic ens permetrà tenir en compte la felicitat total de la assignació de paquets. La funció d'evaluació serà igual que la anterior però li resterem el quadrat de la  felicitat. Així doncs estarem maximitzant felicitat i minimitzant cost a la vegada, ja que volem minimitzar la funció heurística.
+		\item \emph{Heurístic 2}: $H_2 = -10*\text{felicitat} + \text{cost}$, per altra banda, aquest heurístic ens permetrà tenir en compte la felicitat total de la assignació de paquets. La funció d'evaluació serà igual que la anterior però li restarem la felicitat multiplicada per deu. La constant que multiplica la felicitat és degut a que a l'hora de calcular la felicitat i el preu, aquest últim pren més rellevància en la funció heurística si no multipliquem per cap constant cap terme al tenir un rang més ampli de valors possibles, és a dir, pren valors més grans que la felicitat. Aleshores estariem prioritzant més la reducció de costos, així que amb la constant multipliquem intentem posar al mateix nivell de importància el reduir els costos i augmentar la felicitat. Així doncs estarem maximitzant felicitat i minimitzant cost a la vegada, ja que volem minimitzar la funció heurística.
 	\end{itemize}
 	
 	\subsection{Resultats}
