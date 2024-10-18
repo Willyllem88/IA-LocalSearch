@@ -250,7 +250,7 @@ public class Estado {
     public double heuristic1(){
         //Propuesta de heurística teniendo en cuenta sólo los criterios de calidad sobre los costes
         double val = 0;
-        val = precio*precio; //minimizar la función (minimizar costes)
+        val = precio; //minimizar la función (minimizar costes)
         return val;
     }
 
