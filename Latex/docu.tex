@@ -2,10 +2,15 @@
 \usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{algorithm}
+\floatname{algorithm}{Algorisme} % Cambia "Algorithm" por "Algorisme"
+
+\usepackage{algpseudocode}
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{array}
+
 \graphicspath{ {./images/} }
 
 \title{\textbf{Intel·ligència Artificial:\\
@@ -108,19 +113,25 @@
 	
 	\subsubsection{Entrega just al dia}
 	
-	Aquesta funció no té en compte la maximització de la felicitat dels clients ni la reducció de costos. Simplement, assigna els paquets a una oferta que compleixi els requisits d'entrega. La idea principal és buscar una oferta que compleixi amb aquesta condició i tingui espai suficient per al paquet. Per evitar quedar-nos sense espai a les ofertes de major prioritat, endrecem la llista de paquets segons aquesta prioritat. D'aquesta manera, assignem abans els paquets més urgents. Per tant, es pot resumir així: \\
+	Aquesta funció no té en compte la maximització de la felicitat dels clients ni la reducció de costos. Simplement, assigna els paquets a una oferta que compleixi els requisits d'entrega. La idea principal és buscar una oferta que compleixi amb aquesta condició i tingui espai suficient per al paquet. Per evitar quedar-nos sense espai a les ofertes de major prioritat, endrecem la llista de paquets segons aquesta prioritat. D'aquesta manera, assignem abans els paquets més urgents. Per tant, es pot resumir així:
 	
-	\begin{verbatim}
-		Ordenar paquets per ordre de prioritat
-		Per a cada paquet p_i que pertany a Paquets:
-		    j = 0
-		    Mentre j < nombre d'ofertes i p_i no estigui assignat:
-		        # C_j és la capacitat de la oferta
-		        Si p_i <= C_j i i dia_entrega(p_i) <= dia_oferta(o_j):
-		            Assignar p_i a o_j
-		        Altrament:
-		            Incrementar j  # Provar amb la següent oferta o_{j+1}
-	\end{verbatim}
+	\begin{algorithm} [H]
+		\caption{Ordenar paquets per ordre de prioritat}
+		\begin{algorithmic}[1]
+			\State Ordenar paquets per ordre de prioritat
+			\For{$\forall p_i \in \text{Paquets}$}
+			\State $j \gets 0$
+			\While{$j < \text{nombre d'ofertes}$ \textbf{and} $p_i$ no està assignat}
+			\State $C_j \gets$ capacitat de l'oferta $o_j$
+			\If{$p_i \leq C_j$ \textbf{and} $dia\_entrega(p_i) \leq dia\_oferta(o_j)$}
+			\State Assignar $p_i$ a $o_j$
+			\Else
+			\State $j \gets j + 1$ \Comment{Provar amb la següent oferta $o_{j+1}$}
+			\EndIf
+			\EndWhile
+			\EndFor
+		\end{algorithmic}
+	\end{algorithm}
 	
 	
 	\subsubsection{Maximitzar la felicitat i minimitzar els costos}
@@ -129,20 +140,26 @@
 	
 	Per maximitzar la felicitat haurem d'aconseguir assignar els paquets per tal que s'entreguin tots tan aviat com es pugui. Per fer això, ordenarem la llista d'ofertes de menor a major segons el dia d'entrega ($Ofertes$). Farem el mateix per les prioritats del paquet ($Paquets$). I el mateix per minimitzar els costos: endreçarem primer les ofertes més barates. D'aquesta manera, s'enviaran els paquets el més aviat possible i, en cas d'empat, amb les ofertes de menor cost. \\
 	
-	Un cop ambdues llistes estan ordenades intentarem assignar els paquets de la següent manera. Vegeu a continuació el pseudocodi: \\
+	Un cop ambdues llistes estan ordenades intentarem assignar els paquets de la següent manera. Vegeu a continuació el pseudocodi:
 	
-	\begin{verbatim}
-		Ordenar paquets per ordre de prioritat i per cost
-		Ordenar ofertes per dies d'entrega i cost
-		Per a cada paquet p_i que pertany a Paquets:
-		    j = 0
-		    Mentre j < nombre d'ofertes i p_i no estigui assignat:
-		        # C_j és la capacitat de la oferta o_j
-		        Si p_i <= C_j:
-		            Assignar p_i a o_j
-		        Altrament:
-		            Incrementar j  # Provar amb la següent oferta o_{j+1}
-	\end{verbatim}
+	\begin{algorithm} [H]
+		\caption{Ordenar paquets per ordre de prioritat i per cost}
+		\begin{algorithmic}[1]
+			\State Ordenar paquets per ordre de prioritat i cost
+			\State Ordenar ofertes per dies d'entrega
+			\For{$\forall p_i \in \text{Paquets}$}
+			\State $j \gets 0$
+			\While{$j < \text{nombre d'ofertes}$ \textbf{and} $p_i$ no està assignat}
+			\State $C_j \gets$ capacitat de l'oferta $o_j$
+			\If{$p_i \leq C_j$}
+			\State Assignar $p_i$ a $o_j$
+			\Else
+			\State $j \gets j + 1$ \Comment{Provar amb la següent oferta $o_{j+1}$}
+			\EndIf
+			\EndWhile
+			\EndFor
+		\end{algorithmic}
+	\end{algorithm}
 		
 	\subsection{Funció Heurística}
 	
@@ -214,7 +231,7 @@
 		\label{tab:exp1_estadisticas}
 	\end{table}
 	
-	Com podem observar en la figura \ref{fig:exp1_boxplot}, el resultat obtingut amb l'operador \textit{swap} dista molt dels altres. Així que serà el primer que comentarem. Per començar, cal entendre que amb només un \textit{swap} no recorrerem tot l'espai de cerca per un simple motiu: una oferta de transport que inicialment tingui un paquet assignat mai més podrà estar buida. Aquesta limitació es reflecteix en una mediana major. Podem consultar les dades numèriques de l'experiment a la taula \ref{tab:exp1_estadisticas}. A més, veiem que el rang interquantílic (IQR) amb \textit{swap} és el menor, la qual cosa indica que aquest operador ens proporciona resultats consistents, però no els millors. \\
+	Com podem observar en la \textit{Figura \ref{fig:exp1_boxplot}}, el resultat obtingut amb l'operador \textit{swap} dista molt dels altres. Així que serà el primer que comentarem. Per començar, cal entendre que amb només un \textit{swap} no recorrerem tot l'espai de cerca per un simple motiu: una oferta de transport que inicialment tingui un paquet assignat mai més podrà estar buida. Aquesta limitació es reflecteix en una mediana major. Podem consultar les dades numèriques de l'experiment a la \textit{Taula \ref{tab:exp1_estadisticas}}. A més, veiem que el rang interquantílic (IQR) amb \textit{swap} és el menor, la qual cosa indica que aquest operador ens proporciona resultats consistents, però no els millors. \\
 	
 	Per altra banda, observem que els resultats de \textit{move} i \textit{move + swap} són molt similars. Això implica que amb el \textit{move} podem explorar la gran majoria de l'espai de cerca, ja que no té la restricció que presenta l'altre operador. En aquest cas, la única limitació que tindríem es donaria quan volguéssim fer un swap de dos paquets. Amb l'operador de \textit{move}, aquest procés s'ha de realitzar en dues operacions com a norma general; però, si un dels paquets no hi càpiga en l'altra oferta, necessitarem tres operacions, utilitzant una oferta auxiliar per assignar temporalment aquell paquet. \\
 	
