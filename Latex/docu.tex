@@ -246,6 +246,70 @@
 	
 	\subsection{Experiment 2}
 	
+	Un altre punt que creiem molt important a l'hora de plantejar aquests problemes és la solució inicial. Una solució inicial de qualitat proporciona un diferent punt de partida per explorar l'espai de solucions, la qual cosa pot conduir a diferents resultats finals, o bé a una diferent velocitat per trobar una solució òptima. \\
+	
+	En aquest experiment, compararem dues estratègies de generació de solucions inicials per avaluar si hi ha alguna diferència notable en els resultats finals quan es fa servir l'algoritme \textit{Hill Climbing} i els operadors escollits a l'apartat anterior: \textit{swap} i \textit{move}.\\
+	
+	Les dues estratègies que considerarem per la generació de l'estat inicial són:
+	
+	\begin{itemize}
+		\item \emph{Solució Inicial 2}: aquesta és una estratègia que genera solucions inicials amb una qualitat més alta, és a dir, busquem des d'un principi una solució més propera a la que creiem la solució final, més òptima, ja que intentem fer una assignació de paquets a ofertes amb el menor preu possible.
+		
+		\item \emph{Solució Inicial 2}: aquesta estratègia simplement pretén assignar els paquets a ofertes i en cap moment dona prioritat a les ofertes més barates, és per això que està més lluny de la solució final que busquem, però és més ràpia i simple de generar que la primera.
+	\end{itemize}
+	
+	
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Plantejament & Observem la influència de dues solucions inicials en la qualitat de la solució final. \\
+			\hline
+			Hipòtesi & Una solució inicial menys òptima, la \textit{Solució inicial 2}, proporcionarà significativament millors resultats.\\
+			\hline
+			Mètode & 
+			\begin{itemize}
+				\item Agafarem un conjunt de $10$ llavors aleatòries.
+				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2.
+				\item Executarem els 10 experiments amb la \textit{Solució inicial 1} i la \textit{Solució inicial 2}, un per cada llavor.
+				\item Medirem els resultats i n'extraurem conclusions.
+			\end{itemize} \\
+			\hline
+		\end{tabular}
+		\label{tab:exp2_apartats}
+	\end{table}
+	
+	Els resultats, que es poden trobar al path \texttt{./Latex/spreadsheets/ex2.csv} de \textit{GitHub} (vegeu l'annex per accedir-hi), es poden resumir amb el gràfic i la taula que hi ha a continuació:
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp2_boxplot.png}
+		\caption{Boxplot del preu resultant segons la solució inicial}
+		\label{fig:exp2_boxplot}
+	\end{figure}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\textbf{Operador} & \textbf{Mediana} & \textbf{Q1} & \textbf{Q3} & \textbf{IQR} \\
+			\hline
+			Solució 1 & 980.975 & 916.58 & 1004.178 & 87.5975 \\
+			\hline
+			Solució 2 & 980.87 & 916.525 & 1002.112 & 85.5875 \\
+			\hline
+		\end{tabular}
+		\caption{Estadístiques del preu segons la solució inicial}
+		\label{tab:exp2_estadisticas}
+	\end{table}
+	
+	Com clarament veiem a la \textit{Figura \ref{fig:exp2_boxplot}}, les diferències entre els resultats obtinguts segons les solucions inicials donades són mínimes, tant en la mediana com en el rang interquartílic (IQR). La \textit{Solució inicial 1}, és a dir, la més "òptima", presenta una mediana respecte al preu lleugerament superior (980,975 comparada amb 980,87), però la diferència no és significativa. El rang interquartílic és també lleugerament més ampli per aquesta solució, amb un IQR de 87,60 en comparació amb els 85,59 de l'altra solució inicial.\\
+	
+	Aquestes similituds porten a pensar que ambdues estratègies acaben atrapades en mínims locals, independentment de la qualitat de la solució inicial, per això les diferències en els resultats finals són gairebé inexistents en l'algoritme de \textit{Hill Climbing}, és a dir, totes dues estratègies portaran cap a resultats similars.\\
+	
+	\textit{Conclusió} \\
+	Després d'analitzar els resultats, podem concloure que no hi ha una diferència significativa entre les dues estratègies de generació de solucions inicials. Això ens dona a pensar que almenys en aquest escenari, l'algoritme \textit{Hill Climbing} tendeix a quedar-se en mínims locals, independentment de la qualitat de la solució inicial. Per tant, pels pròxims experiments, optarem per la generació de solucions inicials menys òptimes, és a dir, per la \textit{Solució inicial 2}, ja que simplifica el procés de generar l'Estat Inicial i no empitjora la solució final.\\
+	
 	\subsection{Experiment 3}
 	
 	\newpage
