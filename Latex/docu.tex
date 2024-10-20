@@ -404,7 +404,7 @@
 	\subsection{Experiment 5}
 	
 	
-	\subsection{Experiment 6}
+	\subsection{Experiment 6: Influència de la ponderació de la felicitat}
 	
 	Un altre punt clau a l'hora de crear algoritmes és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felcitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
 	
@@ -484,8 +484,13 @@
 	\subsection{Experiment 7}
 	
 	
-	\subsection{Experiment 8}
+	\subsection{Experiment 8: Com canviarien les solucions si variem el preu d'emmagatzematge a l'alza o a la baixa?}
 	
+	\subsubsection{Disminució preu emmagatzematge}
+	
+	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/día una gran quantitat. Si ens fixem en la felicitat resultant, aquesta és possible que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística.
+	
+	En canvi, si augmentem aquest cost, és possible que el resultat sigui el contrari, ja que quan el preu puja, té proporcionalment un pes més gran a l'heurística, cosa que per una banda farà que es doni menys importància a la felicitat però, per l'altra, fa que s'intenti tenir els paquets el mínim temps possible al magatzem, perquè això serà costós, per tant, s'entregaran els paquets el més aviat possible i augmentarà la felicitat. Però, per altra banda, si tenim en compte que està augmentant una part important de l'heurística, també veiem el cost total augmentarà.
 
 	\subsection{Experiment 9, especial}
 	
