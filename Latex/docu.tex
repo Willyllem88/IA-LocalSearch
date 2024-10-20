@@ -20,6 +20,7 @@
 
 \renewcommand*\contentsname{Continguts}
 \renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Taula}
 
 \begin{document}
 	
@@ -253,7 +254,7 @@
 	Les dues estratègies que considerarem per la generació de l'estat inicial són:
 	
 	\begin{itemize}
-		\item \emph{Solució Inicial 2}: aquesta és una estratègia que genera solucions inicials amb una qualitat més alta, és a dir, busquem des d'un principi una solució més propera a la que creiem la solució final, més òptima, ja que intentem fer una assignació de paquets a ofertes amb el menor preu possible.
+		\item \emph{Solució Inicial 1}: aquesta és una estratègia que genera solucions inicials amb una qualitat més alta, és a dir, busquem des d'un principi una solució més propera a la que creiem la solució final, més òptima, ja que intentem fer una assignació de paquets a ofertes amb el menor preu possible.
 		
 		\item \emph{Solució Inicial 2}: aquesta estratègia simplement pretén assignar els paquets a ofertes i en cap moment dona prioritat a les ofertes més barates, és per això que està més lluny de la solució final que busquem, però és més ràpia i simple de generar que la primera.
 	\end{itemize}
@@ -279,7 +280,7 @@
 		\label{tab:exp2_apartats}
 	\end{table}
 	
-	Els resultats, que es poden trobar al path \texttt{./Latex/spreadsheets/ex2.csv} de \textit{GitHub} (vegeu l'annex per accedir-hi), es poden resumir amb el gràfic i la taula que hi ha a continuació:
+	Els resultats, que es poden trobar al path \texttt{./Latex/spreadsheets/exp2.csv} de \textit{GitHub} (vegeu l'annex per accedir-hi), es poden resumir amb el gràfic i la taula que hi ha a continuació:
 	
 	\begin{figure}[H]
 		\centering
@@ -311,6 +312,101 @@
 	Després d'analitzar els resultats, podem concloure que no hi ha una diferència significativa entre les dues estratègies de generació de solucions inicials. Això ens dona a pensar que almenys en aquest escenari, l'algoritme \textit{Hill Climbing} tendeix a quedar-se en mínims locals, independentment de la qualitat de la solució inicial. Per tant, pels pròxims experiments, optarem per la generació de solucions inicials menys òptimes, és a dir, per la \textit{Solució inicial 2}, ja que simplifica el procés de generar l'Estat Inicial i no empitjora la solució final.\\
 	
 	\subsection{Experiment 3}
+
+	L'algoritme de \textit{Simulated Annealing} tal com està implementada accepta els paràmetres: nombre total d'iteracions, iteracions per cada canvi de temperatura (divisor de l'anterior), paràmetres $k$ i \lambda de la funció d'acceptació d'estats; els quals s'han de determinar experimentalment per tal d'obtenir el millor rendiment possible d'aquest algoritme.
+
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Observació &
+			\hline
+			Plantejament & Observem la influència de dues solucions inicials en la qualitat de la solució final. \\
+			\hline
+			Hipòtesi & Una solució inicial menys òptima, la \textit{Solució inicial 2}, proporcionarà significativament millors resultats.\\
+			\hline
+			Mètode &
+			\begin{itemize}
+				\item Agafarem un conjunt de $10$ llavors aleatòries.
+				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2.
+				\item Executarem els 10 experiments amb la \textit{Solució inicial 1} i la \textit{Solució inicial 2}, un per cada llavor.
+				\item Medirem els resultats i n'extraurem conclusions.
+			\end{itemize} \\
+			\hline
+		\end{tabular}
+		\label{tab:exp3_apartats}
+	\end{table}
+
+	\subsection{Experiment 4}
+
+	Un cop hem experimentat amb els diversos factors que influeixen en la búsqueda d'una solució òptima al problema i hem determinat quins funcionen millor, ens interessa ara també veure com evoluciona el temps d'execució per trobar una solució per veure si és factible trobar-ho en un temps raonable.\\
+
+	L'objectiu és analitzar com evoluciona el temps d'execució necessari per trobar una solució utilitzant l'algoritme de \textit{Hill Climbing}, en funció de dos factors clau: el nombre de paquets a enviar i la proporció de pes transportable per les ofertes.
+
+	L'escenari és el mateix que en els experiments anteriors: treballem amb la generadora d'una solució inicial aleatòria, la funció heurística que només té en compte els costos i els operadors de \texit{swap} i \textit{moure} que ja han estat seleccionats pels seus resultats en els experiments previs. Aquest cop, el focus es desplaça cap a l'anàlisi de la complexitat temporal del sistema, estudiant com es veu afectat el temps d'execució quan variem els dos paràmetres mencionats.
+
+	Com que tenim dos factors a estudiar, dividim aquest experiment en dues parts:
+	\begin{itemize}
+		\item \emph{Impacte de la proporció del pes transportable}: es fixarà el nombre de paquets a $100$ i s'anirà augmentantla proporció del pes transportable des de $1,2$ en increments de $0,2$ on volem identificar com la relació entre la capacitat de les ofertes i el pes dels paquets afecta el rendiment de l'algoritme.
+
+		\item \emph{Impacte del nombre de paquets}: es fixarà la proporció del pes transportable a $1,2$ i es variarà el nombre de paquets, començant per $100$ i augmentant-lo de $50$ en $50$. S'analitzarà com l'increment en la quantitat de paquets afecta el temps d'execució.
+
+	\end{itemize} \\
+
+	\subsubsection{Proporció del pes transportable}
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Observació & Com afecta la proporció del pes transportable al temps d'execució per trobar solucions òptimes.\\
+			\hline
+			Plantejament & Analitzarem l'impacte d'augmentar la proporció del pes transportable sobre el temps d'execució. \\
+			\hline
+			Hipòtesi & Es preveu que a mesura que augmenta la proporció del pes transportable, el temps d'execució es redueixi, ja que amb una capacitat més gran de les ofertes, es podrien trobar solucions més ràpidament.\\
+			\hline
+			Mètode &
+			\begin{itemize}
+				\item Agafarem un conjunt de $10$ llavors aleatòries.
+				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
+				\item Executarem $10$ experiments per a cada una de les proporcions de pes transportable \{1.2, 1.4, 1.5, 1.6, 1.8, 2.0 \}, un per cada llavor.
+				\item Mesurarem els resultats i n'extraurem conclusions.
+			\end{itemize} \\
+			\hline
+		\end{tabular}
+		\label{tab:exp4a_apartats}
+	\end{table}
+
+	Els resultats dels experiments realitztas, que es poden trobar al path \texttt{./Latex/spreadsheets/exp3.csv} de \textit{GitHub} (vegueu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació:\\
+
+	\subsubsection{Nombre de paquets}
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Observació & Com afecta el nombre de paquets al temps d'execució per trobar solucions òptimes. \\
+			\hline
+			Plantejament & Analitzarem l'impacte d'augmentar el nombre de paquets sobre el temps d'execució.\\
+			\hline
+			Hipòtesi & Es preveu que a mesura que augmenta el nombre de paquets, el temps d'execució també augmenti, ja que el problema es torna més complex en gestionar un nombre més gran de paquets.\\
+			\hline
+			Mètode &
+			\begin{itemize}
+				\item Agafarem un conjunt de $10$ llavors aleatòries.
+				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb la proporció del pes de transport fixat  $1,2$, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
+				\item Executarem $10$ experiments per a cada nombre de paquets \{100, 150, 200, 250, 300, 350, 400 \}, un per cada llavor.
+				\item Mesurarem els resultats i n'extraurem conclusions.
+			\end{itemize} \\
+			\hline
+		\end{tabular}
+		\label{tab:exp4b_apartats}
+	\end{table}
+
+	\subsection{Experiment 5}
+	\subsection{Experiment 6}
+	\subsection{Experiment 7}
+	\subsection{Experiment 8}
+	\subsection{Experiment especial}
+
 	
 	\newpage
 	\section{Conclusions}
