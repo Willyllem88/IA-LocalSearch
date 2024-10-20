@@ -313,13 +313,13 @@
 	
 	\subsection{Experiment 3}
 
-	L'algoritme de \textit{Simulated Annealing} tal com està implementada accepta els paràmetres: nombre total d'iteracions, iteracions per cada canvi de temperatura (divisor de l'anterior), paràmetres $k$ i \lambda de la funció d'acceptació d'estats; els quals s'han de determinar experimentalment per tal d'obtenir el millor rendiment possible d'aquest algoritme.
+	L'algoritme de \textit{Simulated Annealing} tal com està implementada accepta els paràmetres: nombre total d'iteracions, iteracions per cada canvi de temperatura (divisor de l'anterior), paràmetres $k$ i $\lambda$ de la funció d'acceptació d'estats; els quals s'han de determinar experimentalment per tal d'obtenir el millor rendiment possible d'aquest algoritme.
 
 	\begin{table}[ht]
 		\centering
 		\begin{tabular}{|l|p{10cm}|}
 			\hline
-			Observació &
+			Observació & \\
 			\hline
 			Plantejament & Observem la influència de dues solucions inicials en la qualitat de la solució final. \\
 			\hline
@@ -341,9 +341,9 @@
 
 	Un cop hem experimentat amb els diversos factors que influeixen en la búsqueda d'una solució òptima al problema i hem determinat quins funcionen millor, ens interessa ara també veure com evoluciona el temps d'execució per trobar una solució per veure si és factible trobar-ho en un temps raonable.\\
 
-	L'objectiu és analitzar com evoluciona el temps d'execució necessari per trobar una solució utilitzant l'algoritme de \textit{Hill Climbing}, en funció de dos factors clau: el nombre de paquets a enviar i la proporció de pes transportable per les ofertes.
+	L'objectiu és analitzar com evoluciona el temps d'execució necessari per trobar una solució utilitzant l'algoritme de \textit{Hill Climbing}, en funció de dos factors clau: el nombre de paquets a enviar i la proporció de pes transportable per les ofertes. \\
 
-	L'escenari és el mateix que en els experiments anteriors: treballem amb la generadora d'una solució inicial aleatòria, la funció heurística que només té en compte els costos i els operadors de \texit{swap} i \textit{moure} que ja han estat seleccionats pels seus resultats en els experiments previs. Aquest cop, el focus es desplaça cap a l'anàlisi de la complexitat temporal del sistema, estudiant com es veu afectat el temps d'execució quan variem els dos paràmetres mencionats.
+	L'escenari és el mateix que en els experiments anteriors: treballem amb la generadora d'una solució inicial aleatòria, la funció heurística que només té en compte els costos i els operadors de \textit{swap} i \textit{moure} que ja han estat seleccionats pels seus resultats en els experiments previs. Aquest cop, el focus es desplaça cap a l'anàlisi de la complexitat temporal del sistema, estudiant com es veu afectat el temps d'execució quan variem els dos paràmetres mencionats. \\
 
 	Com que tenim dos factors a estudiar, dividim aquest experiment en dues parts:
 	\begin{itemize}
@@ -351,7 +351,7 @@
 
 		\item \emph{Impacte del nombre de paquets}: es fixarà la proporció del pes transportable a $1,2$ i es variarà el nombre de paquets, començant per $100$ i augmentant-lo de $50$ en $50$. S'analitzarà com l'increment en la quantitat de paquets afecta el temps d'execució.
 
-	\end{itemize} \\
+	\end{itemize}
 
 	\subsubsection{Proporció del pes transportable}
 	\begin{table}[ht]
@@ -402,11 +402,31 @@
 	\end{table}
 
 	\subsection{Experiment 5}
+	
+	
 	\subsection{Experiment 6}
+	
+	
 	\subsection{Experiment 7}
+	
+	
 	\subsection{Experiment 8}
-	\subsection{Experiment especial}
+	
 
+	\subsection{Experiment 9, especial}
+	
+	L'eficàcia temporal és un aspecte clau en els algoritmes d'intel·ligència artificial. En aquest experiment, per a una entrada donada, extraurem dades sobre el temps necessari perquè l'algoritme s'executi. Els paràmetres que proporcionarem al programa seran: 100 paquets, una proporció de $1,2$ i una llavor de $1234$. A més, utilitzarem el mètode \textit{Hill Climbing} amb els operadors més òptims, que vam examinar en el primer experiment. Aquest conjunt d'operadors inclourà les operacions \textit{move} i \textit{swap}. Només ens falta definir un últim paràmetre: el generador de solucions inicials. Aquest també ha estat seleccionat a partir d'experiments anteriors, més concretament del segon experiment, on vam obtenir els millors resultats amb el generador més 'aleatori'. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp9_boxplot.png}
+		\caption{Boxplot del preu resultant segons la solució inicial}
+		\label{fig:exp9_boxplot}
+	\end{figure}
+	
+	A la \textit{Figura \ref{fig:exp9_boxplot}}, observem la distribució dels temps d'execució obtinguts. La mediana és de $207,5$ ms i l'IQR és de $3,5$, cosa que indica que el temps emprat pel programa és força estable. \\
+	
+	Amb aquests paràmetres, \textit{Hill Climbing} aconsegueix trobar un mínim on l'assignació de paquets té un cost de $794,675$ €.
 	
 	\newpage
 	\section{Conclusions}
