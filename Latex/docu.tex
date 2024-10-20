@@ -406,6 +406,80 @@
 	
 	\subsection{Experiment 6}
 	
+	Un altre punt clau a l'hora de crear algoritmes és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felcitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
+	
+	En canvi, creiem que el canvi en la ponderació de la felicitat, no hauria d'alterar gaire el temps d'execució de l'algoritme, ja que el recorregut de solucions que hi ha de fer hauria de ser semblant. \\
+	
+	Per comprovar tot això, ara avaluarem l'heurística per veure quanta influència té la felicitat en el preu resultant, variant la ponderació de la felicitat en aquesta. Per veure això, farem servir l'algoritme de \textit{Hill Climbing}, amb un enviament de 100 paquets i una proporció de pes transportable per les ofertes d'1,2. \\
+	
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Observació & Creiem que si volem augmentar la felicitat dels nostres clients, també hi haurà un augment del cost total. Però en canvi, això no influirà en el temps d'execució. \\
+			\hline
+			Plantejament & Generem diverses solucions variant la ponderació de la felicitat dins l'heurística per veure com influeix en el preu i en el temps d'execució. \\
+			\hline
+			Hipòtesi & El preu serà més elevat si augmentem la ponderació de la felicitat dins l'heurística, però el temps emprat per trobar la solució serà el mateix. \\
+			\hline
+			Mètode & 
+			\begin{itemize}
+				\item Agafarem un conjunt de $10$ llavors aleatòries per cada ponderació de felicitat.
+				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
+				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
+				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
+				\item Medirem els resultats (preu i temps) i n'extreurem conclusions.
+			\end{itemize} \\
+			\hline
+		\end{tabular}
+		\label{tab:exp6_apartats}
+	\end{table}
+	
+	Ja amb els experiment executats, hem colocat els resultats al projecte \textit{GitHub} (vegeu l'annex per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex6b.csv}. A partir d'aquestes dades hem fet dos gràfics representatiu dels resultats.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp6_grafic.png}
+		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
+		\label{fig:exp4_grafic}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp6b_grafic.png}
+		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
+		\label{fig:exp4b_grafic}
+	\end{figure}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\textbf{Operador} & \textbf{Mediana} & \textbf{MedianaTemps} \\
+			\hline
+			Felicitat*0 & 1010.5 & 395.5\\
+			\hline
+			Felicitat*5 & 1141.105 & 523.0\\
+			\hline
+			Felicitat*10 & 1243 & 535.5\\
+			\hline
+			Felicitat*15 & 1243.5 & 579.5\\
+			\hline
+			Felicitat*20 & 1243.5 & 600.5\\
+			\hline
+		\end{tabular}
+		\caption{Estadístiques del preu i temps d'execució segons la ponderació de la felicitat}
+		\label{tab:exp4_estadisticas}
+	\end{table}
+	
+	Com podem veure a la \textit{Figura \ref{fig:exp4_grafic}}, la felicitat té una petita influència en el cost final, ja que si comparem la mediana entre quan no tenim en compte la felicitat a l'heurística i quan tenim una ponderació de 20 dins d'aquesta, veiem que hi ha una diferència d'una mica més de 100. \\
+	
+	També podem veure que a mesura que aquesta augmenta, entre els experiments que multipliquen la felicitat per 10 i els que ho fan per 20, la diferència és gairebé única. Això és possible que sigui degut a que s'apropa a un mínim local i aquesta ponderació de la felicitat no és tant alta en comparació. \\
+	
+	Si avaluem ara el temps d'execució en aquests algoritmes, vist a la \textit{Figura \ref{fig:exp4b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algoritme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
+	
+	Com a conclusió podríem dir que efectivament el preu augmenta amb la felicitat, però que aquest augment es manté estable arribats a un punt. I, respecte el temps d'execucició, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat. \\
+	
 	
 	\subsection{Experiment 7}
 	
