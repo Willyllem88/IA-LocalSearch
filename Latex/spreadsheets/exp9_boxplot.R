@@ -1,13 +1,10 @@
 # Dades
-data <- read.csv("exp1.csv", sep = ";")
-move <- data$mv
-swap <- data$sw
-mvsw <- data$mvsw
+data <- read.csv("exp9.csv", sep = ";")
+tiempo <- data$tiempo
 
 # Crear el boxplot amb noms
-boxplot(move, swap, mvsw, 
-        main = "Boxplot del preu resultant de diferents operator sets", 
-        names = c("Move", "Swap", "Move + Swap"),
+boxplot(tiempo,
+        main = "Boxplot del temps d'executar l'algorisme", 
         ylab = "Preu",
         col = "lightblue")
 
@@ -20,20 +17,10 @@ library(dplyr)
 # Calcular mediana, cuartiles e IQR
 summary_stats <- data %>%
   summarise(
-    Mediana_Move = median(mv, na.rm = TRUE),
-    Q1_Move = quantile(mv, 0.25, na.rm = TRUE),
-    Q3_Move = quantile(mv, 0.75, na.rm = TRUE),
-    IQR_Move = IQR(mv, na.rm = TRUE),
-    
-    Mediana_Swap = median(sw, na.rm = TRUE),
-    Q1_Swap = quantile(sw, 0.25, na.rm = TRUE),
-    Q3_Swap = quantile(sw, 0.75, na.rm = TRUE),
-    IQR_Swap = IQR(sw, na.rm = TRUE),
-    
-    Mediana_Mvsw = median(mvsw, na.rm = TRUE),
-    Q1_Mvsw = quantile(mvsw, 0.25, na.rm = TRUE),
-    Q3_Mvsw = quantile(mvsw, 0.75, na.rm = TRUE),
-    IQR_Mvsw = IQR(mvsw, na.rm = TRUE)
+    Mediana_Move = median(tiempo, na.rm = TRUE),
+    Q1_Move = quantile(tiempo, 0.25, na.rm = TRUE),
+    Q3_Move = quantile(tiempo, 0.75, na.rm = TRUE),
+    IQR_Move = IQR(tiempo, na.rm = TRUE),
   )
 
 # Mostrar los resultados
