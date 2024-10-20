@@ -176,7 +176,7 @@
 	\newpage
 	\section{Part Experimental}
 	
-	\subsection{Experiment 1}
+	\subsection{Experiment 1: Selecció d'Operadors}
 	
 	Un factor clau en els algoritmes de cerca local és el mètode utilitzat per recórrer l'espai de cerca. Per aquest motiu, emprem operadors, que apliquen modificacions a un estat base i ens permeten navegar a través d'aquest espai. En un conjunt d'operadors, l'objectiu és minimitzar el factor de ramificació, amb l'aspiració de millorar principalment l'eficiència temporal, tot i que també es busca una millor eficiència espacial. \\
 	
@@ -245,7 +245,7 @@
 	En resum, els resultats indiquen que, tot i que el \textit{swap} aporta certes millores en situacions particulars, la seva presència no és extremadament rellevant. Això suggereix que una aproximació més eficient podria ser treballar exclusivament amb l'operador \textit{move}, permetent-nos explorar l'espai de cerca de manera més àgil i reduint potencialment el factor de ramificació, facilitant així la millora del rendiment global de l'algoritme. \\
 	
 	
-	\subsection{Experiment 2}
+	\subsection{Experiment 2: Determinar Solució Inicial}
 	
 	Un altre punt que creiem molt important a l'hora de plantejar aquests problemes és la solució inicial. Una solució inicial de qualitat proporciona un diferent punt de partida per explorar l'espai de solucions, la qual cosa pot conduir a diferents resultats finals, o bé a una diferent velocitat per trobar una solució òptima. \\
 	
@@ -263,6 +263,8 @@
 	\begin{table}[ht]
 		\centering
 		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Observació & La solució inicial triada pot portar a una millor solució final. \\
 			\hline
 			Plantejament & Observem la influència de dues solucions inicials en la qualitat de la solució final. \\
 			\hline
