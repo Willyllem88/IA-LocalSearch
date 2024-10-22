@@ -121,13 +121,13 @@ public class Main {
         System.out.println("  - Felicidad: " + azamon.getFelicidad());
         System.out.println("  - Precio: " + azamon.getPrecio());
 
-        // Se printea los parámetros resultantes
+        // Se printea los parámetros resultantes*/
         Estado goal = (Estado)alg.getGoalState();
         System.out.println();
         System.out.println("PARÁMETROS DEL ESTADO RESULTANTE:");
         System.out.println("  - Felicidad: " + goal.getFelicidad());
         System.out.println("  - Precio: " + goal.getPrecio());
-        */
+
         // Pintamos cuanto tiempo se ha tardado en obtener el resultado
 
 

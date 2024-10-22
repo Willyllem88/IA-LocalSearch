@@ -256,7 +256,7 @@
 	\begin{itemize}
 		\item \emph{Solució Inicial 1}: aquesta és una estratègia que genera solucions inicials amb una qualitat més alta, és a dir, busquem des d'un principi una solució més propera a la que creiem la solució final, més òptima, ja que intentem fer una assignació de paquets a ofertes amb el menor preu possible.
 		
-		\item \emph{Solució Inicial 2}: aquesta estratègia simplement pretén assignar els paquets a ofertes i en cap moment dona prioritat a les ofertes més barates, és per això que està més lluny de la solució final que busquem, però és més ràpia i simple de generar que la primera.
+		\item \emph{Solució Inicial 2}: aquesta estratègia simplement pretén assignar els paquets a ofertes i en cap moment dona prioritat a les ofertes més barates, és per això que està més lluny de la solució final que busquem, però és més ràpida i simple de generar que la primera.
 	\end{itemize}
 	
 	
@@ -275,7 +275,7 @@
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
 				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2.
 				\item Executarem els 10 experiments amb la \textit{Solució inicial 1} i la \textit{Solució inicial 2}, un per cada llavor.
-				\item Medirem els resultats i n'extraurem conclusions.
+				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
 			\hline
 		\end{tabular}
@@ -313,7 +313,7 @@
 	\textit{Conclusió} \\
 	Després d'analitzar els resultats, podem concloure que no hi ha una diferència significativa entre les dues estratègies de generació de solucions inicials. Això ens dona a pensar que almenys en aquest escenari, l'algoritme \textit{Hill Climbing} tendeix a quedar-se en mínims locals, independentment de la qualitat de la solució inicial. Per tant, pels pròxims experiments, optarem per la generació de solucions inicials menys òptimes, és a dir, per la \textit{Solució inicial 2}, ja que simplifica el procés de generar l'Estat Inicial i no empitjora la solució final.\\
 	
-	\subsection{Experiment 3}
+	\subsection{Experiment 3: Determinar paràmetres del \textit{Simulated Annealing}}
 
 	L'algoritme de \textit{Simulated Annealing} tal com està implementada accepta els paràmetres: nombre total d'iteracions, iteracions per cada canvi de temperatura (divisor de l'anterior), paràmetres $k$ i $\lambda$ de la funció d'acceptació d'estats; els quals s'han de determinar experimentalment per tal d'obtenir el millor rendiment possible d'aquest algoritme.
 
@@ -332,16 +332,16 @@
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
 				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2.
 				\item Executarem els 10 experiments amb la \textit{Solució inicial 1} i la \textit{Solució inicial 2}, un per cada llavor.
-				\item Medirem els resultats i n'extraurem conclusions.
+				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
 			\hline
 		\end{tabular}
 		\label{tab:exp3_apartats}
 	\end{table}
 
-	\subsection{Experiment 4}
+	\subsection{Experiment 4: Ànalisi del temps d'execució}
 
-	Un cop hem experimentat amb els diversos factors que influeixen en la búsqueda d'una solució òptima al problema i hem determinat quins funcionen millor, ens interessa ara també veure com evoluciona el temps d'execució per trobar una solució per veure si és factible trobar-ho en un temps raonable.\\
+	Un cop hem experimentat amb els diversos factors que influeixen en la cerca d'una solució òptima al problema i hem determinat quins funcionen millor, ens interessa ara també veure com evoluciona el temps d'execució per trobar una solució per veure si és factible trobar-ho en un temps raonable.\\
 
 	L'objectiu és analitzar com evoluciona el temps d'execució necessari per trobar una solució utilitzant l'algoritme de \textit{Hill Climbing}, en funció de dos factors clau: el nombre de paquets a enviar i la proporció de pes transportable per les ofertes. \\
 
@@ -349,7 +349,7 @@
 
 	Com que tenim dos factors a estudiar, dividim aquest experiment en dues parts:
 	\begin{itemize}
-		\item \emph{Impacte de la proporció del pes transportable}: es fixarà el nombre de paquets a $100$ i s'anirà augmentantla proporció del pes transportable des de $1,2$ en increments de $0,2$ on volem identificar com la relació entre la capacitat de les ofertes i el pes dels paquets afecta el rendiment de l'algoritme.
+		\item \emph{Impacte de la proporció del pes transportable}: es fixarà el nombre de paquets a $100$ i s'anirà augmentant la proporció del pes transportable des de $1,2$ en increments de $0,2$ on volem identificar com la relació entre la capacitat de les ofertes i el pes dels paquets afecta el rendiment de l'algoritme.
 
 		\item \emph{Impacte del nombre de paquets}: es fixarà la proporció del pes transportable a $1,2$ i es variarà el nombre de paquets, començant per $100$ i augmentant-lo de $50$ en $50$. S'analitzarà com l'increment en la quantitat de paquets afecta el temps d'execució.
 
@@ -364,7 +364,7 @@
 			\hline
 			Plantejament & Analitzarem l'impacte d'augmentar la proporció del pes transportable sobre el temps d'execució. \\
 			\hline
-			Hipòtesi & Es preveu que a mesura que augmenta la proporció del pes transportable, el temps d'execució es redueixi, ja que amb una capacitat més gran de les ofertes, es podrien trobar solucions més ràpidament.\\
+			Hipòtesi & Es preveu que a mesura que augmenta la proporció del pes transportable, el temps d'execució s'incrementi, ja que amb una capacitat més gran de les ofertes, l'espai de cerca creix.\\
 			\hline
 			Mètode &
 			\begin{itemize}
@@ -378,7 +378,38 @@
 		\label{tab:exp4a_apartats}
 	\end{table}
 
-	Els resultats dels experiments realitztas, que es poden trobar al path \texttt{./Latex/spreadsheets/exp3.csv} de \textit{GitHub} (vegueu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació:\\
+	Els resultats dels experiments realitztats, que es poden trobar al path \texttt{./Latex/spreadsheets/exp4a.csv} de \textit{GitHub} (vegueu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4a_grafic_lineal}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de proporció del pes transportable triats.\\ 
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp4a_grafic_lineal.png}
+		\caption{Gràfic del temps d'execució de l'algorisme en funció del nombre de paquets}
+		\label{fig:exp4a_grafic_lineal}
+	\end{figure}
+	
+		\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Proporció del pes} & \textbf{MedianaTemps} & \textbf{MitjanaTemps} \\
+			\hline
+			1.2 & 118.3 & 123.74\\
+			\hline
+			1.4 & 187.9 & 186.96\\
+			\hline
+			1.6 & 239.4 & 238.6\\
+			\hline
+			1.8 & 284 & 302.8\\
+			\hline
+			2.0 & 334.9 & 339.7\\
+			\hline
+		\end{tabular}
+		\caption{Estadístiques del temps d'execució en milisegons en funció de la proporció del pes}
+		\label{tab:exp4a_taula}
+	\end{table}
+	
+	En la \textit{Figura \ref{fig:exp4a_grafic_lineal}} es pot apreciar que el temps d'execució de l'algoritme de \textit{Hill Climbing} va augmentant de forma proporcional a la que ho fa la proporció del pes transportable; és a dir que s'aproxima a un creixement lineal la funció obtinguda. \\
+	Aquest comportament és pot justificar ja que el que es fa és modificar el nombre de ofertes per a un mateix nombre de paquets; aleshores aquesta variable és la única que varia cap a l'alça en el problema. Dels dos  operadors que s'han utilitzat, només el de \textit{moure}, el seu factor de ramificació depèn del nombre de ofertes, sent aproximadament de l'ordre de $O(n*m)$, on $m$ és el nombre d'ofertes. Al incrementar el nombre de ofertes, també ho fa l'espai de cerca pel factor de ramificació de l'operador esmentat, així que buscar dins un espai més gran òbviament triga més. Degut a que el nombre de ofertes no té cap exponent es plausible esperar aquest comportament lineal del temps d'execució. 
 
 	\subsubsection{Nombre de paquets}
 	\begin{table}[ht]
@@ -402,13 +433,108 @@
 		\end{tabular}
 		\label{tab:exp4b_apartats}
 	\end{table}
-
-	\subsection{Experiment 5}
 	
+	Els resultats dels experiments realitztats, que es poden trobar al path \texttt{./Latex/spreadsheets/exp4b.csv} de \textit{GitHub} (vegueu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4b_grafic_lineal2}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de nombre de paquets triats; la \textit{Figura \ref{fig:exp4b_boxplots}} conté un boxplot per cada nombre de paquets amb els temps d'execució.\\
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp4b_grafic_lineal2.png}
+		\caption{Gràfic del temps d'execució de l'algorisme en funció del nombre de paquets}
+		\label{fig:exp4b_grafic_lineal2}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp4b_boxplots.png}
+		\caption{Boxplots dels temps d'execució per cada valor de nombre de paquets}
+		\label{fig:exp4b_boxplots}
+	\end{figure}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Nombre paquets} & \textbf{MedianaTemps} & \textbf{MitjanaTemps} \\
+			\hline
+			100 & 140.6 & 134.165\\
+			\hline
+			150& 529.2 & 570.7\\
+			\hline
+			200& 1604.8 & 1549.34\\
+			\hline
+			250& 3099.4 & 3277.24\\
+			\hline
+			300& 6362.7 & 6591.74\\
+			\hline
+			350& 12133.8 & 12695.88\\
+			\hline
+			400& 20456.6 & 20087.64\\
+			\hline
+		\end{tabular}
+		\caption{Estadístiques del temps d'execució en milisegons en funció del nombre de paquets}
+		\label{tab:C}
+	\end{table}
+
+	Com es pot observar en la \textit{Figura \ref{fig:exp4b_grafic_lineal2}}, la mitjana dels temps d'execució augmenta de manera significativa a mesura que creix el nombre de paquets a assignar en el problema d'optimització. Contràriament a un creixement lineal, el comportament observat en el gràfic s'ajusta millor a una funció polinòmica de grau superior a 1. Aquesta observació confirma la nostra hipòtesi inicial, que preveia un augment no lineal del temps d'execució a mesura que augmentava la complexitat del problema.\\
+	A més de la mitjana, la \textit{Figura \ref{fig:exp4b_boxplots}} presenta la distribució dels temps d'execució mitjançant un boxplot, que ens proporciona una visió detallada de la variabilitat dels resultats en funció del nombre de paquets. Aquí es pot observar clarament que, per a valors més petits de paquets (100-200), la variabilitat és baixa, amb distribucions ajustades i valors consistents entre diferents execucions. No obstant això, a partir de 250 paquets, la dispersió augmenta notablement, indicant una major variabilitat en els temps d'execució. Això podria indicar que, en casos amb més paquets, hi ha més variabilitat en el temps necessari per trobar la solució òptima, depenent de la llavor inicial i l'exploració de l'espai de cerca.\\
+	
+	El creixement quadràtic observat es pot explicar per la naturalesa dels operadors utilitzats en l'algorisme de \textit{Hill Climbing}. Degut al factor de ramificació inherent dels operadors, el qual és de l'ordre de $O(n^2)$, l'espai de cerca s'expandeix quadràticament amb l'increment del nombre de paquets. Així, cada cop que es creix el nombre de paquets, l'algorisme ha d'explorar un espai de solucions molt més gran, la qual cosa resulta en un augment substancial del temps necessari per trobar una solució òptima. Aquesta complexitat quadràtica és típica dels algorismes que han de tractar amb grans espais de cerca, i fa que el temps d'execució s'incrementi ràpidament en problemes d'aquesta magnitud, tal com es reflecteix en el gràfic de la mitjana com en el boxplot.\\
+	A partir de la \textit{Taula \ref{tab:C}}, on es mostren els temps d'execució per diferents nombres de paquets, podem observar un creixement substancial a mesura que el nombre de paquets augmenta. La mediana i la mitjana dels temps d'execució reflecteixen aquesta tendència, confirmant la complexitat quadràtica de l'algorisme amb el factor de ramificació $O(n^2)$, tal com s'ha discutit anteriorment.\\
+	
+	En conclusió, d'acord amb la hipòtesi plantejada s'ha observat que el temps d'execució de l'algoritme de \textit{Hill Climbing} per trobar una solució a un problema donat augmenta de forma no lineal en funció del nombre de paquets a assignar; la variabilitat de temps també incrementa. En comparació amb l'experiment anterior on s'ha vist que el creixement del temps era lineal, aquí ens trobem amb un creixement quadràtic en contrast; resultats que es justifiquen analitzant els factors de ramificació dels operadors implementats a l'algoritme utilitzat. Amb aquests dos experiments s'ha pogut observar la importància del factor de ramificació, el qual s'ha de tenir en consideració a l'hora d'escollir uns bons operadors.\\
+
+
+	\subsection{Experiment 5: Influència de les ofertes en el preu}
+	Un altre factor que es desitja analitzar és com influeix l'augment de la proporció de les ofertes en el comportament dels costos de transport i emmagatzemmatge en el problema. En concret, volem determinar si incrementar el nombre de ofertes disponibles millora de manera significativa els costos totals dels paquets i si realment mereix la pena augmentar les ofertes.\\
+	
+	Els costos de transport es veuran influenciats principalment per la capacitat de les ofertes per ajustar-se de manera eficient al pes i nombre de paquets a enviar, mentre que el cost d'emmagatzematge dependrà de la efectivitat de l'assignació dels paquets a ofertes que triguin poc. Aleshores és necessari investigar fins a quin punt l'augment del nombre de ofertes continua sent beneficiós.\\
+	
+	Aprofitant el mateix experiment on veiem el comportament del temps d'execució en funció de la proporció del pes transportable a l'apartat \textit{2.4.2}, amb les mateixes llavors i condicions, només que ara ens enfocarem amb els resultats obtinguts sobre els costos de transport i emmagatzematge.\\
+		\begin{table}[ht]
+		\centering
+		\begin{tabular}{|l|p{10cm}|}
+			\hline
+			Observació & Com afecta la proporció del pes transportable al costos totals per trobar solucions òptimes.\\
+			\hline
+			Plantejament & Analitzarem l'impacte d'augmentar la proporció del pes transportable sobre el costos de transport i emmagatzematge. \\
+			\hline
+			Hipòtesi & Es preveu que a mesura que augmenta la proporció del pes transportable, els costos disminueixin, ja que amb una capacitat més gran de les ofertes, es podran trobar ofertes millor a assignar als paquets.\\
+			\hline
+			Mètode &
+			\begin{itemize}
+				\item Agafarem un conjunt de $10$ llavors aleatòries.
+				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
+				\item Executarem $10$ experiments per a cada una de les proporcions de pes transportable \{1.2, 1.4, 1.5, 1.6, 1.8, 2.0 \}, un per cada llavor.
+				\item Mesurarem els resultats i n'extraurem conclusions.
+			\end{itemize} \\
+			\hline
+		\end{tabular}
+		\label{tab:exp5_apartats}
+	\end{table}
+	
+	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex5.csv}. A partir d'aquestes dades hem fet extret un gràfic representatiu dels resultats i un altre amb boxplots dels preus per cada proporció de pes transportable.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{exp5_grafic_lineal.png}
+		\caption{Gràfic de la mitjana dels costos totals per cada valor de nombre de paquets}
+		\label{fig:exp5_grafic_lineal}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp5_boxplot.png}
+		\caption{Boxplots dels costos totals per cada valor de nombre de paquets}
+		\label{fig:exp5_boxplot}
+	\end{figure}
+	
+	Els resultats mostren una tendència general a la disminució del cost total quan s'augmenten les ofertes, encara que aquesta disminució no és dràstica ni exponencial, sinó més aviat lineal i moderada. És a dir, a mesura que s'incrementa el nombre d'ofertes, el sistema aconsegueix optimitzar millor l'assignació dels paquets, degut segurament a que apareguin més ofertes que ofereixin un preu de transport més barat per a una entrega determinada de dies o que tingui més capacitat per transportat; és a dir hi ha més on escollir, la qual cosa redueix els costos d'emmagatzematge i transport, però sense una millora desproporcionada. En uns certs casos, incrementar lleugerament el nombre d'ofertes no genera millores significatives en el cost, i fins i tot en alguns escenaris a penes s'observa una diferència respecte a tenir un nombre menor d'ofertes.\\
+	D'altra banda, cal destacar que augmentar lleugerament el nombre d'ofertes no sempre genera una millora significativa en el cost total; en alguns casos, els canvis són mínims o fins i tot inexistents. No obstant això, quan l'augment d'ofertes és prou significatiu, sí que s'observa una millora apreciable en l'optimització del sistema. A nivell global, encara que els increments petits no sempre impactin de manera clara, quan s'afegeix un nombre considerable d'ofertes, la reducció del cost de transport i emmagatzematge es torna més notable, reflectint una optimització més efectiva del procés.\\
+	En resum, encara que augmentar el nombre d'ofertes és una estratègia vàlida per a reduir els costos, no sempre és eficient més enllà d'un cert punt. Perquè aquesta estratègia sigui efectiva, és necessari augmentar les ofertes de manera significativa, ja que increments marginals no generen millores importants. A més, l'impacte varia segons l'escenari, la qual cosa indica que l'optimització del sistema no depèn únicament de la quantitat d'ofertes, sinó també de com estan estructurades i com interactuen amb les característiques del problema.\\
+	A nivell global, encara que els increments petits no sempre impactin de manera clara, quan s'afegeix un nombre considerable d'ofertes, la reducció del cost de transport i emmagatzematge es torna més notable, i a més qualsevol disminució dels costos és beneficiós per a l'empresa.\\
 	
 	\subsection{Experiment 6: Influència de la ponderació de la felicitat}
 	
-	Un altre punt clau a l'hora de crear algoritmes és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felcitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
+	Un altre punt clau a l'hora de crear algoritmes és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felicitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
 	
 	En canvi, creiem que el canvi en la ponderació de la felicitat, no hauria d'alterar gaire el temps d'execució de l'algoritme, ja que el recorregut de solucions que hi ha de fer hauria de ser semblant. \\
 	
@@ -430,14 +556,14 @@
 				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
 				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
 				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
-				\item Medirem els resultats (preu i temps) i n'extreurem conclusions.
+				\item Mesurarem els resultats (preu i temps) i n'extreurem conclusions.
 			\end{itemize} \\
 			\hline
 		\end{tabular}
 		\label{tab:exp6_apartats}
 	\end{table}
 	
-	Ja amb els experiment executats, hem colocat els resultats al projecte \textit{GitHub} (vegeu l'annex per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex6b.csv}. A partir d'aquestes dades hem fet dos gràfics representatiu dels resultats.
+	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex6b.csv}. A partir d'aquestes dades hem fet dos gràfics representatiu dels resultats.
 	
 	\begin{figure}[H]
 		\centering
@@ -480,19 +606,24 @@
 	
 	Si avaluem ara el temps d'execució en aquests algoritmes, vist a la \textit{Figura \ref{fig:exp4b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algoritme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
 	
-	Com a conclusió podríem dir que efectivament el preu augmenta amb la felicitat, però que aquest augment es manté estable arribats a un punt. I, respecte el temps d'execucició, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat. \\
+	Com a conclusió podríem dir que efectivament el preu augmenta amb la felicitat, però que aquest augment es manté estable arribats a un punt. I, respecte el temps d'execució, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat. \\
 	
 	
 	\subsection{Experiment 7}
 	
 	
-	\subsection{Experiment 8: Com canviarien les solucions si variem el preu d'emmagatzematge a l'alza o a la baixa?}
+	\subsection{Experiment 8: Com canviarien les solucions si variem el preu d'emmagatzematge a l'alça o a la baixa?}
 	
 	\subsubsection{Disminució preu emmagatzematge}
 	
-	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/día una gran quantitat. Si ens fixem en la felicitat resultant, aquesta és possible que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística.
+	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/dia una gran quantitat. Al tractar-se d un  cost significatiu dins el model, una reducció substancial podria alleugerir considerablement el cost global. Si ens fixem en la felicitat resultant, aquesta és possible que es vegi negativament afectada i que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística; l'algoritme té menys pressió per accelerar l'entrega dels paquets. L'algoritme pot permetre mantenir els paquets més temps en el magatzem sense que impacti massa en el cost total; ja que també les ofertes que entreguen en més dies els paquets acostumen a ser més barats amb les quals és necessari guardar els paquets al magatzem i com a conseqüència els paquets arriben més tard disminuint la felicitat.\\
 	
-	En canvi, si augmentem aquest cost, és possible que el resultat sigui el contrari, ja que quan el preu puja, té proporcionalment un pes més gran a l'heurística, cosa que per una banda farà que es doni menys importància a la felicitat però, per l'altra, fa que s'intenti tenir els paquets el mínim temps possible al magatzem, perquè això serà costós, per tant, s'entregaran els paquets el més aviat possible i augmentarà la felicitat. Però, per altra banda, si tenim en compte que està augmentant una part important de l'heurística, també veiem el cost total augmentarà.
+
+	
+	\subsubsection{Augment preu emmagatzematge}
+
+	En canvi, si augmentem aquest cost, és possible que el resultat sigui el contrari, ja que quan el preu puja, té proporcionalment un pes més gran a l'heurística, cosa que per una banda farà que es doni menys importància a la felicitat però. Per l'altra, això incentiva a l'algoritme a intenti tenir els paquets el mínim temps possible al magatzem, perquè mantenir-los allà cada cop serà més costós, per tant, això pot resultar en que s'entregaran els paquets el més aviat possible, el qual augmentarà la felicitat dels usuaris. Però, per altra banda, si tenim en compte que està augmentant una part important de l'heurística, també veiem el cost total augmentarà.\\
+
 
 	\subsection{Experiment 9, especial}
 	
