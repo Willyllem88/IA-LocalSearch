@@ -37,7 +37,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Pedimos al usuario configuraciones
-    //    System.out.print("Introduce número de paquetes, semilla y una proporcion: ");
+         System.out.print("Introduce número de paquetes, semilla y una proporcion: ");
         n = scanner.nextInt();
         seed = scanner.nextInt();
         prop = scanner.nextDouble();
@@ -49,27 +49,24 @@ public class Main {
         // Se crea el estado inicial de Azamon con los paquetes y las ofertas generadas
         Estado azamon = new Estado(paq, ofertas);
 
-        /*
+        
         System.out.println("Escoge generador de estado inicial");
         System.out.println(" [0] Solución más 'buena'");
-        System.out.println(" [1] Solución más aleatoria");*/
+        System.out.println(" [1] Solución más aleatoria");
         int tipoGen = scanner.nextInt();
         if (tipoGen == 0) azamon.asignarPaquetesIniciales1(random);
         else azamon.asignarPaquetesIniciales2(random);
 
-        /*
-
         //Pedimos al usuario que escoga entre las dos heurísticas
         System.out.println("Escoge heurística del algoritmo:");
         System.out.println(" [0] Precio");
-        System.out.println(" [1] Precio + felicidad");*/
+        System.out.println(" [1] Precio + felicidad");
         int heur = scanner.nextInt();
 
-/*
         // Pedimos al usuario el algoritmo a usar a escoger entre 2
         System.out.println("Escoge un algoritmo a usar: ");
         System.out.println(" [0] Hill Climbing");
-        System.out.println(" [1] Simulated Annealing");       */
+        System.out.println(" [1] Simulated Annealing");
         int tipoAlg = scanner.nextInt();
 
 
@@ -101,7 +98,7 @@ public class Main {
                     new AzamonGoalTest(),
                     new AzamonHeuristicFunction2());
         }
-      //  for (int i = 0; i < 5; ++i) {
+
         long startTime = System.currentTimeMillis();
 
         // Se instancia el agente de búsqueda, que ejecuta el problema con el algoritmo especificado
@@ -114,7 +111,7 @@ public class Main {
         //printActions(agent.getActions());
         //printInstrumentation(agent.getInstrumentation());
 
-        /*
+        
         // Printeamos los parámetros del estado inicial
         System.out.println();
         System.out.println("PARÁMETROS DEL ESTADO INICIAL:");
@@ -129,12 +126,8 @@ public class Main {
         System.out.println("  - Precio: " + goal.getPrecio());
 
         // Pintamos cuanto tiempo se ha tardado en obtener el resultado
-
-
-           System.out.println();
-           System.out.println("Tiempo requerido: " + (endTime - startTime) + "ms");
-    //   }
-        main(args);
+        System.out.println();
+        System.out.println("Tiempo requerido: " + (endTime - startTime) + "ms");
     }
 
     // Método para imprimir las propiedades de instrumentación, como el tiempo de ejecución, nodos expandidos, etc.
