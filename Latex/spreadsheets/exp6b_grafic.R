@@ -20,8 +20,8 @@ data_long <- data.frame(
 ggplot(data_long, aes(x = Felicitat, y = Preu)) +
   geom_line(color = "blue") +
   geom_point(size = 3, color = "black") +
-  labs(title = "Evolució del Preu a mesura que augmenta la Felicitat",
-       x = "Ponderació de la Felicitat",
-       y = "Preu") +
+  labs(title = "Evolucio del Temps a mesura que augmenta la Felicitat",
+       x = "Ponderacio de la Felicitat",
+       y = "Temps") +
   scale_y_continuous(limits = c(0, NA)) +  # Ajustar el límit inferior de l'eix Y a 0
   theme_minimal()
