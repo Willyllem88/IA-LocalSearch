@@ -105,12 +105,12 @@
 		\item \emph{mourePaquet(p, o)}: Sigi $p$ un paquet i $o$ una oferta diferent a la qual ja està assignada, mourà el paquet $p$ a la oferta $o$. La condició d'aplicabilitat d'aquest operador és que $p$ càpiga dins de $o$ i s'entregui abans del màxim de dies d'entrega associada a la prioritat del paquet. El factor de ramificació d'aquest operador és de l'ordre de $O(n(m-1))$, ja que tenim que per cada paquet el podem assignar a totes les ofertes que hi ha menys a la que ja està assignada.
 	\end{itemize}
 	
-	Amb aquests dos operadors serem capaços de recòrrer tot l'espai de solucions.
+	Hem triat aquests dos operadors perquè són complets, és a dir, a partir d'ells es pot arribar a qualsevol solució. A més, sempre asseguren que els estats resultants d'aplicar l'operador també són solucions. El factor de ramificació ha estat clau per trobar el conjunt d'operadors, ja que, dins dels conjunts possibles considerats, aquest era el que complia totes les condicions amb una ramificació menor ($O(n^2+m)$).
 	
 	
 	\subsection{Generador de Solucions Inicials}
 	
-	El fet de tenir dues funcions generadores de solucions inicials ens permetrà analitzar el comportament dels dos algorismes de cerca local que utilitzarem. Veurem com la configuració de l'estat inicial ens permetrà, o no, fer una búsqueda eficaç a través de l'espai de cerca i si ens estancarem, o no, en mínims locals. I sobretot, quina de les dues funcions generadores de solucions inicials ens dona un millor rendiment per cadascun dels algorismes. \\
+	El fet de tenir dues funcions generadores de solucions inicials ens permetrà analitzar el comportament dels dos algorismes de cerca local que utilitzarem. Veurem com la configuració de l'estat inicial ens permetrà, o no, fer una cerca eficaç a través de l'espai de cerca i si ens estancarem, o no, en mínims locals. I sobretot, quina de les dues funcions generadores de solucions inicials ens dona un millor rendiment per cadascun dels algorismes. \\
 	
 	\subsubsection{Entrega just al dia}
 	
@@ -134,6 +134,18 @@
 		\end{algorithmic}
 	\end{algorithm}
 	
+	El cost de l'algorisme és el següent:
+	
+	\begin{itemize}
+		\item La primera operació és ordenar els paquets per ordre de prioritat, el cost d'aquesta operació és $O(n \log n)$, ja que s'està ordenant una llista de $n$ elements (els paquets).
+		\item Per cada paquet, hi ha un bucle \texttt{while} que busca entre les $m$ ofertes. Això té un cost $O(m)$ per a cada paquet, i com que el bucle \texttt{for} itera sobre tots els $n$ paquets, el cost total del bucle és $O(n \cdot m)$.
+	\end{itemize}
+	
+	Per tant, el cost total de l'algorisme és:
+	
+	\[
+	O(n \log n + n \cdot m)
+	\]
 	
 	\subsubsection{Maximitzar la felicitat i minimitzar els costos}
 	
@@ -161,14 +173,28 @@
 			\EndFor
 		\end{algorithmic}
 	\end{algorithm}
+	
+	El cost d'aquest algorisme es pot calcular de la següent manera:
+	
+	\begin{itemize}
+		\item S'ordenen els paquets per ordre de prioritat i cost, que té un cost de $O(n \log n)$.
+		\item S'ordenen les ofertes per dies d'entrega, la qual cosa també té un cost de $O(m \log m)$, on $m$ és el nombre d'ofertes.
+		\item Per cada paquet, es recorre un bucle \texttt{while} que busca entre les $m$ ofertes, amb un cost $O(m)$ per cada paquet, resultant en un cost total de $O(n \cdot m)$ per aquest bucle.
+	\end{itemize}
+	
+	Per tant, el cost total de l'algorisme és:
+	
+	\[
+	O(n \log n + m \log m + n \cdot m)
+	\]
 		
 	\subsection{Funció Heurística}
 	
 	Hem creat dues funcions heurístiques per poder comparar els resultats que ens generen. Cada una d'elles tindrà criteris diferents:
 	
 	\begin{itemize}
-		\item \emph{Heurístic 1}: $H_1 = \text{cost}$, aquest heurístic està dissenyat per minimitzar exclusivament els costos, sense tenir en compte ningún altre factor de qualitat. Aquest heurístic ens permetrà minimitzar el cost de la assignació de paquets.
-		\item \emph{Heurístic 2}: $H_2 = -10*\text{felicitat} + \text{cost}$, per altra banda, aquest heurístic ens permetrà tenir en compte la felicitat total de la assignació de paquets. La funció d'evaluació serà igual que la anterior però li restarem la felicitat multiplicada per deu. La constant que multiplica la felicitat és degut a que a l'hora de calcular la felicitat i el preu, aquest últim pren més rellevància en la funció heurística si no multipliquem per cap constant cap terme al tenir un rang més ampli de valors possibles, és a dir, pren valors més grans que la felicitat. Aleshores estariem prioritzant més la reducció de costos, així que amb la constant multipliquem intentem posar al mateix nivell de importància el reduir els costos i augmentar la felicitat. Així doncs estarem maximitzant felicitat i minimitzant cost a la vegada, ja que volem minimitzar la funció heurística.
+		\item \emph{Heurístic 1}: $H_1 = \text{cost}$, aquest heurístic està dissenyat per minimitzar exclusivament els costos, sense tenir en compte cap altre factor de qualitat. Aquest heurístic ens permetrà minimitzar el cost de la assignació de paquets.
+		\item \emph{Heurístic 2}: $H_2 = -10 \cdot \text{felicitat} + \text{cost}$, per altra banda, aquest heurístic ens permetrà tenir en compte la felicitat total de la assignació de paquets. La funció d'evaluació serà igual que la anterior però li restarem la felicitat multiplicada per deu. La constant que multiplica la felicitat és degut a que a l'hora de calcular la felicitat i el preu, aquest últim pren més rellevància en la funció heurística si no multipliquem per cap constant cap terme al tenir un rang més ampli de valors possibles, és a dir, pren valors més grans que la felicitat. Aleshores estaríem prioritzant més la reducció de costos, així que amb la constant multipliquem intentem posar al mateix nivell de importància el reduir els costos i augmentar la felicitat. Així doncs estarem maximitzant felicitat i minimitzant cost a la vegada, ja que volem minimitzar la funció heurística.
 	\end{itemize}
 	
 	\subsection{Resultats}
@@ -466,7 +492,7 @@
 	\end{table}
 	
 	En la \textit{Figura \ref{fig:exp4a_grafic_lineal}} es pot apreciar que el temps d'execució de l'algoritme de \textit{Hill Climbing} va augmentant de forma proporcional a la que ho fa la proporció del pes transportable; és a dir que s'aproxima a un creixement lineal la funció obtinguda. \\
-	Aquest comportament és pot justificar ja que el que es fa és modificar el nombre de ofertes per a un mateix nombre de paquets; aleshores aquesta variable és la única que varia cap a l'alça en el problema. Dels dos  operadors que s'han utilitzat, només el de \textit{moure}, el seu factor de ramificació depèn del nombre de ofertes, sent aproximadament de l'ordre de $O(n*m)$, on $m$ és el nombre d'ofertes. Al incrementar el nombre de ofertes, també ho fa l'espai de cerca pel factor de ramificació de l'operador esmentat, així que buscar dins un espai més gran òbviament triga més. Degut a que el nombre de ofertes no té cap exponent es plausible esperar aquest comportament lineal del temps d'execució. 
+	Aquest comportament és pot justificar ja que el que es fa és modificar el nombre de ofertes per a un mateix nombre de paquets; aleshores aquesta variable és la única que varia cap a l'alça en el problema. Dels dos  operadors que s'han utilitzat, només el de \textit{moure}, el seu factor de ramificació depèn del nombre de ofertes, sent aproximadament de l'ordre de $O(n \cdot m)$, on $m$ és el nombre d'ofertes. Al incrementar el nombre de ofertes, també ho fa l'espai de cerca pel factor de ramificació de l'operador esmentat, així que buscar dins un espai més gran òbviament triga més. Degut a que el nombre de ofertes no té cap exponent es plausible esperar aquest comportament lineal del temps d'execució. 
 
 	\subsubsection{Nombre de paquets}
 	\begin{table}[ht]
@@ -597,7 +623,7 @@
 	
 	Per comprovar tot això, ara avaluarem l'heurística per veure quanta influència té la felicitat en el preu resultant, variant la ponderació de la felicitat en aquesta. Per veure això, farem servir l'algoritme de \textit{Hill Climbing}, amb un enviament de 100 paquets i una proporció de pes transportable per les ofertes d'1,2. \\
 	
-	\begin{table}[ht]
+	\begin{table}[H]
 		\centering
 		\begin{tabular}{|l|p{10cm}|}
 			\hline
@@ -626,7 +652,7 @@
 		\centering
 		\includegraphics[width=0.45\textwidth]{images/exp6_grafic.png}
 		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
-		\label{fig:exp6_grafic}
+		\label{fig:exp6a_grafic}
 	\end{figure}
 	
 	\begin{figure}[H]
@@ -642,52 +668,52 @@
 			\hline
 			\textbf{Operador} & \textbf{Mediana} & \textbf{MedianaTemps} \\
 			\hline
-			Felicitat*0 & 1010.5 & 395.5\\
+			$Felicitat \times 0$ & 1010.5 & 395.5\\
 			\hline
-			Felicitat*5 & 1141.105 & 523.0\\
+			$Felicitat \times 5$ & 1141.105 & 523.0\\
 			\hline
-			Felicitat*10 & 1243 & 535.5\\
+			$Felicitat \times 10$ & 1243 & 535.5\\
 			\hline
-			Felicitat*15 & 1243.5 & 579.5\\
+			$Felicitat \times 15$ & 1243.5 & 579.5\\
 			\hline
-			Felicitat*20 & 1243.5 & 600.5\\
+			$Felicitat \times 20$ & 1243.5 & 600.5\\
 			\hline
 		\end{tabular}
 		\caption{Estadístiques del preu i temps d'execució segons la ponderació de la felicitat}
 		\label{tab:exp6_estadisticas}
 	\end{table}
 	
-	Com podem veure a la \textit{Figura \ref{fig:exp4_grafic}}, la felicitat té una petita influència en el cost final, ja que si comparem la mediana entre quan no tenim en compte la felicitat a l'heurística i quan tenim una ponderació de 20 dins d'aquesta, veiem que hi ha una diferència d'una mica més de 200. \\
+	Com podem veure a la \textit{Figura \ref{fig:exp6a_grafic}}, la felicitat té una petita influència en el cost final, ja que si comparem la mediana entre quan no tenim en compte la felicitat a l'heurística i quan tenim una ponderació de 20 dins d'aquesta, veiem que hi ha una diferència d'una mica més de 200. \\
 	
 	També podem veure que a mesura que aquesta augmenta, entre els experiments que multipliquen la felicitat per 10 i els que ho fan per 20, la diferència és gairebé única. Això és possible que sigui degut a que s'apropa a un mínim local i aquesta ponderació de la felicitat no és tant alta en comparació. \\
 	
-	Si avaluem ara el temps d'execució en aquests algoritmes, vist a la \textit{Figura \ref{fig:exp4b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algoritme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
+	Si avaluem ara el temps d'execució en aquests algoritmes, vist a la \textit{Figura \ref{fig:exp6b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algoritme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
 	
 	Com a conclusió podríem dir que efectivament el preu augmenta amb la felicitat, però que aquest augment es manté estable arribats a un punt. I, respecte el temps d'execució, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat. \\
 	
 	
 	\subsection{Experiment 7}
 	
-	Donat l'escenari de l'experiment anterior, ara el que volem tornar a veure com afecta la felicitat a l'heurística però, aquest cop, amb l'algoritme de Simulated Annealing. D'aquesta manera, podrem comparar tots dos algoritmes i analitzar si hi ha diferències entre les tendències de tots dos. \\
+	Donat l'escenari de l'experiment anterior, ara el que volem tornar a veure com afecta la felicitat a l'heurística però, aquest cop, amb l'algoritme de \textit{Simulated Annealing}. D'aquesta manera, podrem comparar tots dos algoritmes i analitzar si hi ha diferències entre les tendències de tots dos. \\
 	
-	Per fer això, farem servir els paràmetres de Simulated Annealing obtinguts a l'Experiment 3. \\
+	Per fer això, farem servir els paràmetres de \textit{Simulated Annealing} obtinguts a l'Experiment 3. \\
 	
 	\begin{table}[ht]
 		\centering
 		\begin{tabular}{|l|p{10cm}|}
 			\hline
-			Observació & Creiem que si volem augmentar la felicitat dels nostres clients, també hi haurà un augment del cost total. Però en canvi, això no influirà en el temps d'execució. Tot això vist amb Simulated Annealing \\
+			Observació & Creiem que si volem augmentar la felicitat dels nostres clients, també hi haurà un augment del cost total. Però en canvi, això no influirà en el temps d'execució. Tot això vist amb \textit{Simulated Annealing}. \\
 			\hline
 			Plantejament & Generem diverses solucions variant la ponderació de la felicitat dins l'heurística per veure com influeix en el preu i en el temps d'execució. \\
 			\hline
-			Hipòtesi & El preu serà més elevat si augmentem la ponderació de la felicitat dins l'heurística, però el temps emprat per trobar la solució serà el mateix, i l'evolució d'aquest serà molt semblant al del Hill Climbing. \\
+			Hipòtesi & El preu serà més elevat si augmentem la ponderació de la felicitat dins l'heurística, però el temps emprat per trobar la solució serà el mateix, i l'evolució d'aquest serà molt semblant al del \textit{Hill Climbing}. \\
 			\hline
 			Mètode & 
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries per cada ponderació de felicitat.
 				\item Establirem els algoritmes \textit{Simulated Annealing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
 				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
-				\item Els paràmetres de Simulated Annealing que farem servir són k=1, $\lambda$=0.01 i steps=1200.
+				\item Els paràmetres de \textit{Simulated Annealing} que farem servir són k=1, $\lambda$=0.01 i steps=1200.
 				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
 				\item Mesurarem els resultats (preu i temps) i n'extreurem conclusions.
 			\end{itemize} \\
@@ -709,15 +735,15 @@
 			\hline
 			\textbf{Operador} & \textbf{Mediana} & \textbf{MedianaTemps} \\
 			\hline
-			Felicitat*0 & 1045.66 & AAAAA\\
+			$Felicitat \times 0$ & 1045.66 & AAAAA\\
 			\hline
-			Felicitat*5 & 1117.16 & AAAA\\
+			$Felicitat \times 5$ & 1117.16 & AAAA\\
 			\hline
-			Felicitat*10 & 1162.775 & AAAAA\\
+			$Felicitat \times 10$ & 1162.775 & AAAAA\\
 			\hline
-			Felicitat*15 & 1176.16 & AAAAA\\
+			$Felicitat \times 15$ & 1176.16 & AAAAA\\
 			\hline
-			Felicitat*20 & 1162.07 & AAAA\\
+			$Felicitat \times 20$ & 1162.07 & AAAA\\
 			\hline
 		\end{tabular}
 		\caption{Estadístiques del preu i temps d'execució segons la ponderació de la felicitat}
@@ -732,8 +758,6 @@
 	\subsubsection{Disminució preu emmagatzematge}
 	
 	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/dia una gran quantitat. Al tractar-se d un  cost significatiu dins el model, una reducció substancial podria alleugerir considerablement el cost global. Si ens fixem en la felicitat resultant, aquesta és possible que es vegi negativament afectada i que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística; l'algoritme té menys pressió per accelerar l'entrega dels paquets. L'algoritme pot permetre mantenir els paquets més temps en el magatzem sense que impacti massa en el cost total; ja que també les ofertes que entreguen en més dies els paquets acostumen a ser més barats amb les quals és necessari guardar els paquets al magatzem i com a conseqüència els paquets arriben més tard disminuint la felicitat.\\
-	
-
 	
 	\subsubsection{Augment preu emmagatzematge}
 
