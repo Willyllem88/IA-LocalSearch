@@ -358,9 +358,9 @@
 			Mètode &
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
-				\item Establirem l'algoritme \textit{Simulated Annealing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2. El nombre d'iteracions el deixarem fix a 10000 i la solució inicial que donarem serà la \textit{Solució inicial 2}, triada a l'\textit{experiment 2}.
-				\item Executarem els 10 experiments amb cada conjunt de k={1,5,25,125} i $\lambda$ = {1,0.01,0.0001}.
-				\item Cadascun d'aquests experiments l'executarem amb diversos valors d'\textit{Steps}, començant per $1$ i anant desde $100$ fins a $1500$, de $100$ en $100$, és a dir, {1,100,200,300,400,...,1500}. 
+				\item Establirem l'algoritme \textit{Simulated Annealing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2. El nombre d'iteracions el deixarem fix a 100 i la solució inicial que donarem serà la \textit{Solució inicial 2}, triada a l'\textit{experiment 2}.
+				\item Executarem els 50 experiments amb cada conjunt de k={1,5,25,125} i $\lambda$ = {1,0.01,0.0001}.
+				\item Cadascun d'aquests experiments l'executarem amb diversos valors d'\textit{Steps}, començant per $1$ i augmentant progressivament fins a $1500$, {1, 100, 200, 500, ... , 90000, 100000}. 
 				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
 			\hline
@@ -404,22 +404,26 @@
 			\hline
 			\textbf{Operador} & \textbf{k=1} & \textbf{k=5} & \textbf{k=25} & \textbf{k=125} \\
 			\hline
-			$\lambda$=1 & 1028.189 & 1036.251 & 1044.623 & 1048.254 \\
+			$\lambda$=1 & 1009.244 & 1009.888 & 1010.927 & 1011.091 \\
 			\hline
-			$\lambda$=0.01 & 1027.909 & 1040.41 & 1044.169 & 1045.810 \\
+			$\lambda$=0.01 & 977.984 & 978.359 & 979.316 & 980.069 \\
 			\hline
-			$\lambda$=0.0001 & 1028.379 & 1038.48 & 1043.798 & 1046.525 \\
+			$\lambda$=0.0001 & 979.634 & 986.378 & 994.474 & 1001.120 \\
 			\hline
 		\end{tabular}
 		\caption{Mitjana del preu segons el valor de $k$ i $\lambda$, indepent del valor d'\textit{Steps}.}
 		\label{tab:exp3_estadisticas}
 	\end{table}
+
+	Quan analitzem totes les mitjanes, a la \textit{Taula \ref{tab:exp3_estadisticas}}, podem veure que és pels valors més baixos de $lambda$ quan obtenim costos una mica menors. En canvi, respecte la $k$ no sempre obtenim aquests resultats, ja que canviar aquest paràmetre no ha alterat tant el cost resultant i les diferències no són gaire significatives entre aquests valors. \\
+
+	Si analitzem per altra banda les gràfiques, podem arribar a la mateixa conclusió. De fet, també ens serveix per analitzar l'evolució dels resultats en funció del valor que li donem a la variable \textit{Steps}. Es pot veure que, en general, com més gran sigui aquesta variable, més baix és el cost, seguint una baixada força constant quan arribem a un cert punt. \\
 	
-	Quan analitzem totes les mitjanes, a la \textit{Taul \ref{tab:exp3_estadisticas}}, podem veure que és pels valors més baixos de $k$ quan obtenim costos una mica menors. En canvi, respecte la lambda no sempre obtenim aquests resultats, ja que canviar aquest paràmetre no ha alterat tant el cost resultant. Malgrat això, també cal destacar que les diferències no són gaire grans entre els diferents valors.
-	
-	Si analitzem per altra banda les gràfiques, podem arribar a la mateixa conclusió. De fet, també ens serveix per analitzar l'evolució dels resultats en funció del valor que li donem a la variable \textit{Steps}. Es pot veure que, en general, com més gran sigui aquesta variable, més baix és el cost, seguint una baixada força constant. En canvi, aquest valor és més irregular amb valors de $k$ més alts, com es pot veure a la \textit{Figura \ref{fig:exp3_k125}}. Per això, depenent dels valors triats per la $k$ i $\lambda$, pot ser més recomanable triar un valor d'steps o un altre, en funció dels valors de costos i eficiència que busquem.
-	
-	Com els resultats són força semblants, triem una opció amb valors de $k$ i $\lambda$ baixos, i 1200 steps, ja que això ens proporciona un bon resultat en quant costos i efiència, és a dir k=1, $\lambda$=0.01 i steps=1200.
+	Podem veure amb els gràfics que per valors de $lambda$ més petits, especialment per $lambda$=0.0001, es necessiten més steps per arribar a un cost més estable. A més, aquest valor de lambda necessita més steps amb valors de $k$ més alts, com es pot veure a la \textit{Figura \ref{fig:exp3_k125}}. Per això, depenent dels valors triats per la $k$ i $\lambda$, pot ser més recomanable triar un valor d'steps o un altre, en funció dels valors de costos i eficiència que busquem. \\
+
+	Com els resultats són força semblants pels diferents valors de $k$, però per $lambda$ veiem que ens interessen valors més petits, triem una opció amb valors de $k$ i $\lambda$ baixos, com per exemple k=1, $\lambda$=0.01. Un cop triat això, si ens fixem en el gràfic \textit{Figura \ref{fig:exp3_k1}}, i ens fixem en el cost resultant en funció dels \textit{Steps}, veiem que un valor de \textit{Steps=20000} ja és més que suficient per assegurar-nos un resultat favorable tenint en compte també valors d'eficiència. \\
+		
+	Per tant, el paràmetres que triem per Simulated Annealing i que es faran servir per propers experiments és: k=1, $\lambda$=0.01 i steps=20000. \\
 	
 
 	\subsection{Experiment 4: Ànalisi del temps d'execució}
