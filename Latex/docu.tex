@@ -800,7 +800,7 @@
 	\section{Treball d'Innovació: DeepVariant}
 	
 	\subsection{Tema}
-	Hem escollit DeepVariant, un algorisme de machine learning desenvolupat per Google, que utilitza xarxes neuronals profundes per identificar variants genètiques en dades de seqüenciació de l'ADN. Mitjançant imatges generades a partir de les lectures de seqüència, DeepVariant detecta mutacions petites amb una precisió superior respecte a altres mètodes tradicionals.
+	Hem escollit DeepVariant, un algorisme de deep learning desenvolupat per Google, que utilitza xarxes neuronals profundes per identificar variants genètiques en dades de seqüenciació de l'ADN. Mitjançant imatges generades a partir de les lectures de seqüència, DeepVariant detecta mutacions petites amb una precisió superior respecte a altres mètodes tradicionals.
 	
 	\subsection{Responsabilitats d'equip}
 		Malgrat que el treball s'està fent col·laborativament i tots els membres del grup participen en totes les tasques, s'ha decidit dividir-ho en tres parts per cercar i aconseguir informació al respecte.
@@ -810,12 +810,14 @@
 			Importància de DeepVariant en la detecció de variants genètiques.\\
 			Visió general del problema que resol en l'anàlisi de dades de seqüenciació d'ADN.\\
 			Per què l'aprenentatge profund és útil en aquest context: beneficis respecte als mètodes tradicionals de detecció de variants (comparació amb altres mètodes).\\
+			\textbf{Responsable}: Guillem Cabré\\
 			
 		\item \emph{Xarxes Neuronals Convolucionals (CNN)}:\\
 			Explicació de què són les xarxes neuronals convolucionals (CNNs).\\
 			Com s'utilitzen les CNNs en DeepVariant per identificar patrons genètics.\\
 			Avantatges de l'ús de CNNs per analitzar dades de seqüenciació d'ADN (perquè reconeixen patrons visuals).\\
 			Relació entre les imatges generades per DeepVariant i l'anàlisi de dades genètiques.\\
+			\textbf{Responsable}: Hannah Röber\\
 			
 		\item \emph{Funcionament Pipeline}:\\
 			Generació d'imatges a partir de dades de seqüenciació d'ADN.\\
@@ -823,6 +825,7 @@
 			Processos d'inferència: com es decideix quina variant està present (substitució, inserció, deleció).\\
 			Entrenament de la xarxa neuronal amb dades genètiques.\\
 			Presa de decisions sobre la presència de variants genètiques i avantatges de precisió i fiabilitat.\\
+			\textbf{Responsable}: Carla Cordero\\
 	\end{itemize}
 	
 	
@@ -831,14 +834,15 @@
 	\begin{itemize}
 		\item \emph{Creating a universal SNP and small indel variant caller with deep neural networks}:
 		Rellevància: Base teòrica de DeepVariant i explicació de l'ús de xarxes neuronales.
-		Data d'accés: 13 d'octubre de 2024
-		Enllaç: https://doi.org/10.1101/092890
-		***********SEGONA PART AL WHATS
-		\item \emph{}:
-		Enllaç: https://github.com/google/deepvariant
-		També porta a altres documents com: https://google.github.io/deepvariant/posts/2020-02-20-looking-through-deepvariants-eyes/
+		Data d'accés: 13 d'octubre de 2024.
+		Enllaç: \url{https://doi.org/10.1101/092890}
+		i \url{https://www.biorxiv.org/content/biorxiv/suppl/2016/12/19/092890.DC2/092890-1.pdf}
+		\item Enllaç: \url{https://github.com/google/deepvariant} Rellevància: és el repositori oficial que inclou codi, instruccions de instal·lació, i scripts per executar DeepVariant, i, a més, models d'entrenament i eines d'avaluació. També porta a altres documents com: \url{https://google.github.io/deepvariant/posts/2020-02-20-looking-through-deepvariants-eyes/} Data d'accés: 13 d'octubre de 2024.
+		\item Zou J, Huss M, Abid A, Mohammadi P, Torkamani A, Telenti A. \emph{A primer on deep learning in genomics}. Nat Genet. 2019 Jan;51(1):12-18. doi: 10.1038/s41588-018-0295-5. Epub 2018 Nov 26. PMID: 30478442; PMCID: PMC11180539. Rellevància: proveeix una base en la recerca en l'anàlisi de dades genòmiques utilitzant xarxes neuronals convolucionals, arquitectura de la qual està formada DeepVariant. Data d'accés: 20 d'octubre de 2024.
+		\item Lin, YL., Chang, PC., Hsu, C. et al. \textit{Comparison of GATK and DeepVariant by trio sequencing}. Sci Rep 12, 1809 (2022). \url{https://doi.org/10.1038/s41598-022-05833-4} Rellevància: per observar la comparació en precisió i velocitat entre DeepVariant amb una altra eina que fa un treball similar com GATK \textit{Genome Analysis Toolkit}. Data d'accés: 17 d'octubre de 2024.
+		\item Taedong Yun, Helen Li, Pi-Chuan Chang, Michael F Lin, Andrew Carroll, Cory Y McLean, \textit{Accurate, scalable cohort variant calls using DeepVariant and GLnexus}, Bioinformatics, Volume 36, Issue 24, December 2020, Pages 5582–5589, \url{https://doi.org/10.1093/bioinformatics/btaa1081} Rellecvància: una altra comparació entre DeepVariant i \textit{GLNexus} per observar el rendiment de DeepVariant en comparació amb altres eines. Data d'accés: 17 d'octubre de 2024.
 	\end{itemize}
-	
+		
 	\subsection{Dificultats}
 	\begin{itemize}
 		\item \emph{Accés a referències}: Alguns articles rellevants requereixen subscripcions per poder obtenir informació detallada.
