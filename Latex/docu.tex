@@ -16,7 +16,7 @@
 \title{\textbf{Intel·ligència Artificial:\\
 		Pràctica de Cerca Local}}
 \author{\emph{Guillem Cabré, Carla Cordero, Hannah Röber}}
-\date{Curs 2024-25, Quatrimestre de tardor}
+\date{Curs 2024-25, Quadrimestre de tardor}
 
 \renewcommand*\contentsname{Continguts}
 \renewcommand{\figurename}{Figura}
@@ -86,7 +86,7 @@
 	\begin{itemize}
 		\item \emph{Paquetes paquetes}: Conté la llista de paquets que s'han de distribuir, que s'han generat de manera aleatòria per a un problema.
 		\item \emph{Transporte ofertas}: Una llista que guarda les ofertes de transport disponibles, generats a partir dels paquets de manera aleatòria de manera que sempre hi hagi espai per a enviar tots els paquets dins el termini d'entrega.
-		\item \emph{List$<$Integer$>$ asignaciones}: Una llista que representa les assignacions actuals dels paquets a les ofertes. Cada element de la llista correspon a un paquet. El valor assignat que contenen aquests paquets correspon a l'índex de l'oferta a la qual s'ha assignat (o $-1$ si no està assignat a cap oferta). És a dir \emph{asignaaciones$[i] = j$} vol dir que el paquet amb índex $i$ a \textit{paquetes} té assignat la oferta amb índex $j$ a \textit{ofertas}.
+		\item \emph{List$<$Integer$>$ asignaciones}: Una llista que representa les assignacions actuals dels paquets a les ofertes. Cada element de la llista correspon a un paquet. El valor assignat que contenen aquests paquets correspon a l'índex de l'oferta a la qual s'ha assignat (o $-1$ si no està assignat a cap oferta). És a dir \emph{asignaciones$[i] = j$} vol dir que el paquet amb índex $i$ a \textit{paquetes} té assignat la oferta amb índex $j$ a \textit{ofertas}.
 		\item \emph{List$<$Double$>$ espacioDisponibleOfertas}: Guarda l'espai disponible per a cada oferta de transport, que permet controlar la capacitat restant per a cada una de les ofertes assignades i per saber si un paquet pot ser assignat a una oferta.
 		\item \emph{Integer felicidad}: Aquest valor guarda la felicitat total acumulada, que s'augmenta quan els paquets s'entreguen abans del que estava previst. Obtenim un punt de felicitat per cada dia abans que s'entrega el paquet del dia mínim que s'ha d'entregar segons la prioritat escollida pel client.
 		\item \emph{Double precio}: Aquest valor guarda el preu total que té assignar els paquets a les ofertes segons $asignaciones$, incloent els costos de transport de cada paquet en la seva oferta assignada i els d'emmagatzematge si estan assignats a ofertes que triguen $3$ o més dies.
@@ -223,7 +223,7 @@
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
 				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions aleatori.
 				\item Executarem 10 experiment els conjunts d'operadors $C_{\texttt{1}}$, $C_{\texttt{2}}$ i $C_{\texttt{3}}$, un per cada llavor.
-				\item Mesurarem els resultats i n'extreurem conclusions.
+				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
 			\hline
 		\end{tabular}
@@ -424,7 +424,7 @@
 	Per tant, el paràmetres que triem per \textit{Simulated Annealing} i que es faran servir per propers experiments és: k=1, $\lambda = 0.01$ i $steps = 20000$. \\
 	
 
-	\subsection{Experiment 4: Ànalisi del temps d'execució}
+	\subsection{Experiment 4: Anàlisi del temps d'execució}
 
 	Un cop hem experimentat amb els diversos factors que influeixen en la cerca d'una solució òptima al problema i hem determinat quins funcionen millor, ens interessa ara també veure com evoluciona el temps d'execució per trobar una solució per veure si és factible trobar-ho en un temps raonable.\\
 
@@ -463,7 +463,7 @@
 		\label{tab:exp4a_apartats}
 	\end{table}
 
-	Els resultats dels experiments realitztats, que es poden trobar al path \texttt{./Latex/spreadsheets/exp4a.csv} de \textit{GitHub} (vegueu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4a_grafic_lineal}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de proporció del pes transportable triats.\\ 
+	Els resultats dels experiments realitzats, que es poden trobar al path \texttt{./Latex/spreadsheets/exp4a.csv} de \textit{GitHub} (vegeu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4a_grafic_lineal}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de proporció del pes transportable triats.\\ 
 	
 	\begin{figure}[H]
 		\centering
@@ -489,7 +489,7 @@
 			2.0 & 334.9 & 339.7\\
 			\hline
 		\end{tabular}
-		\caption{Estadístiques del temps d'execució en milisegons en funció de la proporció del pes}
+		\caption{Estadístiques del temps d'execució en mil·lisegons en funció de la proporció del pes}
 		\label{tab:exp4a_taula}
 	\end{table}
 	
@@ -522,7 +522,7 @@
 		\label{tab:exp4b_apartats}
 	\end{table}
 	
-	Els resultats dels experiments realitztats, que es poden trobar al path \texttt{./Latex/spreadsheets/exp4b.csv} de \textit{GitHub} (vegueu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4b_grafic_lineal2}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de nombre de paquets triats; la \textit{Figura \ref{fig:exp4b_boxplots}} conté un boxplot per cada nombre de paquets amb els temps d'execució.\\
+	Els resultats dels experiments realitzats, que es poden trobar al path \texttt{./Latex/spreadsheets/exp4b.csv} de \textit{GitHub} (vegeu l'annex per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4b_grafic_lineal2}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de nombre de paquets triats; la \textit{Figura \ref{fig:exp4b_boxplots}} conté un boxplot per cada nombre de paquets amb els temps d'execució.\\
 
 	\begin{figure}[H]
 		\centering
@@ -566,7 +566,7 @@
 	Com es pot observar en la \textit{Figura \ref{fig:exp4b_grafic_lineal2}}, la mitjana dels temps d'execució augmenta de manera significativa a mesura que creix el nombre de paquets a assignar en el problema d'optimització. Contràriament a un creixement lineal, el comportament observat en el gràfic s'ajusta millor a una funció polinòmica de grau superior a 1. Aquesta observació confirma la nostra hipòtesi inicial, que preveia un augment no lineal del temps d'execució a mesura que augmentava la complexitat del problema.\\
 	A més de la mitjana, la \textit{Figura \ref{fig:exp4b_boxplots}} presenta la distribució dels temps d'execució mitjançant un boxplot, que ens proporciona una visió detallada de la variabilitat dels resultats en funció del nombre de paquets. Aquí es pot observar clarament que, per a valors més petits de paquets (100-200), la variabilitat és baixa, amb distribucions ajustades i valors consistents entre diferents execucions. No obstant això, a partir de 250 paquets, la dispersió augmenta notablement, indicant una major variabilitat en els temps d'execució. Això podria indicar que, en casos amb més paquets, hi ha més variabilitat en el temps necessari per trobar la solució òptima, depenent de la llavor inicial i l'exploració de l'espai de cerca.\\
 	
-	El creixement quadràtic observat es pot explicar per la naturalesa dels operadors utilitzats en l'algorisme de \textit{Hill Climbing}. Degut al factor de ramificació inherent dels operadors, el qual és de l'ordre de $O(n^2)$, l'espai de cerca s'expandeix quadràticament amb l'increment del nombre de paquets. Així, cada cop que es creix el nombre de paquets, l'algorisme ha d'explorar un espai de solucions molt més gran, la qual cosa resulta en un augment substancial del temps necessari per trobar una solució òptima. Aquesta complexitat quadràtica és típica dels algorismes que han de tractar amb grans espais de cerca, i fa que el temps d'execució s'incrementi ràpidament en problemes d'aquesta magnitud, tal com es reflecteix en el gràfic de la mitjana com en el boxplot.\\
+	El creixement quadràtic observat es pot explicar per la naturalesa dels operadors utilitzats en l'algorisme de \textit{Hill Climbing}. Degut al factor de ramificació inherent dels operadors, el qual és de l'ordre de $O(n^2)$, l'espai de cerca s'expandeix de forma quadràtica amb l'increment del nombre de paquets. Així, cada cop que es creix el nombre de paquets, l'algorisme ha d'explorar un espai de solucions molt més gran, la qual cosa resulta en un augment substancial del temps necessari per trobar una solució òptima. Aquesta complexitat quadràtica és típica dels algorismes que han de tractar amb grans espais de cerca, i fa que el temps d'execució s'incrementi ràpidament en problemes d'aquesta magnitud, tal com es reflecteix en el gràfic de la mitjana com en el boxplot.\\
 	A partir de la \textit{Taula \ref{tab:exp4b_temps}}, on es mostren els temps d'execució per diferents nombres de paquets, podem observar un creixement substancial a mesura que el nombre de paquets augmenta. La mediana i la mitjana dels temps d'execució reflecteixen aquesta tendència, confirmant la complexitat quadràtica de l'algorisme amb el factor de ramificació $O(n^2)$, tal com s'ha discutit anteriorment.\\
 	
 	En conclusió, d'acord amb la hipòtesi plantejada s'ha observat que el temps d'execució de l'algoritme de \textit{Hill Climbing} per trobar una solució a un problema donat augmenta de forma no lineal en funció del nombre de paquets a assignar; la variabilitat de temps també incrementa. En comparació amb l'experiment anterior on s'ha vist que el creixement del temps era lineal, aquí ens trobem amb un creixement quadràtic en contrast; resultats que es justifiquen analitzant els factors de ramificació dels operadors implementats a l'algoritme utilitzat. Amb aquests dos experiments s'ha pogut observar la importància del factor de ramificació, el qual s'ha de tenir en consideració a l'hora d'escollir uns bons operadors.\\
@@ -644,7 +644,7 @@
 				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
 				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
 				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
-				\item Mesurarem els resultats (preu i temps) i n'extreurem conclusions.
+				\item Mesurarem els resultats (preu i temps) i n'extraurem conclusions.
 			\end{itemize} \\
 			\hline
 		\end{tabular}
@@ -720,7 +720,7 @@
 				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
 				\item Els paràmetres de \textit{Simulated Annealing} que farem servir són k=1, $\lambda$=0.01, iteracions=100 i steps=20000.
 				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
-				\item Mesurarem els resultats (preu i temps) i n'extreurem conclusions.
+				\item Mesurarem els resultats (preu i temps) i n'extraurem conclusions.
 			\end{itemize} \\
 			\hline
 		\end{tabular}
@@ -762,7 +762,7 @@
 		\label{tab:exp7_estadisticas}
 	\end{table}
 	
-	Amb això podem extreure unes conclusions semblants a l'experiment anterior, ja que es veu una petita influència de la felicitat en el cost final. Malgrat que aquesta diferència és una mica menor que quan feiem servir Hill Climbing (100 respecte 200), veiem que la tendència és semblant: comença a l'alça i cap al final es manté constant. \\
+	Amb això podem extreure unes conclusions semblants a l'experiment anterior, ja que es veu una petita influència de la felicitat en el cost final. Malgrat que aquesta diferència és una mica menor que quan fèiem servir Hill Climbing (100 respecte 200), veiem que la tendència és semblant: comença a l'alça i cap al final es manté constant. \\
 	
 	Respecte al temps d'execució, es pot veure a la \textit{Figura \ref{fig:exp7b_grafic}} que la ponderació de la felicitat a l'heurística no té una relació directa amb el temps d'execució, ja que aquesta es manté inestable durant les diferents heurístiques. Per tant, aquest no hauria de ser un aspecte a tenir en compte a l'hora de triar l'heurística desitjada. Però, sí que podem dir que aquesta afecta al cost total, especialment si comparem entre les ponderacions nul·les i baixes. \\
 	
