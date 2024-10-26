@@ -672,15 +672,15 @@
 			\hline
 			\textbf{Operador} & \textbf{Mediana} & \textbf{MedianaTemps} \\
 			\hline
-			$Felicitat \times 0$ & 1010.5 & 395.5\\
+			$Felicitat \times 0$ & 1010.5 & 396\\
 			\hline
-			$Felicitat \times 5$ & 1141.105 & 523.0\\
+			$Felicitat \times 5$ & 1141.105 & 523\\
 			\hline
-			$Felicitat \times 10$ & 1243 & 535.5\\
+			$Felicitat \times 10$ & 1243 & 535\\
 			\hline
-			$Felicitat \times 15$ & 1243.5 & 579.5\\
+			$Felicitat \times 15$ & 1243.5 & 579\\
 			\hline
-			$Felicitat \times 20$ & 1243.5 & 600.5\\
+			$Felicitat \times 20$ & 1243.5 & 600\\
 			\hline
 		\end{tabular}
 		\caption{Estadístiques del preu i temps d'execució segons la ponderació de la felicitat}
@@ -717,7 +717,7 @@
 				\item Agafarem un conjunt de $10$ llavors aleatòries per cada ponderació de felicitat.
 				\item Establirem els algoritmes \textit{Simulated Annealing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
 				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
-				\item Els paràmetres de \textit{Simulated Annealing} que farem servir són k=1, $\lambda$=0.01 i steps=1200.
+				\item Els paràmetres de \textit{Simulated Annealing} que farem servir són k=1, $\lambda$=0.01, iteracions=100 i steps=20000.
 				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
 				\item Mesurarem els resultats (preu i temps) i n'extreurem conclusions.
 			\end{itemize} \\
@@ -726,11 +726,18 @@
 		\label{tab:exp7_apartats}
 	\end{table}
 	
-		\begin{figure}[H]
+	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp6_grafic.png}
+		\includegraphics[width=0.45\textwidth]{images/exp7_grafic.png}
 		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
 		\label{fig:exp7_grafic}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/exp7b_grafic.png}
+		\caption{Gràfic del temps d'execució al variar la ponderació de la felicitat amb SA}
+		\label{fig:exp7b_grafic}
 	\end{figure}
 	
 	\begin{table}[H]
@@ -739,15 +746,15 @@
 			\hline
 			\textbf{Operador} & \textbf{Mediana} & \textbf{MedianaTemps} \\
 			\hline
-			$Felicitat \times 0$ & 1045.66 & AAAAA\\
+			$Felicitat \times 0$ & 1045.66 & 289\\
 			\hline
-			$Felicitat \times 5$ & 1117.16 & AAAA\\
+			$Felicitat \times 5$ & 1117.16 & 378\\
 			\hline
-			$Felicitat \times 10$ & 1162.775 & AAAAA\\
+			$Felicitat \times 10$ & 1162.775 & 308\\
 			\hline
-			$Felicitat \times 15$ & 1176.16 & AAAAA\\
+			$Felicitat \times 15$ & 1176.16 & 400\\
 			\hline
-			$Felicitat \times 20$ & 1162.07 & AAAA\\
+			$Felicitat \times 20$ & 1162.07 & 257\\
 			\hline
 		\end{tabular}
 		\caption{Estadístiques del preu i temps d'execució segons la ponderació de la felicitat}
@@ -755,6 +762,8 @@
 	\end{table}
 	
 	Amb això podem extreure unes conclusions semblants a l'experiment anterior, ja que es veu una petita influència de la felicitat en el cost final. Malgrat que aquesta diferència és una mica menor que quan feiem servir Hill Climbing (100 respecte 200), veiem que la tendència és semblant: comença a l'alça i cap al final es manté constant. \\
+	
+	Respecte al temps d'execució, es pot veure a la \textit{Figura \ref{fig:exp7b_grafic}} que la ponderació de la felicitat a l'heurística no té una relació directa amb el temps d'execució, ja que aquesta es manté inestable durant les diferents heurístiques. Per tant, aquest no hauria de ser un aspecte a tenir en compte a l'hora de triar l'heurística desitjada. Però, sí que podem dir que aquesta afecta al cost total, especialment si comparem entre les ponderacions nul·les i baixes. \\
 	
 	
 	\subsection{Experiment 8: Com canviarien les solucions si variem el preu d'emmagatzematge a l'alça o a la baixa?}
