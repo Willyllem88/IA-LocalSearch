@@ -36,7 +36,7 @@
 	
 	\subsection{Descripció del problema}
 	
-	La companyia fictícia \textit{Ázamon} ha d'optimitzar els seus enviaments diaris de $n$ paquets a una ciutat, considerant diversos factors. Cada paquet té un pes $w_i$ i una prioritat $p_i$, que defineix el termini màxim per ser entregat. L'empresa rep ofertes diàries de diverses companyies de transport, i el repte és trobar la millor manera de distribuir els paquets entre aquestes ofertes, minimitzant els costos i maximitzant la satisfacció dels clients. \\
+	La companyia fictícia \textit{Ázamon} ha d'optimitzar els seus enviaments diaris de $n$ paquets a una ciutat, considerant diversos factors. Cada paquet té un pes $w_i$ i una prioritat $p_i$ que es escollida pels usuaris, que defineix el termini màxim per ser entregat. L'empresa rep ofertes diàries de diverses companyies de transport, i el repte és trobar la millor manera de distribuir els paquets entre aquestes ofertes, minimitzant els costos i maximitzant la satisfacció dels clients. \\
 	
 	Els costos inclouen tant el transport, amb preus per quilogram que varien segons l'empresa, com l'emmagatzematge dels paquets que no es recullen immediatament. La felicitat dels clients augmenta si els paquets arriben abans de la data límit prevista. Per tant, cal equilibrar l'eficiència en costos amb la rapidesa en el lliurament per maximitzar la satisfacció del client. \\
 	
@@ -93,6 +93,11 @@
 	\end{itemize}
 		
 	Inicialment, l'estat es configura assignant $-1$ a cada paquet de la llista \emph{asignaciones}, indicant que no hi ha cap oferta de transport assignada al paquet. A més, \emph{espacioDisponibleOfertas} s'inicialitza amb la capacitat màxima de cada oferta, que posteriorment s'anirà actualitzant quan els paquets es vagin assignant. El preu i la felicitat s'inicialitzen a $0$ ja que no hi ha cap assignació fet a cap paquet; al generar la solució inicial i aplicar els operadors ja es van actualitzant conformen.\\
+	Es van considerar altres opcions per a la implementació de l'estat, com una matriu $n \times m$ \textit{assignacions}, on $n$ és el nombre de paquets i $m$ el nombre de ofertes i si $assignacions[i][j] = 1$, significa que el paquet $p_i$ té assignat la oferta $o_j$. Una altra opció era una llista de ofertes on cada oferta contenia una llista dels paquets que tenia assignats.\\
+	El problema de la matriu és l'espai que ocupa, que és de l'ordre de $O(n*m)$, on la majoria de la informació emmagatzemada és poc útil (els valors que són 0), per això ha estat descartada.\\
+	L'avantatge de la llista de ofertes és saber quins paquets tenim a cada oferta i es pot calcular l'espai lliure de cada oferta de manera més eficient que amb la matriu o només amb la llista de paquets amb la seva assignació. No obstant això, el problema és que no eficient a l'hora de determinar a quina oferta està assignada un paquet, ja que cal recórrer totes les llistes de paquets de totes les ofertes fins a trobar-lo. Com que és una funció necessària per a la majoria d'operadors, cal que sigui eficient i, per això aquesta opció també ha sigut descartada.\\
+	Tenint en compte això, ha sigut necessari afegir apart de la llista \textit{asignaciones}, una altra llista on per cada oferta tenim l'espai disponible per poder determinar de manera eficient, en temps constant $O(1)$ (només cal accedir a l'índex adequat de la llista per obtenir l'espai lliure), si un paquet cap a una oferta. Sense aquesta estructura de dades caldria recórrer la llista sencera \textit{asignaciones} per descobrir quins paquets estan assignats a una oferta i determinar l'espai lliure disponible, un cost lineal en funció dels paquets $O(n)$.\\
+	Per aquests motius, les estructures de dades llistades abans al principi han estat les seleccionades per a la implementació de l'estat d'aquest problema plantejat, per la seva eficiència tant en espai com en temps, ja que es pot determinar en temps constant l'oferta assignada a un paquet i si un paquet és assignable a una oferta i l'espai ocupat és de l'ordre de $O(n + m)$.
 	
 	\subsection{Operadors}
 	
@@ -105,7 +110,7 @@
 		\item \emph{mourePaquet(p, o)}: Sigui $p$ un paquet i $o$ una oferta diferent a la qual ja està assignada, mourà el paquet $p$ a la oferta $o$. La condició d'aplicabilitat d'aquest operador és que $p$ càpiga dins de $o$ i s'entregui abans del màxim de dies d'entrega associada a la prioritat del paquet. El factor de ramificació d'aquest operador és de l'ordre de $O(n(m-1))$, ja que tenim que per cada paquet el podem assignar a totes les ofertes que hi ha menys a la que ja està assignada.
 	\end{itemize}
 	
-	Hem triat aquests dos operadors perquè són complets, és a dir, a partir d'ells es pot arribar a qualsevol solució. A més, sempre asseguren que els estats resultants d'aplicar l'operador també són solucions. El factor de ramificació ha estat clau per trobar el conjunt d'operadors, ja que, dins dels conjunts possibles considerats, aquest era el que complia totes les condicions amb una ramificació menor ($O(n^2+m)$).
+ L'operador \textit{moure} és imprescindible a l'hora de cercar per tot l'espai de solucions i sense ell els algorismes no trobarien solucions tan òptimes; això es degut a que si només tinguéssim l'operador \textit{swap} sempre es tindrien en compte només les mateixes ofertes de transport seleccionades a la solució inicial i no podríem potser assignar un paquet a una oferta on no hi hagi paquets, deixant d'explorar potencials solucions més òptimes. Per aquest motiu hem triat aquests dos operadors perquè són complets, és a dir, a partir d'ells es pot arribar a qualsevol solució. A més, sempre asseguren que els estats resultants d'aplicar l'operador també són solucions. El factor de ramificació ha estat clau per trobar el conjunt d'operadors, ja que, dins dels conjunts possibles considerats, aquest era el que complia totes les condicions amb una ramificació menor ($O(n^2+m)$).
 	
 	
 	\subsection{Generador de Solucions Inicials}
@@ -795,7 +800,6 @@
 	
 	\newpage
 	\section{Conclusions}
-	
 	
 	\newpage
 	\section{Treball d'Innovació: DeepVariant}
