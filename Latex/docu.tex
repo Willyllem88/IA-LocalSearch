@@ -587,13 +587,13 @@
 
 	\subsection{Experiment 5: Influència de la proporció de les ofertes}
 	
-	Un altre factor que es desitja analitzar és com influeix l'augment de la proporció de les ofertes en el comportament dels costos de transport i emmagatzematge en el problema. En concret, volem determinar si incrementar el nombre de ofertes disponibles millora de manera significativa els costos totals dels paquets i si realment mereix la pena augmentar les ofertes. \\
+	Un altre factor que es vol analitzar és com influeix l'augment de la proporció de les ofertes en el comportament dels costos de transport i emmagatzematge en el problema. En concret, volem determinar si incrementar el nombre de ofertes disponibles millora de manera significativa els costos totals dels paquets i si realment mereix la pena augmentar les ofertes. \\
 	
-	Els costos de transport es veuran influenciats principalment per la capacitat de les ofertes per ajustar-se de manera eficient al pes i nombre de paquets a enviar, mentre que el cost d'emmagatzematge dependrà de la efectivitat de l'assignació dels paquets a ofertes que triguin poc. Aleshores és necessari investigar fins a quin punt l'augment del nombre de ofertes continua sent beneficiós. \\
+	Els costos de transport es veuran influenciats principalment per la capacitat de les ofertes per ajustar-se de manera eficient al pes i nombre de paquets a enviar, mentre que el cost d'emmagatzematge dependrà de la efectivitat de l'assignació dels paquets a ofertes que triguin poc. És necessari investigar fins a quin punt l'augment del nombre d'ofertes continua sent beneficiós. \\
 	
 	Aprofitant el mateix experiment on veiem el comportament del temps d'execució en funció de la proporció del pes transportable a l'apartat \ref{sec:exp4b_nombrePaq}, amb les mateixes llavors i condicions, només que ara ens enfocarem amb els resultats obtinguts sobre els costos de transport i emmagatzematge.
 	
-	\begin{table}[ht]
+	\begin{table}[H]
 		\centering
 		\begin{tabular}{|l|p{10cm}|}
 			\hline
@@ -601,13 +601,13 @@
 			\hline
 			Plantejament & Analitzarem l'impacte d'augmentar la proporció del pes transportable sobre el costos de transport i emmagatzematge. \\
 			\hline
-			Hipòtesi & Es preveu que a mesura que augmenta la proporció del pes transportable, els costos disminueixin, ja que amb una capacitat més gran de les ofertes, es podran trobar ofertes millor a assignar als paquets.\\
+			Hipòtesi & A mesura que augmenta la proporció del pes transportable, els costos disminueixin, ja que amb una capacitat més gran de les ofertes, es podran trobar ofertes millor a assignar als paquets.\\
 			\hline
 			Mètode &
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
 				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
-				\item Executarem $10$ experiments per a cada una de les proporcions de pes transportable \{1.2, 1.4, 1.5, 1.6, 1.8, 2.0 \}, un per cada llavor.
+				\item Executarem $10$ experiments per a cada una de les proporcions de pes transportable $\{1.2, 1.4, 1.5, 1.6, 1.8, 2.0 \}$, un per cada llavor.
 				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
 			\hline
@@ -615,20 +615,24 @@
 		\label{tab:exp5_apartats}
 	\end{table}
 	
-	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex5.csv}. A partir d'aquestes dades hem fet extret un gràfic representatiu dels resultats i un altre amb boxplots dels preus per cada proporció de pes transportable.
+	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex \ref{sec:annex} per accedir-hi), en el \textit{path} \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex5.csv}. A partir d'aquestes dades hem fet extret un gràfic representatiu dels resultats i un altre amb box plots dels preus per cada proporció de pes transportable.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{exp5_grafic_lineal.png}
-		\caption{Gràfic de la mitjana dels costos totals per cada valor de nombre de paquets}
-		\label{fig:exp5_grafic_lineal}
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{exp5_grafic_lineal.png}
+			\caption{Gràfic de la mitjana dels costos totals per cada valor de nombre de paquets}
+			\label{fig:exp5_grafic_lineal}
+		\end{minipage}\hfill
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/exp5_boxplot.png}
+			\caption{Boxplots dels costos totals per cada valor de nombre de paquets}
+			\label{fig:exp5_boxplot}
+		\end{minipage}
 	\end{figure}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp5_boxplot.png}
-		\caption{Boxplots dels costos totals per cada valor de nombre de paquets}
-		\label{fig:exp5_boxplot}
-	\end{figure}
+	
 	
 	Els resultats mostren una tendència general a la disminució del cost total quan s'augmenten les ofertes, encara que aquesta disminució no és dràstica ni exponencial, sinó més aviat lineal i moderada. És a dir, a mesura que s'incrementa el nombre d'ofertes, el sistema aconsegueix optimitzar millor l'assignació dels paquets, degut segurament a que apareguin més ofertes que ofereixin un preu de transport més barat per a una entrega determinada de dies o que tingui més capacitat per transportat; és a dir hi ha més on escollir, la qual cosa redueix els costos d'emmagatzematge i transport, però sense una millora desproporcionada. En uns certs casos, incrementar lleugerament el nombre d'ofertes no genera millores significatives en el cost, i fins i tot en alguns escenaris a penes s'observa una diferència respecte a tenir un nombre menor d'ofertes. \\
 	
@@ -640,7 +644,7 @@
 	
 	\subsection{Experiment 6: Influència de la ponderació de la felicitat (HC)}
 	
-	Un altre punt clau a l'hora de crear algoritmes és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felicitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
+	Un altre punt clau a l'hora de crear algoritmes de cerca local és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felicitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
 	
 	En canvi, creiem que el canvi en la ponderació de la felicitat, no hauria d'alterar gaire el temps d'execució de l'algoritme, ja que el recorregut de solucions que hi ha de fer hauria de ser semblant. \\
 	
@@ -669,20 +673,22 @@
 		\label{tab:exp6_apartats}
 	\end{table}
 	
-	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex per accedir-hi), en el \textit{path} \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex6b.csv}. A partir d'aquestes dades hem fet dos gràfics representatiu dels resultats.
+	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex \ref{sec:annex} per accedir-hi), en el \textit{path} \texttt{./Latex/spreadsheets/ex6.csv} i \texttt{./Latex/spreadsheets/ex6b.csv}. A partir d'aquestes dades hem fet dos gràfics representatiu dels resultats.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp6_grafic.png}
-		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
-		\label{fig:exp6a_grafic}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp6b_grafic.png}
-		\caption{Gràfic del temps d'execució al variar la ponderació de la felicitat}
-		\label{fig:exp6b_grafic}
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/exp6_grafic.png}
+			\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
+			\label{fig:exp6a_grafic}
+		\end{minipage} \hfill
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/exp6b_grafic.png}
+			\caption{Gràfic del temps d'execució al variar la ponderació de la felicitat}
+			\label{fig:exp6b_grafic}
+		\end{minipage}
 	\end{figure}
 	
 	\begin{table}[H]
@@ -706,13 +712,13 @@
 		\label{tab:exp6_estadisticas}
 	\end{table}
 	
-	Com podem veure a la \textit{Figura \ref{fig:exp6a_grafic}}, la felicitat té una petita influència en el cost final, ja que si comparem la mediana entre quan no tenim en compte la felicitat a l'heurística i quan tenim una ponderació de 20 dins d'aquesta, veiem que hi ha una diferència d'una mica més de 200. \\
+	Com podem veure a la \textit{Figura \ref{fig:exp6a_grafic}}, la felicitat té una petita influència en el cost final, ja que si comparem la mediana entre quan no tenim en compte la felicitat a l'heurística i quan tenim una ponderació de $20$ dins d'aquesta, veiem que hi ha una diferència d'una mica més de $200$. \\
 	
-	També podem veure que a mesura que aquesta augmenta, entre els experiments que multipliquen la felicitat per 10 i els que ho fan per 20, la diferència és gairebé única. Això és possible que sigui degut a que s'apropa a un mínim local i aquesta ponderació de la felicitat no és tant alta en comparació. \\
+	També podem veure que a mesura que aquesta augmenta, entre els experiments que multipliquen la felicitat per $10$ i els que ho fan per $20$, la diferència és gairebé única. Això és possible que sigui degut a que s'apropa a un mínim local i aquesta ponderació de la felicitat no és tant alta en comparació. \\
 	
 	Si avaluem ara el temps d'execució en aquests algoritmes, vist a la \textit{Figura \ref{fig:exp6b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algoritme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
 	
-	Com a conclusió podríem dir que efectivament el preu augmenta amb la felicitat, però que aquest augment es manté estable arribats a un punt. I, respecte el temps d'execució, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat.
+	Com a conclusió podríem dir que efectivament el preu augmenta amb un increment de la ponderació de la felicitat, però que aquest augment es manté estable arribats a un punt. I, respecte el temps d'execució, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat.
 	
 	\subsection{Experiment 7: Influència de la ponderació de la felicitat (SA)}
 	
@@ -746,16 +752,18 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp7_grafic.png}
-		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
-		\label{fig:exp7_grafic}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp7b_grafic.png}
-		\caption{Gràfic del temps d'execució al variar la ponderació de la felicitat amb SA}
-		\label{fig:exp7b_grafic}
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/exp7_grafic.png}
+			\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
+			\label{fig:exp7_grafic}
+		\end{minipage} \hfill
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/exp7b_grafic.png}
+			\caption{Gràfic del temps d'execució al variar la ponderació de la felicitat amb SA}
+			\label{fig:exp7b_grafic}
+		\end{minipage}
 	\end{figure}
 	
 	\begin{table}[H]
@@ -779,7 +787,7 @@
 		\label{tab:exp7_estadisticas}
 	\end{table}
 	
-	Amb això podem extreure unes conclusions semblants a l'experiment anterior, ja que es veu una petita influència de la felicitat en el cost final. Malgrat que aquesta diferència és una mica menor que quan fèiem servir \textit{Hill Climbing} (100 respecte 200), veiem que la tendència és semblant: comença a l'alça i cap al final es manté constant. \\
+	Amb aquests resultats podem extreure unes conclusions semblants a les de l'experiment anterior, ja que es veu una petita influència de la felicitat en el cost final. Malgrat que aquesta diferència és una mica menor que quan fèiem servir \textit{Hill Climbing} (100 respecte 200), veiem que la tendència és semblant: comença a l'alça i cap al final es manté constant. \\
 	
 	Respecte al temps d'execució, es pot veure a la \textit{Figura \ref{fig:exp7b_grafic}} que la ponderació de la felicitat a l'heurística no té una relació directa amb el temps d'execució, ja que aquesta es manté inestable durant les diferents heurístiques. Per tant, aquest no hauria de ser un aspecte a tenir en compte a l'hora de triar l'heurística desitjada. Però, sí que podem dir que aquesta afecta al cost total, especialment si comparem entre les ponderacions nul·les i baixes. \\
 	
@@ -788,7 +796,7 @@
 	
 	\subsubsection{Disminució preu emmagatzematge}
 	
-	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/dia una gran quantitat. Al tractar-se d un  cost significatiu dins el model, una reducció substancial podria alleugerir considerablement el cost global. Si ens fixem en la felicitat resultant, aquesta és possible que es vegi negativament afectada i que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística; l'algoritme té menys pressió per accelerar l'entrega dels paquets. L'algoritme pot permetre mantenir els paquets més temps en el magatzem sense que impacti massa en el cost total; ja que també les ofertes que entreguen en més dies els paquets acostumen a ser més barats amb les quals és necessari guardar els paquets al magatzem i com a conseqüència els paquets arriben més tard disminuint la felicitat.\\
+	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/dia una quantitat considerable. Al tractar-se d'un cost significatiu dins el model, una reducció substancial podria alleugerir considerablement el cost global. Si ens fixem en la felicitat resultant, aquesta és possible que es vegi negativament afectada i que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística; l'algoritme té menys pressió per accelerar l'entrega dels paquets. L'algoritme pot permetre mantenir els paquets més temps en el magatzem sense que impacti massa en el cost total; ja que també les ofertes que entreguen en més dies els paquets acostumen a ser més barats amb les quals és necessari guardar els paquets al magatzem i com a conseqüència els paquets arriben més tard disminuint la felicitat.\\
 	
 	\subsubsection{Augment preu emmagatzematge}
 
@@ -797,7 +805,7 @@
 
 	\subsection{Experiment 9: Especial}
 	
-	L'eficàcia temporal és un aspecte clau en els algoritmes d'intel·ligència artificial. En aquest experiment, per a una entrada donada, extraurem dades sobre el temps necessari perquè l'algoritme s'executi. Els paràmetres que proporcionarem al programa seran: 100 paquets, una proporció de $1,2$ i una llavor de $1234$. A més, utilitzarem el mètode \textit{Hill Climbing} amb els operadors més òptims, que vam examinar en el primer experiment. Aquest conjunt d'operadors inclourà les operacions \textit{move} i \textit{swap}. Només ens falta definir un últim paràmetre: el generador de solucions inicials. Aquest també ha estat seleccionat a partir d'experiments anteriors, més concretament del segon experiment, on vam obtenir els millors resultats amb el generador més 'aleatori'. \\
+	L'eficàcia temporal és un aspecte clau en els algoritmes d'intel·ligència artificial. En aquest experiment, per a una entrada donada, extraurem dades sobre el temps necessari perquè l'algoritme s'executi. Els paràmetres que proporcionarem al programa seran: 100 paquets, una proporció de $1.2$ i una llavor de $1234$. A més, utilitzarem el mètode \textit{Hill Climbing} amb els operadors més òptims, que vam examinar en el primer experiment. Aquest conjunt d'operadors inclourà les operacions \textit{move} i \textit{swap}. Només ens falta definir un últim paràmetre: el generador de solucions inicials. Aquest també ha estat seleccionat a partir d'experiments anteriors, més concretament del segon experiment, on vam obtenir els millors resultats amb el generador més 'aleatori'. \\
 	
 	\begin{figure}[H]
 		\centering
@@ -806,9 +814,9 @@
 		\label{fig:exp9_boxplot}
 	\end{figure}
 	
-	A la \textit{Figura \ref{fig:exp9_boxplot}}, observem la distribució dels temps d'execució obtinguts. La mediana és de $207,5$ ms i l'IQR és de $3,5$, cosa que indica que el temps emprat pel programa és força estable. \\
+	A la \textit{Figura \ref{fig:exp9_boxplot}}, observem la distribució dels temps d'execució obtinguts. La mediana és de $207.5$ ms i l'IQR és de $3.5$, cosa que indica que el temps emprat pel programa és força estable. \\
 	
-	Amb aquests paràmetres, \textit{Hill Climbing} aconsegueix trobar un mínim on l'assignació de paquets té un cost de $794,675$ €.
+	Amb aquests paràmetres, \textit{Hill Climbing} aconsegueix trobar un mínim on l'assignació de paquets té un cost de $794.675$ €.
 	
 	\newpage
 	\section{Conclusions}
@@ -820,13 +828,15 @@
 	\section{Coneixements Adquirits}
 	En el transcurs del projecte s'han adquirit els següents coneixements:
 	
+
 	\begin{itemize}
-		\item \textbf{R}: Utilitzat per l'anàlisi i visualització de dades experimentals.
-		\item \textbf{Java amb IntelliJ}: Desenvolupament de la lògica del problema i ús d'IDE per a projectes complexos.
-		\item \textbf{Experimentació d'Algorismes de Cerca Local (HC i SA)}: Comprensió i aplicació de Hill Climbing (HC) i \textit{Simulated Annealing} (SA) en optimització de solucions.
-		\item \textbf{\LaTeX}: Redacció i organització del document amb una estructura professional i clara.
-		\item \textbf{Markdown per al README}: Estructuració d'instruccions i documentació del projecte amb un format llegible i intuïtiu.
+		\item \textbf{Java amb IntelliJ IDEA}: Desenvolupament de la lògica del projecte amb suport d'un IDE adequat per a projectes complexos.
+		\item \textbf{Experimentació amb Algorismes de Cerca Local}: Implementació d'algorismes com \textit{Hill Climbing} (HC) i \textit{Simulated Annealing} (SA) per a l'optimització de solucions.
+		\item \textbf{R}: Eina principal per a l'anàlisi de dades experimentals i la seva visualització.
+		\item \textbf{\LaTeX}: Redacció del document amb una estructura professional, facilitant una presentació clara i ben organitzada.
+		\item \textbf{GitHub}: Gestió i seguiment de versions del projecte, facilitant la col·laboració i organització del codi.
 	\end{itemize}
+
 	
 	
 	
