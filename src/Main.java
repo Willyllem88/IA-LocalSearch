@@ -6,9 +6,6 @@ import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
-//Ya no hacen falta estos algoritmos
-//import aima.search.informed.AStarSearch;
-//import aima.search.informed.IterativeDeepeningAStarSearch;
 
 // importamos los algoritmos que usamos para la práctica
 import aima.search.informed.HillClimbingSearch;
@@ -37,7 +34,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Pedimos al usuario configuraciones
-         System.out.print("Introduce número de paquetes, semilla y una proporcion: ");
+        System.out.print("Introduce número de paquetes, semilla y una proporcion: ");
         n = scanner.nextInt();
         seed = scanner.nextInt();
         prop = scanner.nextDouble();
@@ -49,7 +46,7 @@ public class Main {
         // Se crea el estado inicial de Azamon con los paquetes y las ofertas generadas
         Estado azamon = new Estado(paq, ofertas);
 
-        
+
         System.out.println("Escoge generador de estado inicial");
         System.out.println(" [0] Solución más 'buena'");
         System.out.println(" [1] Solución más aleatoria");
@@ -111,7 +108,7 @@ public class Main {
         //printActions(agent.getActions());
         //printInstrumentation(agent.getInstrumentation());
 
-        
+
         // Printeamos los parámetros del estado inicial
         System.out.println();
         System.out.println("PARÁMETROS DEL ESTADO INICIAL:");
