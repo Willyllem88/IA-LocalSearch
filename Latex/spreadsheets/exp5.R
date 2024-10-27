@@ -26,13 +26,13 @@ grid()
 library(ggplot2)
 temps_means <- data.frame(Paquets=names(mean_times), Mitjana=mean_times, SD=sd_times)
 ggplot(temps_means, aes(x=Paquets, y=Mitjana)) +
-  geom_bar(stat="identity", fill="skyblue") +
+  geom_bar(stat="identity", fill="lightblue") +
   geom_errorbar(aes(ymin=Mitjana-SD, ymax=Mitjana+SD), width=0.2, color="red") +
   labs(title="Variació del preu per proporció del pes", x="Nombre de paquets", y="Temps (ms)")
 
 # 3. Boxplot per comparar la distribució de temps d'execució per cada nombre de paquets
 boxplot(temps, names=names(mean_times), xlab="Proporció del pes", ylab="Preu",
-        main="Distribució del preu en funció de la proporció del pes")
+        main="Distribució del preu en funció de la proporció del pes", col="lightblue")
 grid()
 
 # 4. Mostra les estadístiques
