@@ -33,7 +33,7 @@ ggplot(temps_means, aes(x=Paquets, y=Mitjana)) +
 
 # 3. Boxplot per comparar la distribució de temps d'execució per cada nombre de paquets
 boxplot(temps, names=names(mean_times), xlab="Nombre de paquets", ylab="Temps d'execució (ms)",
-        main="Distribució dels temps d'execució per nombre de paquets")
+        main="Distribució dels temps d'execució per nombre de paquets", col="lightblue")
 grid()
 
 # 4. Mostra les estadístiques
