@@ -36,7 +36,7 @@
 	
 	\subsection{Descripció del problema}
 	
-	La companyia fictícia \textit{Ázamon} ha d'optimitzar els seus enviaments diaris de $n$ paquets a una ciutat, considerant diversos factors. Cada paquet té un pes $w_i$ i una prioritat $p_i$ que es escollida pels usuaris, que defineix el termini màxim per ser entregat. L'empresa rep ofertes diàries de diverses companyies de transport, i el repte és trobar la millor manera de distribuir els paquets entre aquestes ofertes, minimitzant els costos i maximitzant la satisfacció dels clients. \\
+	La companyia fictícia \textit{Ázamon} ha d'optimitzar els seus enviaments diaris de $n$ paquets a una ciutat, considerant diversos factors. Cada paquet té un pes $w_i$ i una prioritat $p_i$, que defineix el termini màxim per ser entregat. L'empresa rep ofertes diàries de diverses companyies de transport, i el repte és trobar la millor manera de distribuir els paquets entre aquestes ofertes, minimitzant els costos i maximitzant la satisfacció dels clients. \\
 	
 	Els costos inclouen tant el transport, amb preus per quilogram que varien segons l'empresa, com l'emmagatzematge dels paquets que no es recullen immediatament. La felicitat dels clients augmenta si els paquets arriben abans de la data límit prevista. Per tant, cal equilibrar l'eficiència en costos amb la rapidesa en el lliurament per maximitzar la satisfacció del client. \\
 	
@@ -45,23 +45,23 @@
 	Cada paquet té un pes $w_i \in \{0.5, 1.0, 1.5, ..., 10.0\}$ kg i una prioritat $p_i \in \{1, 2, 3\}$, que defineix el termini d'entrega: un dia per $p_i = 1$, entre 2 i 3 dies per $p_i = 2$, i entre 4 i 5 dies per $p_i = 3$. Cadascuna d'aquestes prioritats té un cost diferent, $p_i = 1$ val 5 euros, $p_i = 2$ val 3 euros i $p_i = 3$ val 1.5 euros. \\
 	
 	Les empreses de transport ofereixen cada dia $m$ opcions amb una capacitat màxima $C_j \in \{5, 10, 15, ..., 50\}$ kg, un preu per quilogram transportat $c_j$, i un temps d'entrega $t_j \in \{1, 2, 3, 4, 5\}$ dies. A més, si els paquets no es recullen immediatament, cal assumir un cost d'emmagatzematge de 0.25 euros per quilogram i dia. Els clients es mostren més satisfets amb entregues anticipades, la qual cosa augmenta proporcionalment als dies d'antelació. \\
-
+	
 	\subsection{Definició solució}
-
+	
 	Una solució segons el problema que se'ns ha descrit és una assignació dels paquets a les ofertes de transport del dia apropiades amb les restriccions que la suma dels pesos dels paquets assignats a una oferta no poden superar la seva capacitat màxima i que tots els paquets arribin dins del termini d'entrega que depèn de la seva prioritat. \\
-
+	
 	Formalment, si tenim $n$ paquets i $m$ ofertes de transport, una solució seria una tupla que associa cada paquet $p_i$ a una oferta $o_j$, tal que $1 \leq i \leq n$ i $1 \leq j \leq m$, amb les restriccions de capacitat i temps respectades. \\
-
+	
 	Aleshores el nostre objectiu serà, mitjançant algorismes, generar una solució que compleixi els requisits mencionats, que serà l'estat final, partint d'un estat inicial que ens permeti arribar a una solució més òptima, en la qual es té en compte criteris de qualitat. En tot moment, també s'intentarà maximitzar la felicitat dels clients. \\
-
+	
 	\subsection{Espai de cerca}
-
+	
 	L'espai de cerca dels nostres algorismes és l'espai de solucions al nostre problema, és a dir, la totalitat de les solucions que compleixen els requisits del nostre problema que s'han esmentat en l'apartat anterior sense importar la seva qualitat donada per uns criteris en formen part. És important conèixer la mida de l'espai de cerca per justificar la utilització de certs algorismes per aquest problema en comptes d'utilitzar un algorisme de força bruta senzill. \\
-
+	
 	La grandària de l'espai de cerca està determinat pel nombre de combinacions possibles d'assignació de paquets a ofertes de transport. Aleshores, assumim que $m$ és el nombre d'ofertes del dia que hi ha i que tenim $n$ paquets a distribuir amb la seva prioritat. La grandària màxima de l'espai de cerca seria de l'ordre de O($m^n$), la qual cosa representa totes les combinacions possibles d'assignació de paquets que correspon al cas pitjor on totes les combinacions són vàlides, ja que cada paquet pot ser assignat a qualsevol de les $m$ ofertes. \\
-
+	
 	No obstant això, aquest número pot reduir-se significativament a causa de les restriccions que impedeixen unes certes assignacions inviables, com assignar paquets a una oferta que no pot transportar el pes total o assignar paquets d'alta prioritat a una oferta de llarg temps de lliurament. Aquestes restriccions limiten el nombre de combinacions vàlides, però encara així, l'espai de cerca pot ser considerablement gran, especialment quan el nombre de paquets i ofertes augmenta ja que creixerà  exponencialment. Aleshores, es complica l'eficiència de l'algorisme de força bruta i, per tant, s'ha d'utilitzar altres algorismes. \\
-
+	
 	\subsection{Metodologia de resolució}
 	
 	Per resoldre aquest problema, utilitzarem algorismes de cerca local. En particular, s'han seleccionat els algorismes de \textit{Hill Climbing} i \textit{Simulated Annealing}, que exploraran l'espai de cerca format per totes les assignacions possibles dels paquets a les ofertes de transport.
@@ -91,12 +91,17 @@
 		\item \emph{Integer felicidad}: Aquest valor guarda la felicitat total acumulada, que s'augmenta quan els paquets s'entreguen abans del que estava previst. Obtenim un punt de felicitat per cada dia abans que s'entrega el paquet del dia mínim que s'ha d'entregar segons la prioritat escollida pel client.
 		\item \emph{Double precio}: Aquest valor guarda el preu total que té assignar els paquets a les ofertes segons $asignaciones$, incloent els costos de transport de cada paquet en la seva oferta assignada i els d'emmagatzematge si estan assignats a ofertes que triguen $3$ o més dies.
 	\end{itemize}
-		
-	Inicialment, l'estat es configura assignant $-1$ a cada paquet de la llista \emph{asignaciones}, indicant que no hi ha cap oferta de transport assignada al paquet. A més, \emph{espacioDisponibleOfertas} s'inicialitza amb la capacitat màxima de cada oferta, que posteriorment s'anirà actualitzant quan els paquets es vagin assignant. El preu i la felicitat s'inicialitzen a $0$ ja que no hi ha cap assignació fet a cap paquet; al generar la solució inicial i aplicar els operadors ja es van actualitzant conformen.\\
-	Es van considerar altres opcions per a la implementació de l'estat, com una matriu $n \times m$ \textit{assignacions}, on $n$ és el nombre de paquets i $m$ el nombre de ofertes i si $assignacions[i][j] = 1$, significa que el paquet $p_i$ té assignat la oferta $o_j$. Una altra opció era una llista de ofertes on cada oferta contenia una llista dels paquets que tenia assignats.\\
-	El problema de la matriu és l'espai que ocupa, que és de l'ordre de $O(n*m)$, on la majoria de la informació emmagatzemada és poc útil (els valors que són 0), per això ha estat descartada.\\
-	L'avantatge de la llista de ofertes és saber quins paquets tenim a cada oferta i es pot calcular l'espai lliure de cada oferta de manera més eficient que amb la matriu o només amb la llista de paquets amb la seva assignació. No obstant això, el problema és que no eficient a l'hora de determinar a quina oferta està assignada un paquet, ja que cal recórrer totes les llistes de paquets de totes les ofertes fins a trobar-lo. Com que és una funció necessària per a la majoria d'operadors, cal que sigui eficient i, per això aquesta opció també ha sigut descartada.\\
-	Tenint en compte això, ha sigut necessari afegir apart de la llista \textit{asignaciones}, una altra llista on per cada oferta tenim l'espai disponible per poder determinar de manera eficient, en temps constant $O(1)$ (només cal accedir a l'índex adequat de la llista per obtenir l'espai lliure), si un paquet cap a una oferta. Sense aquesta estructura de dades caldria recórrer la llista sencera \textit{asignaciones} per descobrir quins paquets estan assignats a una oferta i determinar l'espai lliure disponible, un cost lineal en funció dels paquets $O(n)$.\\
+	
+	Inicialment, l'estat es configura assignant $-1$ a cada paquet de la llista \emph{asignaciones}, indicant que no hi ha cap oferta de transport assignada al paquet. A més, \emph{espacioDisponibleOfertas} s'inicialitza amb la capacitat màxima de cada oferta, que posteriorment s'anirà actualitzant quan els paquets es vagin assignant. El preu i la felicitat s'inicialitzen a $0$ ja que no hi ha cap assignació fet a cap paquet; al generar la solució inicial i aplicar els operadors ja es van actualitzant conformen. \\
+	
+	Es van considerar altres opcions per a la implementació de l'estat, com una matriu $n \times m$ \textit{assignacions}, on $n$ és el nombre de paquets i $m$ el nombre de ofertes i si $assignacions[i][j] = 1$, significa que el paquet $p_i$ té assignat l'oferta $o_j$. Una altra opció era una llista d'ofertes on cada oferta contenia una llista dels paquets que tenia assignats. \\
+	
+	El problema de la matriu és l'espai que ocupa, que és de l'ordre de $O(n*m)$, on la major part de la informació emmagatzemada és poc útil (els valors que són 0), per això ha estat descartada. \\
+	
+	L'avantatge de la llista d'ofertes és saber quins paquets tenim a cada oferta i es pot calcular l'espai lliure de cada oferta de manera més eficient que amb la matriu o només amb la llista de paquets amb la seva assignació. No obstant això, el problema és que no eficient a l'hora de determinar a quina oferta està assignada un paquet, ja que cal recórrer totes les llistes de paquets de totes les ofertes fins a trobar-lo. Com que és una funció necessària per a la majoria d'operadors, cal que sigui eficient i, per això aquesta opció també ha sigut descartada. \\
+	
+	Tenint en compte això, ha sigut necessari afegir a part de la llista \textit{asignaciones}, una altra llista on per cada oferta tenim l'espai disponible per poder determinar de manera eficient, en temps constant $O(1)$ (només cal accedir a l'índex adequat de la llista per obtenir l'espai lliure), si un paquet cap a una oferta. Sense aquesta estructura de dades caldria recórrer la llista sencera \textit{asignaciones} per descobrir quins paquets estan assignats a una oferta i determinar l'espai lliure disponible, un cost lineal en funció dels paquets $O(n)$. \\
+	
 	Per aquests motius, les estructures de dades llistades abans al principi han estat les seleccionades per a la implementació de l'estat d'aquest problema plantejat, per la seva eficiència tant en espai com en temps, ja que es pot determinar en temps constant l'oferta assignada a un paquet i si un paquet és assignable a una oferta i l'espai ocupat és de l'ordre de $O(n + m)$.
 	
 	\subsection{Operadors}
@@ -105,16 +110,15 @@
 	
 	\begin{itemize}
 		\item \emph{swapPaquet(p1, p2)}: Siguin $p1$ i $p2$ dos paquets diferents que pertanyen a ofertes de transport diferents, mourà $p1$ a la posició de $p2$ i a l'inrevés. La condició d'aplicabilitat d'aquesta operació és que cap de les dues ofertes sobrepassa la seva capacitat màxima i que cap paquet s'entrega més tard que el màxim de dies segons la prioritat després de fer el \textit{swap}. Aquest operador té un factor de ramificació de $O(n^2)$ ja que per cada paquet el podem intercanviar amb la resta de paquets en el cas pitjor. Per ser més precisos el factor de ramificació és $O(\frac{n·(n-1)}{2})$, això surt dels nombres combinatoris, d'agafar els $n$ paquets de 2 en 2 on l'ordre no importa; aleshores obtenim el nombre combinatori $\binom{n}{2}$. Segons la fórmula per trobar el valor d'un nombre combinatori genèric $\binom{n}{m} = \frac{n!}{m!·(n-k)!}$ obtenim la següent expressió $\frac{n!}{2!·(n-2)!}$, la qual es pot simplificar en l'expressió donada abans $\frac{n·(n-1)}{2}$.
-
-
+		
+		
 		\item \emph{mourePaquet(p, o)}: Sigui $p$ un paquet i $o$ una oferta diferent a la qual ja està assignada, mourà el paquet $p$ a la oferta $o$. La condició d'aplicabilitat d'aquest operador és que $p$ càpiga dins de $o$ i s'entregui abans del màxim de dies d'entrega associada a la prioritat del paquet. El factor de ramificació d'aquest operador és de l'ordre de $O(n(m-1))$, ja que tenim que per cada paquet el podem assignar a totes les ofertes que hi ha menys a la que ja està assignada.
 	\end{itemize}
 	
- L'operador \textit{moure} és imprescindible a l'hora de cercar per tot l'espai de solucions i sense ell els algorismes no trobarien solucions tan òptimes; això es degut a que si només tinguéssim l'operador \textit{swap} sempre es tindrien en compte només les mateixes ofertes de transport seleccionades a la solució inicial i no podríem potser assignar un paquet a una oferta on no hi hagi paquets, deixant d'explorar potencials solucions més òptimes. Per aquest motiu hem triat aquests dos operadors perquè són complets, és a dir, a partir d'ells es pot arribar a qualsevol solució. A més, sempre asseguren que els estats resultants d'aplicar l'operador també són solucions. El factor de ramificació ha estat clau per trobar el conjunt d'operadors, ja que, dins dels conjunts possibles considerats, aquest era el que complia totes les condicions amb una ramificació menor ($O(n^2+m)$).
+	L'operador \textit{moure} és imprescindible a l'hora de cercar per tot l'espai de solucions i sense ell els algorismes no trobarien solucions tan bones; això és pel fet que si només tinguéssim l'operador \textit{swap}, sempre es tindrien en compte només les mateixes ofertes de transport seleccionades a la solució inicial i no podríem potser assignar un paquet a una oferta on no hi hagi paquets, deixant d'explorar potencials solucions òptimes. Per aquest motiu hem triat aquests dos operadors perquè són complets, és a dir, a partir d'ells es pot arribar a qualsevol solució. A més, sempre asseguren que els estats resultants d'aplicar l'operador també són solucions. El factor de ramificació ha estat clau per trobar el conjunt d'operadors, ja que, dins dels conjunts possibles considerats, aquest era el que complia totes les condicions amb una ramificació menor ($O(n^2+m)$).
 	
 	\subsection{Generador de Solucions Inicials}
 	
-	El fet de tenir dues funcions generadores de solucions inicials ens permetrà analitzar el comportament dels dos algorismes de cerca local que utilitzarem. Veurem com la configuració de l'estat inicial ens permetrà, o no, fer una cerca eficaç a través de l'espai de cerca i si ens estancarem, o no, en mínims locals. I sobretot, quina de les dues funcions generadores de solucions inicials ens dona un millor rendiment per cadascun dels algorismes. \\
 	El fet de tenir dues funcions generadores de solucions inicials ens permetrà analitzar el comportament dels dos algorismes de cerca local que utilitzarem. Veurem com la configuració de l'estat inicial ens permetrà, o no, fer una cerca eficaç a través de l'espai de cerca i si ens estancarem, o no, en mínims locals. I sobretot, quina de les dues funcions generadores de solucions inicials ens dona un millor rendiment per cadascun dels algorismes.
 	
 	\subsubsection{Maximitzar la felicitat i minimitzar els costos}
@@ -122,7 +126,6 @@
 	
 	Aquest generador intenta generar solucions inicial que no només respectin els terminis d'entrega, sinó que també busqui maximitzar la felicitat dels clients i minimitzar els costos. \\
 	
-	Aquesta funció no té en compte la maximització de la felicitat dels clients ni la reducció de costos. Simplement, assigna els paquets a una oferta que compleixi els requisits d'entrega. La idea principal és buscar una oferta que compleixi amb aquesta condició i tingui espai suficient per al paquet. Per evitar quedar-nos sense espai a les ofertes de major prioritat, endrecem la llista de paquets segons aquesta prioritat. D'aquesta manera, assignem abans els paquets més urgents. Per tant, es pot resumir així:
 	Per maximitzar la felicitat haurem d'aconseguir assignar els paquets per tal que s'entreguin tots tan aviat com es pugui. Per fer això, ordenarem la llista d'ofertes de menor a major segons el dia d'entrega ($Ofertes$). Farem el mateix per les prioritats del paquet ($Paquets$). I el mateix per minimitzar els costos: endreçarem primer les ofertes més barates. D'aquesta manera, s'enviaran els paquets el més aviat possible i, en cas d'empat, amb les ofertes de menor cost. \\
 	
 	Un cop ambdues llistes estan ordenades intentarem assignar els paquets de la següent manera. Vegeu a continuació el pseudocodi:
@@ -130,7 +133,6 @@
 	\begin{algorithm} [H]
 		\caption{Ordenar paquets per ordre de prioritat i per cost}
 		\begin{algorithmic}[1]
-			\State Ordenar paquets per ordre de prioritat
 			\State Ordenar paquets per ordre de prioritat i cost
 			\State Ordenar ofertes per dies d'entrega
 			\For{$\forall p_i \in \text{Paquets}$}
@@ -196,7 +198,7 @@
 	\[
 	O(n \log n + n \cdot m)
 	\]
-		
+	
 	\subsection{Funció Heurística}
 	
 	Hem creat dues funcions heurístiques per poder comparar els resultats que ens generen. Cada una d'elles tindrà criteris diferents:
@@ -347,11 +349,11 @@
 	
 	\subsection{Experiment 3: Determinació de paràmetres del \textit{Simulated Annealing}}
 	\label{sec:exp3}
-
+	
 	L'algoritme de \textit{Simulated Annealing} tal com està implementat accepta els paràmetres: nombre total d'iteracions, iteracions per cada canvi de temperatura (divisor de l'anterior), paràmetres $k$ i $\lambda$ de la funció d'acceptació d'estats; els quals s'han de determinar experimentalment per tal d'obtenir el millor rendiment possible d'aquest algoritme.\\
 	
 	Per determinar això, hem establert un nombre d'iteracions prou gran que ens permetrà obviar aquesta variable a l'hora d'extreure conclusions sobre els altres paràmetres.
-
+	
 	\begin{table}[ht]
 		\centering
 		\begin{tabular}{|l|p{10cm}|}
@@ -396,16 +398,6 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp3_k25.png}
-		\caption{Boxplot del preu resultant amb k=25 i per $\lambda$ = {1,0.01,0.0001}, en funció dels steps}
-		\label{fig:exp3_k25}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp3_k125.png}
-		\caption{Boxplot del preu resultant amb k=125 i per $\lambda$ = {1,0.01,0.0001}, en funció dels steps}
-		\label{fig:exp3_k125}
 		\begin{minipage}{0.45\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{images/exp3_k25.png}
@@ -437,36 +429,36 @@
 		\caption{Mitjana del preu segons el valor de $k$ i $\lambda$, indepent del valor d'\textit{Steps}.}
 		\label{tab:exp3_estadisticas}
 	\end{table}
-
+	
 	Quan analitzem totes les mitjanes, a la \textit{Taula \ref{tab:exp3_estadisticas}}, podem veure que és pels valors més baixos de $lambda$ quan obtenim costos una mica menors. En canvi, respecte la $k$ no sempre obtenim aquests resultats, ja que canviar aquest paràmetre no ha alterat tant el cost resultant i les diferències no són gaire significatives entre aquests valors. \\
-
+	
 	Si analitzem per altra banda les gràfiques, podem arribar a la mateixa conclusió. De fet, també ens serveix per analitzar l'evolució dels resultats en funció del valor que li donem a la variable \textit{Steps}. Es pot veure que, en general, com més gran sigui aquesta variable, més baix és el cost, seguint una baixada força constant quan arribem a un cert punt. \\
 	
 	Podem veure amb els gràfics que per valors de $lambda$ més petits, especialment per $lambda=0.0001$, es necessiten més \textit{steps} per arribar a un cost més estable. A més, aquest valor de lambda necessita més \textit{steps} amb valors de $k$ més alts, com es pot veure a la \textit{Figura \ref{fig:exp3_k125}}. Per això, depenent dels valors triats per la $k$ i $\lambda$, pot ser més recomanable triar un valor d'\textit{steps} o un altre, en funció dels valors de costos i eficiència que busquem. \\
-
+	
 	Com els resultats són força semblants pels diferents valors de $k$, però per $lambda$ veiem que ens interessen valors més petits, triem una opció amb valors de $k$ i $\lambda$ baixos, com per exemple k=1, $\lambda=0.01$. Un cop triat això, si ens fixem en el gràfic \textit{Figura \ref{fig:exp3_k1}}, i ens fixem en el cost resultant en funció dels \textit{steps}, veiem que un valor de $steps=20000$ ja és més que suficient per assegurar-nos un resultat favorable tenint en compte també valors d'eficiència. \\
-		
+	
 	Per tant, el paràmetres que triem per \textit{Simulated Annealing} i que es faran servir per propers experiments és: k=1, $\lambda = 0.01$ i $steps = 20000$.
 	
-
+	
 	\subsection{Experiment 4: Anàlisi del temps d'execució}
 	\label{sec:exp4}
-
+	
 	Un cop hem experimentat amb els diversos factors que influeixen en la cerca d'una solució òptima al problema i hem determinat quins funcionen millor, ens interessa ara també veure com evoluciona el temps d'execució per trobar una solució per veure si és factible trobar-ho en un temps raonable.\\
-
+	
 	L'objectiu és analitzar com evoluciona el temps d'execució necessari per trobar una solució utilitzant l'algoritme de \textit{Hill Climbing}, en funció de dos factors clau: el nombre de paquets a enviar i la proporció de pes transportable per les ofertes. \\
-
+	
 	L'escenari és el mateix que en els experiments anteriors: treballem amb la generadora d'una solució inicial d'entrega al dia (\ref{sec:GenSolIni_dia}), la funció heurística que només té en compte els costos, el conjunt d'operadors tindrà \textit{swap} i \textit{moure}. Tots aquests experiments han estat seleccionats mitjançant els experiments anteriors (\ref{sec:exp1}, \ref{sec:exp2}). Aquest cop, el focus es desplaça cap a l'anàlisi de la complexitat temporal del sistema, estudiant com es veu afectat el temps d'execució quan variem els dos paràmetres mencionats. \\
-
+	
 	Com que tenim dos factors a estudiar, dividim aquest experiment en dues parts:
 	
 	\begin{itemize}
 		\item \emph{Impacte de la proporció del pes transportable}: es fixarà el nombre de paquets a $100$ i s'anirà augmentant la proporció del pes transportable des de $1.2$ en increments de $0.2$ on volem identificar com la relació entre la capacitat de les ofertes i el pes dels paquets afecta el rendiment de l'algoritme.
-
+		
 		\item \emph{Impacte del nombre de paquets}: es fixarà la proporció del pes transportable a $1.2$ i es variarà el nombre de paquets, començant per $100$ i augmentant-lo de $50$ en $50$. S'analitzarà com l'increment en la quantitat de paquets afecta el temps d'execució.
-
+		
 	\end{itemize}
-
+	
 	\subsubsection{Proporció del pes transportable}
 	\begin{table}[ht]
 		\centering
@@ -489,7 +481,7 @@
 		\end{tabular}
 		\label{tab:exp4a_apartats}
 	\end{table}
-
+	
 	Els resultats dels experiments realitzats es poden trobar al path \texttt{./Latex/spreadsheets/exp4a.csv} de \textit{GitHub}, vegeu l'annex \ref{sec:annex}. Podem veure els resultats representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4a_grafic_lineal}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de proporció del pes transportable triats.
 	
 	\begin{figure}[H]
@@ -499,7 +491,7 @@
 		\label{fig:exp4a_grafic_lineal}
 	\end{figure}
 	
-		\begin{table}[H]
+	\begin{table}[H]
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline
@@ -523,7 +515,7 @@
 	En la \textit{Figura \ref{fig:exp4a_grafic_lineal}} es pot apreciar que el temps d'execució de l'algoritme de \textit{Hill Climbing} va augmentant de forma proporcional a la que ho fa la proporció del pes transportable; és a dir que s'aproxima a un creixement lineal la funció obtinguda. \\
 	
 	Dels dos operadors utilitzats, només el de \textit{move} té un factor de ramificació que depèn del nombre d'ofertes, sent de l'ordre de $O(n \cdot m)$, on $m$ és el nombre d'ofertes. En incrementar el nombre d'ofertes, també augmenta l'espai de cerca a causa del factor de ramificació d'aquest operador, de manera que buscar en un espai més gran evidentment triga més. Com que el nombre d'ofertes no té cap exponent, és raonable esperar aquest comportament lineal en el temps d'execució.
-
+	
 	\subsubsection{Nombre de paquets}
 	\label{sec:exp4b_nombrePaq}
 	
@@ -550,7 +542,7 @@
 	\end{table}
 	
 	Els resultats dels experiments realitzats, que es poden trobar al \textit{path} \texttt{./Latex/spreadsheets/exp4b.csv} de \textit{GitHub} (vegeu l'annex \ref{sec:annex} per accedir-hi), els podem veure representats en els gràfics que hi ha a continuació. En el primer gràfic de la \textit{Figura \ref{fig:exp4b_grafic_lineal2}} s'ha fet la mitjana dels temps de totes les llavors que s'han escollit per cada valor de nombre de paquets triats; la \textit{Figura \ref{fig:exp4b_boxplots}} conté un box plot per cada nombre de paquets amb els temps d'execució.\\
-
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.45\textwidth]{images/exp4b_grafic_lineal2.png}
@@ -589,31 +581,24 @@
 		\caption{Estadístiques del temps d'execució en mil·lisegons en funció del nombre de paquets}
 		\label{tab:exp4b_temps}
 	\end{table}
-
-	Com es pot observar en la \textit{Figura \ref{fig:exp4b_grafic_lineal2}}, la mitjana dels temps d'execució augmenta de manera significativa a mesura que creix el nombre de paquets a assignar en el problema d'optimització. Contràriament a un creixement lineal, el comportament observat en el gràfic s'ajusta millor a una funció polinòmica de grau superior a 1. Aquesta observació confirma la nostra hipòtesi inicial, que preveia un augment no lineal del temps d'execució a mesura que augmentava la complexitat del problema.\\
-	A més de la mitjana, la \textit{Figura \ref{fig:exp4b_boxplots}} presenta la distribució dels temps d'execució mitjançant un boxplot, que ens proporciona una visió detallada de la variabilitat dels resultats en funció del nombre de paquets. Aquí es pot observar clarament que, per a valors més petits de paquets (100-200), la variabilitat és baixa, amb distribucions ajustades i valors consistents entre diferents execucions. No obstant això, a partir de 250 paquets, la dispersió augmenta notablement, indicant una major variabilitat en els temps d'execució. Això podria indicar que, en casos amb més paquets, hi ha més variabilitat en el temps necessari per trobar la solució òptima, depenent de la llavor inicial i l'exploració de l'espai de cerca.\\
+	
 	Com es pot observar en la \textit{Figura \ref{fig:exp4b_grafic_lineal2}}, la mitjana dels temps d'execució augmenta de manera significativa a mesura que creix el nombre de paquets a assignar en el problema d'optimització. Contràriament a un creixement lineal, el comportament observat en el gràfic s'ajusta millor a una funció polinòmica de grau superior a $1$. Aquesta observació confirma la nostra hipòtesi inicial, que preveia un augment no lineal del temps d'execució a mesura que augmentava la complexitat del problema. \\
 	
 	A més de la mitjana, la \textit{Figura \ref{fig:exp4b_boxplots}} presenta la distribució dels temps d'execució mitjançant un box plot, que ens proporciona una visió detallada de la variabilitat dels resultats en funció del nombre de paquets. Aquí es pot observar clarament que, per a valors més petits de nombre de paquets $\in [100, 200]$, la variabilitat és baixa, amb distribucions ajustades i valors consistents entre diferents execucions. No obstant això, a partir de $250$ paquets, la dispersió augmenta notablement, indicant una major variabilitat en els temps d'execució. Això podria indicar que, en casos amb més paquets, hi ha més variabilitat en el temps necessari per trobar la solució òptima, depenent de la llavor inicial i l'exploració de l'espai de cerca. \\
 	
-	El creixement quadràtic observat es pot explicar per la naturalesa dels operadors utilitzats en l'algorisme de \textit{Hill Climbing}. Degut al factor de ramificació inherent dels operadors, el qual és de l'ordre de $O(n^2)$, l'espai de cerca s'expandeix de forma quadràtica amb l'increment del nombre de paquets. Així, cada cop que es creix el nombre de paquets, l'algorisme ha d'explorar un espai de solucions molt més gran, la qual cosa resulta en un augment substancial del temps necessari per trobar una solució òptima. Aquesta complexitat quadràtica és típica dels algorismes que han de tractar amb grans espais de cerca, i fa que el temps d'execució s'incrementi ràpidament en problemes d'aquesta magnitud, tal com es reflecteix en el gràfic de la mitjana com en el boxplot.\\
-	A partir de la \textit{Taula \ref{tab:exp4b_temps}}, on es mostren els temps d'execució per diferents nombres de paquets, podem observar un creixement substancial a mesura que el nombre de paquets augmenta. La mediana i la mitjana dels temps d'execució reflecteixen aquesta tendència, confirmant la complexitat quadràtica de l'algorisme amb el factor de ramificació $O(n^2)$, tal com s'ha discutit anteriorment.\\
 	El creixement quadràtic observat es pot explicar per la naturalesa dels operadors utilitzats en l'algorisme de \textit{Hill Climbing}. Degut al factor de ramificació inherent dels operadors, el qual és de l'ordre de $O(n^2)$, l'espai de cerca s'expandeix de forma quadràtica amb l'increment del nombre de paquets. Així, cada cop que es creix el nombre de paquets, l'algorisme ha d'explorar un espai de solucions molt més gran, la qual cosa resulta en un augment substancial del temps necessari per trobar una solució òptima. Aquesta complexitat quadràtica és típica dels algorismes que han de tractar amb grans espais de cerca, i fa que el temps d'execució s'incrementi ràpidament en problemes d'aquesta magnitud, tal com es reflecteix en el gràfic de la mitjana com en el box plot. \\
 	
 	A partir de la \textit{Taula \ref{tab:exp4b_temps}}, on es mostren els temps d'execució per diferents nombres de paquets, podem observar un creixement substancial a mesura que el nombre de paquets augmenta. La mediana i la mitjana dels temps d'execució reflecteixen aquesta tendència, confirmant la complexitat quadràtica de l'algorisme amb el factor de ramificació $O(n^2)$, tal com s'ha discutit anteriorment. \\
 	
-	En conclusió, d'acord amb la hipòtesi plantejada s'ha observat que el temps d'execució de l'algoritme de \textit{Hill Climbing} per trobar una solució a un problema donat augmenta de forma no lineal en funció del nombre de paquets a assignar; la variabilitat de temps també incrementa. En comparació amb l'experiment anterior on s'ha vist que el creixement del temps era lineal, aquí ens trobem amb un creixement quadràtic en contrast; resultats que es justifiquen analitzant els factors de ramificació dels operadors implementats a l'algoritme utilitzat. Amb aquests dos experiments s'ha pogut observar la importància del factor de ramificació, el qual s'ha de tenir en consideració a l'hora d'escollir uns bons operadors.\\
 	En conclusió, d'acord amb la hipòtesi plantejada s'ha observat que el temps d'execució de l'algoritme de \textit{Hill Climbing} per trobar una solució a un problema donat augmenta de forma no lineal en funció del nombre de paquets a assignar; la variabilitat de temps també incrementa. En comparació amb l'experiment anterior on s'ha vist que el creixement del temps era lineal, aquí ens trobem amb un creixement quadràtic en contrast; resultats que es justifiquen analitzant els factors de ramificació dels operadors implementats a l'algoritme utilitzat. Amb aquests dos experiments s'ha pogut observar la importància del factor de ramificació, el qual s'ha de tenir en consideració a l'hora d'escollir uns bons operadors. \\
 	
 	Com a puntualització extra, com s'ha esmentat en el \textit{Experiment 1 (\ref{sec:exp1})}, podríem obviar de l'operador \textit{swap}, ja que no ens ofereix una millora gaire notable. Aconseguint, d'aquesta manera, que l'increment de temps passi a ser lineal, ja que l'operador \textit{move} ho és, i seria l'únic que utilitzaríem. \\
-
-
+	
+	
 	\subsection{Experiment 5: Influència de la proporció de les ofertes}
 	
 	Un altre factor que es vol analitzar és com influeix l'augment de la proporció de les ofertes en el comportament dels costos de transport i emmagatzematge en el problema. En concret, volem determinar si incrementar el nombre de ofertes disponibles millora de manera significativa els costos totals dels paquets i si realment mereix la pena augmentar les ofertes. \\
 	
-	Aprofitant el mateix experiment on veiem el comportament del temps d'execució en funció de la proporció del pes transportable a l'apartat \ref{sec:exp4_nombrePaq}, amb les mateixes llavors i condicions, només que ara ens enfocarem amb els resultats obtinguts sobre els costos de transport i emmagatzematge.\\
-		\begin{table}[ht]
 	Els costos de transport es veuran influenciats principalment per la capacitat de les ofertes per ajustar-se de manera eficient al pes i nombre de paquets a enviar, mentre que el cost d'emmagatzematge dependrà de la efectivitat de l'assignació dels paquets a ofertes que triguin poc. És necessari investigar fins a quin punt l'augment del nombre d'ofertes continua sent beneficiós. \\
 	
 	Aprofitant el mateix experiment on veiem el comportament del temps d'execució en funció de la proporció del pes transportable a l'apartat \ref{sec:exp4b_nombrePaq}, amb les mateixes llavors i condicions, només que ara ens enfocarem amb els resultats obtinguts sobre els costos de transport i emmagatzematge.
@@ -644,15 +629,6 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{exp5_grafic_lineal.png}
-		\caption{Gràfic de la mitjana dels costos totals per cada valor de nombre de paquets}
-		\label{fig:exp5_grafic_lineal}
-	\end{figure}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp5_boxplot.png}
-		\caption{Boxplots dels costos totals per cada valor de nombre de paquets}
-		\label{fig:exp5_boxplot}
 		\begin{minipage}{0.45\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{exp5_grafic_lineal.png}
@@ -667,10 +643,6 @@
 		\end{minipage}
 	\end{figure}
 	
-	Els resultats mostren una tendència general a la disminució del cost total quan s'augmenten les ofertes, encara que aquesta disminució no és dràstica ni exponencial, sinó més aviat lineal i moderada. És a dir, a mesura que s'incrementa el nombre d'ofertes, el sistema aconsegueix optimitzar millor l'assignació dels paquets, degut segurament a que apareguin més ofertes que ofereixin un preu de transport més barat per a una entrega determinada de dies o que tingui més capacitat per transportat; és a dir hi ha més on escollir, la qual cosa redueix els costos d'emmagatzematge i transport, però sense una millora desproporcionada. En uns certs casos, incrementar lleugerament el nombre d'ofertes no genera millores significatives en el cost, i fins i tot en alguns escenaris a penes s'observa una diferència respecte a tenir un nombre menor d'ofertes.\\
-	D'altra banda, cal destacar que augmentar lleugerament el nombre d'ofertes no sempre genera una millora significativa en el cost total; en alguns casos, els canvis són mínims o fins i tot inexistents. No obstant això, quan l'augment d'ofertes és prou significatiu, sí que s'observa una millora apreciable en l'optimització del sistema. A nivell global, encara que els increments petits no sempre impactin de manera clara, quan s'afegeix un nombre considerable d'ofertes, la reducció del cost de transport i emmagatzematge es torna més notable, reflectint una optimització més efectiva del procés.\\
-	En resum, encara que augmentar el nombre d'ofertes és una estratègia vàlida per a reduir els costos, no sempre és eficient més enllà d'un cert punt. Perquè aquesta estratègia sigui efectiva, és necessari augmentar les ofertes de manera significativa, ja que increments marginals no generen millores importants. A més, l'impacte varia segons l'escenari, la qual cosa indica que l'optimització del sistema no depèn únicament de la quantitat d'ofertes, sinó també de com estan estructurades i com interactuen amb les característiques del problema.\\
-	A nivell global, encara que els increments petits no sempre impactin de manera clara, quan s'afegeix un nombre considerable d'ofertes, la reducció del cost de transport i emmagatzematge es torna més notable, i a més qualsevol disminució dels costos és beneficiós per a l'empresa.\\
 	
 	Els resultats mostren una tendència general a la disminució del cost total quan s'augmenten les ofertes, encara que aquesta disminució no és dràstica ni exponencial, sinó més aviat lineal i moderada. És a dir, a mesura que s'incrementa el nombre d'ofertes, el sistema aconsegueix optimitzar millor l'assignació dels paquets, degut segurament a que apareguin més ofertes que ofereixin un preu de transport més barat per a una entrega determinada de dies o que tingui més capacitat per transportat; és a dir hi ha més on escollir, la qual cosa redueix els costos d'emmagatzematge i transport, però sense una millora desproporcionada. En uns certs casos, incrementar lleugerament el nombre d'ofertes no genera millores significatives en el cost, i fins i tot en alguns escenaris a penes s'observa una diferència respecte a tenir un nombre menor d'ofertes. \\
 	
@@ -680,7 +652,6 @@
 	
 	A nivell global, encara que els increments petits no sempre impactin de manera clara, quan s'afegeix un nombre considerable d'ofertes, la reducció del cost de transport i emmagatzematge es torna més notable, i a més qualsevol disminució dels costos és beneficiós per a l'empresa.
 	
-	Un altre punt clau a l'hora de crear algoritmes és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felicitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
 	\subsection{Experiment 6: Influència de la ponderació de la felicitat (HC)}
 	
 	Un altre punt clau a l'hora de crear algoritmes de cerca local és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felicitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
@@ -716,16 +687,6 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp6_grafic.png}
-		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
-		\label{fig:exp6a_grafic}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp6b_grafic.png}
-		\caption{Gràfic del temps d'execució al variar la ponderació de la felicitat}
-		\label{fig:exp6b_grafic}
 		\begin{minipage}{0.45\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{images/exp6_grafic.png}
@@ -773,7 +734,7 @@
 	
 	Donat l'escenari de l'experiment anterior, ara el que volem tornar a veure com afecta la felicitat a l'heurística però, aquest cop, amb l'algoritme de \textit{Simulated Annealing}. D'aquesta manera, podrem comparar tots dos algoritmes i analitzar si hi ha diferències entre les tendències de tots dos. \\
 	
-	Per fer això, farem servir els paràmetres de \textit{Simulated Annealing} obtinguts a l'Experiment 3. \\
+	Per fer això, farem servir els paràmetres de \textit{Simulated Annealing} obtinguts a l'Experiment 3 (\ref{sec:exp3}).
 	
 	\begin{table}[ht]
 		\centering
@@ -801,16 +762,6 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp7_grafic.png}
-		\caption{Gràfic del preu resultant al variar la ponderació de la felicitat}
-		\label{fig:exp7_grafic}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.45\textwidth]{images/exp7b_grafic.png}
-		\caption{Gràfic del temps d'execució al variar la ponderació de la felicitat amb SA}
-		\label{fig:exp7b_grafic}
 		\begin{minipage}{0.45\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{images/exp7_grafic.png}
@@ -858,10 +809,10 @@
 	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/dia una quantitat considerable. Al tractar-se d'un cost significatiu dins el model, una reducció substancial podria alleugerir considerablement el cost global. Si ens fixem en la felicitat resultant, aquesta és possible que es vegi negativament afectada i que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística; l'algoritme té menys pressió per accelerar l'entrega dels paquets. L'algoritme pot permetre mantenir els paquets més temps en el magatzem sense que impacti massa en el cost total; ja que també les ofertes que entreguen en més dies els paquets acostumen a ser més barats amb les quals és necessari guardar els paquets al magatzem i com a conseqüència els paquets arriben més tard disminuint la felicitat.\\
 	
 	\subsubsection{Augment preu emmagatzematge}
-
+	
 	En canvi, si augmentem aquest cost, és possible que el resultat sigui el contrari, ja que quan el preu puja, té proporcionalment un pes més gran a l'heurística, cosa que per una banda farà que es doni menys importància a la felicitat però. Per l'altra, això incentiva a l'algoritme a intenti tenir els paquets el mínim temps possible al magatzem, perquè mantenir-los allà cada cop serà més costós, per tant, això pot resultar en que s'entregaran els paquets el més aviat possible, el qual augmentarà la felicitat dels usuaris. Però, per altra banda, si tenim en compte que està augmentant una part important de l'heurística, també veiem el cost total augmentarà.\\
-
-
+	
+	
 	\subsection{Experiment 9: Especial}
 	
 	L'eficàcia temporal és un aspecte clau en els algoritmes d'intel·ligència artificial. En aquest experiment, per a una entrada donada, extraurem dades sobre el temps necessari perquè l'algoritme s'executi. Els paràmetres que proporcionarem al programa seran: 100 paquets, una proporció de $1.2$ i una llavor de $1234$. A més, utilitzarem el mètode \textit{Hill Climbing} amb els operadors més òptims, que vam examinar en el primer experiment. Aquest conjunt d'operadors inclourà les operacions \textit{move} i \textit{swap}. Només ens falta definir un últim paràmetre: el generador de solucions inicials. Aquest també ha estat seleccionat a partir d'experiments anteriors, més concretament del segon experiment, on vam obtenir els millors resultats amb el generador més 'aleatori'. \\
@@ -879,15 +830,17 @@
 	
 	\newpage
 	\section{Conclusions}
-
+	
 	Aquest estudi ha explorat diferents estratègies de cerca local aplicades a un problema d'assignació òptima de paquets amb múltiples criteris. Els resultats experimentals confirmen que l'ús d'operadors específics com el \textit{swap} i \textit{move} i la selecció adequada de paràmetres milloren l'eficiència del sistema. A més, l'algorisme de \textit{Simulated Annealing} ha mostrat avantatges en la cerca d'òptims globals, evitant els mínims locals amb èxit. \\
+	
+	A més, en aquest estudi s'ha evidenciat la importància de la determinació experimental dels paràmetres en els algorismes de \textit{Hill Climbing} i de \textit{Simulated Annealing} per a aconseguir resultats òptims en la cerca de solucions eficients. S'ha observat que factors com la temperatura inicial, la taxa de refredament i el nombre d'iteracions en el simulated annealing afecten tant la qualitat de la solució com el temps de convergència. Així, l'ajust experimental dels paràmetres en \textit{Simulated Annealing} permet un equilibri òptim entre exploració i explotació. \\
 	
 	En futurs treballs, seria interessant investigar l'impacte de combinar altres heurístiques o ajustar més finament els paràmetres de l'algorisme de \textit{Simulated Annealing}. També s'explorarien variacions de pes dels paquets o temps de lliurament més diversificats per analitzar la robustesa del model. A més, una extensió amb algoritmes genètics, de satisfacció de restriccions o tècniques de \textit{Machine Learning} podria permetre una adaptació automàtica dels paràmetres en funció de les característiques del problema.
 	
 	\section{Coneixements Adquirits}
 	En el transcurs del projecte s'han adquirit els següents coneixements:
 	
-
+	
 	\begin{itemize}
 		\item \textbf{Java amb IntelliJ IDEA}: Desenvolupament de la lògica del projecte amb suport d'un IDE adequat per a projectes complexos.
 		\item \textbf{Experimentació amb Algorismes de Cerca Local}: Implementació d'algorismes com \textit{Hill Climbing} (HC) i \textit{Simulated Annealing} (SA) per a l'optimització de solucions.
@@ -895,7 +848,8 @@
 		\item \textbf{\LaTeX}: Redacció del document amb una estructura professional, facilitant una presentació clara i ben organitzada.
 		\item \textbf{GitHub}: Gestió i seguiment de versions del projecte, facilitant la col·laboració i organització del codi.
 	\end{itemize}
-
+	
+	
 	
 	
 	\newpage
@@ -905,29 +859,29 @@
 	Hem escollit DeepVariant, un algorisme de deep learning desenvolupat per Google, que utilitza xarxes neuronals profundes per identificar variants genètiques en dades de seqüenciació de l'ADN. Mitjançant imatges generades a partir de les lectures de seqüència, DeepVariant detecta mutacions petites amb una precisió superior respecte a altres mètodes tradicionals.
 	
 	\subsection{Responsabilitats d'equip}
-		Malgrat que el treball s'està fent col·laborativament i tots els membres del grup participen en totes les tasques, s'ha decidit dividir-ho en tres parts per cercar i aconseguir informació al respecte.
+	Malgrat que el treball s'està fent col·laborativament i tots els membres del grup participen en totes les tasques, s'ha decidit dividir-ho en tres parts per cercar i aconseguir informació al respecte.
 	\begin{itemize}
 		\item \emph{Introducció i context}:\\
-			Introducció a DeepVariant: què és i per què és rellevant.\\
-			Importància de DeepVariant en la detecció de variants genètiques.\\
-			Visió general del problema que resol en l'anàlisi de dades de seqüenciació d'ADN.\\
-			Per què l'aprenentatge profund és útil en aquest context: beneficis respecte als mètodes tradicionals de detecció de variants (comparació amb altres mètodes).\\
-			\textbf{Responsable}: Guillem Cabré\\
-			
+		Introducció a DeepVariant: què és i per què és rellevant.\\
+		Importància de DeepVariant en la detecció de variants genètiques.\\
+		Visió general del problema que resol en l'anàlisi de dades de seqüenciació d'ADN.\\
+		Per què l'aprenentatge profund és útil en aquest context: beneficis respecte als mètodes tradicionals de detecció de variants (comparació amb altres mètodes).\\
+		\textbf{Responsable}: Guillem Cabré\\
+		
 		\item \emph{Xarxes Neuronals Convolucionals (CNN)}:\\
-			Explicació de què són les xarxes neuronals convolucionals (CNNs).\\
-			Com s'utilitzen les CNNs en DeepVariant per identificar patrons genètics.\\
-			Avantatges de l'ús de CNNs per analitzar dades de seqüenciació d'ADN (perquè reconeixen patrons visuals).\\
-			Relació entre les imatges generades per DeepVariant i l'anàlisi de dades genètiques.\\
-			\textbf{Responsable}: Hannah Röber\\
-			
+		Explicació de què són les xarxes neuronals convolucionals (CNNs).\\
+		Com s'utilitzen les CNNs en DeepVariant per identificar patrons genètics.\\
+		Avantatges de l'ús de CNNs per analitzar dades de seqüenciació d'ADN (perquè reconeixen patrons visuals).\\
+		Relació entre les imatges generades per DeepVariant i l'anàlisi de dades genètiques.\\
+		\textbf{Responsable}: Hannah Röber\\
+		
 		\item \emph{Funcionament Pipeline}:\\
-			Generació d'imatges a partir de dades de seqüenciació d'ADN.\\
-			Com les imatges es passen per la xarxa neuronal convolucional per ser classificades.\\
-			Processos d'inferència: com es decideix quina variant està present (substitució, inserció, deleció).\\
-			Entrenament de la xarxa neuronal amb dades genètiques.\\
-			Presa de decisions sobre la presència de variants genètiques i avantatges de precisió i fiabilitat.\\
-			\textbf{Responsable}: Carla Cordero\\
+		Generació d'imatges a partir de dades de seqüenciació d'ADN.\\
+		Com les imatges es passen per la xarxa neuronal convolucional per ser classificades.\\
+		Processos d'inferència: com es decideix quina variant està present (substitució, inserció, deleció).\\
+		Entrenament de la xarxa neuronal amb dades genètiques.\\
+		Presa de decisions sobre la presència de variants genètiques i avantatges de precisió i fiabilitat.\\
+		\textbf{Responsable}: Carla Cordero\\
 	\end{itemize}
 	
 	
@@ -944,17 +898,16 @@
 		\item Lin, YL., Chang, PC., Hsu, C. et al. \textit{Comparison of GATK and DeepVariant by trio sequencing}. Sci Rep 12, 1809 (2022). \url{https://doi.org/10.1038/s41598-022-05833-4} Rellevància: per observar la comparació en precisió i velocitat entre DeepVariant amb una altra eina que fa un treball similar com GATK \textit{Genome Analysis Toolkit}. Data d'accés: 17 d'octubre de 2024.
 		\item Taedong Yun, Helen Li, Pi-Chuan Chang, Michael F Lin, Andrew Carroll, Cory Y McLean, \textit{Accurate, scalable cohort variant calls using DeepVariant and GLnexus}, Bioinformatics, Volume 36, Issue 24, December 2020, Pages 5582–5589, \url{https://doi.org/10.1093/bioinformatics/btaa1081} Rellecvància: una altra comparació entre DeepVariant i \textit{GLNexus} per observar el rendiment de DeepVariant en comparació amb altres eines. Data d'accés: 17 d'octubre de 2024.
 	\end{itemize}
-		
+	
 	\subsection{Dificultats}
 	\begin{itemize}
 		\item \emph{Accés a referències}: Alguns articles rellevants requereixen subscripcions per poder obtenir informació detallada.
 		\item \emph{Informació tècnica}: Hem hagut de fer un sobreesforç perquè es requereix d'un mínim de coneixements sobre l'ADN per entendre la proposta.
 	\end{itemize}
-
 	
 	\section{Annex}
 	\label{sec:annex}
 	
 	
-
+	
 \end{document}
