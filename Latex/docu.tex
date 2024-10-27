@@ -724,11 +724,11 @@
 	
 	Com podem veure a la \textit{Figura \ref{fig:exp6a_grafic}}, la felicitat té una petita influència en el cost final, ja que si comparem la mediana entre quan no tenim en compte la felicitat a l'heurística i quan tenim una ponderació de $20$ dins d'aquesta, veiem que hi ha una diferència d'una mica més de $200$. \\
 	
-	També podem veure que a mesura que aquesta augmenta, entre els experiments que multipliquen la felicitat per $10$ i els que ho fan per $20$, la diferència és gairebé única. Això és possible que sigui degut a que s'apropa a un mínim local i aquesta ponderació de la felicitat no és tant alta en comparació. \\
+	També podem veure que a mesura que aquesta augmenta, entre els experiments que multipliquen la felicitat per $10$ i els que ho fan per $20$, la diferència és gairebé única. Això és possible que sigui degut a que s'apropa a un mínim local i aquesta ponderació de la felicitat no és tan alta en comparació. \\
 	
 	Si avaluem ara el temps d'execució en aquests algoritmes, vist a la \textit{Figura \ref{fig:exp6b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algoritme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
 	
-	Com a conclusió podríem dir que efectivament el preu augmenta amb un increment de la ponderació de la felicitat, però que aquest augment es manté estable arribats a un punt. I, respecte el temps d'execució, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat.
+	Com a conclusió, podríem dir que efectivament el preu augmenta amb un increment de la ponderació de la felicitat, però que aquest augment es manté estable arribat a un punt. I, respecte al temps d'execució, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat.
 	
 	\subsection{Experiment 7: Influència de la ponderació de la felicitat (SA)}
 	
@@ -820,7 +820,7 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.45\textwidth]{images/exp9_boxplot.png}
-		\caption{Boxplot del preu resultant segons la solució inicial}
+		\caption{Boxplot del temps d'execució}
 		\label{fig:exp9_boxplot}
 	\end{figure}
 	
@@ -833,13 +833,14 @@
 	
 	Aquest estudi ha explorat diferents estratègies de cerca local aplicades a un problema d'assignació òptima de paquets amb múltiples criteris. Els resultats experimentals confirmen que l'ús d'operadors específics com el \textit{swap} i \textit{move} i la selecció adequada de paràmetres milloren l'eficiència del sistema. A més, l'algorisme de \textit{Simulated Annealing} ha mostrat avantatges en la cerca d'òptims globals, evitant els mínims locals amb èxit. \\
 	
-	A més, en aquest estudi s'ha evidenciat la importància de la determinació experimental dels paràmetres en els algorismes de \textit{Hill Climbing} i de \textit{Simulated Annealing} per a aconseguir resultats òptims en la cerca de solucions eficients. S'ha observat que factors com la temperatura inicial, la taxa de refredament i el nombre d'iteracions en el simulated annealing afecten tant la qualitat de la solució com el temps de convergència. Així, l'ajust experimental dels paràmetres en \textit{Simulated Annealing} permet un equilibri òptim entre exploració i explotació. \\
+	A més, en aquest estudi s'ha evidenciat la importància de la determinació experimental dels paràmetres en els algorismes de \textit{Hill Climbing} i de \textit{Simulated Annealing} per a aconseguir resultats òptims en la cerca de solucions eficients. S'ha observat que factors com la temperatura inicial, la taxa de refredament i el nombre d'iteracions en el \textit{Simulated Annealing} afecten tant la qualitat de la solució com el temps de convergència. Així, l'ajust experimental dels paràmetres en \textit{Simulated Annealing} permet un equilibri òptim entre exploració i explotació. \\
 	
-	En futurs treballs, seria interessant investigar l'impacte de combinar altres heurístiques o ajustar més finament els paràmetres de l'algorisme de \textit{Simulated Annealing}. També s'explorarien variacions de pes dels paquets o temps de lliurament més diversificats per analitzar la robustesa del model. A més, una extensió amb algoritmes genètics, de satisfacció de restriccions o tècniques de \textit{Machine Learning} podria permetre una adaptació automàtica dels paràmetres en funció de les característiques del problema.
+	En futurs treballs, seria interessant investigar l'impacte de combinar altres heurístiques o ajustar més finament els paràmetres de l'algorisme de \textit{Simulated Annealing}. També s'explorarien variacions de pes dels paquets o temps de lliurament més diversificats per analitzar la robustesa del model. A més, una extensió amb algoritmes genètics, de satisfacció de restriccions o tècniques de \textit{Machine Learning} podria permetre una adaptació automàtica dels paràmetres en funció de les característiques del problema. \\
+	
+	En conclusió, aquest estudi ens ha permès consolidar els coneixements adquirits sobre algorismes de cerca local i ens ha dotat de recursos per afrontar problemes complexos, adquirint resultats que poden servir de base per a futures investigacions orientades a millorar l'eficiència i adaptabilitat en aplicacions reals. \\
 	
 	\section{Coneixements Adquirits}
 	En el transcurs del projecte s'han adquirit els següents coneixements:
-	
 	
 	\begin{itemize}
 		\item \textbf{Java amb IntelliJ IDEA}: Desenvolupament de la lògica del projecte amb suport d'un IDE adequat per a projectes complexos.

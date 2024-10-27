@@ -5,7 +5,7 @@ tiempo <- data$tiempo
 # Crear el boxplot amb noms
 boxplot(tiempo,
         main = "Boxplot del temps d'executar l'algorisme", 
-        ylab = "Preu",
+        ylab = "Temps (ms)",
         col = "lightblue")
 
 # Mostrar la cuadrícula
