@@ -708,7 +708,7 @@
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline
-			\textbf{Operador} & \textbf{Mediana} & \textbf{MedianaTemps} \\
+			\textbf{Ponderació heurística} & \textbf{Mediana} & \textbf{MedianaTemps} \\
 			\hline
 			$Felicitat \times 0$ & 1010.5 & 396\\
 			\hline
@@ -783,7 +783,7 @@
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline
-			\textbf{Operador} & \textbf{Mediana} & \textbf{MedianaTemps} \\
+			\textbf{Ponderació heurística} & \textbf{Mediana} & \textbf{MedianaTemps} \\
 			\hline
 			$Felicitat \times 0$ & 1045.66 & 289\\
 			\hline
@@ -830,6 +830,51 @@
 	A la \textit{Figura \ref{fig:exp9_boxplot}}, observem la distribució dels temps d'execució obtinguts. La mediana és de $207.5$ ms i l'IQR és de $3.5$, cosa que indica que el temps emprat pel programa és força estable. \\
 	
 	Amb aquests paràmetres, \textit{Hill Climbing} aconsegueix trobar un mínim on l'assignació de paquets té un cost de $794.675$ €.
+	
+	\subsection{Experiment 10: Comparativa Hill Climbing i Simulated Annealing}
+	
+	Per comparar els resultats obtinguts amb tots dos algoritmes, fets servir al llarg d'aquest treball, farem servir diferents entrades amb 400 paquets i una proporció dels paquets d'1.2, així com també els paràmetres pel \textit{Simulated Annealing} obtinguts a l'experiment 3(\ref{sec:exp3}).
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/cmpHC_SA_preu.png}
+			\caption{Gràfic comparatiu del preu}
+			\label{fig:cmpHC_SA_preu}
+		\end{minipage} \hfill
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/cmpHC_SA_temps.png}
+			\caption{Gràfic comparatiu del temps d'execució}
+			\label{fig:cmpHC_SA_temps}
+		\end{minipage}
+	\end{figure}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Algoritme} & \textbf{MedianaCost} & \textbf{MedianaTemps(ms)} \\
+			\hline
+			Hill Climbing & 3863.90 & 24507.40\\
+			\hline
+			Simulated Annealing & 3883.01 & 52.60\\
+			\hline
+		\end{tabular}
+		\caption{Estadístiques del preu i temps d'execució segons l'algoritme emprat}
+		\label{tab:exp10_estadisticas}
+	\end{table}
+
+	En les anteriors figures podem observar que el temps d'execució per l'algoritme \textit{Simulated Annealing} és molt menor que per  \textit{Hill Climbing}. Però en canvi, respecte als resultats respecte al cost obtingut, podem veure que el primer algoritme obté lleugerament pitjors resultats, tot i que les diferències tampoc són gaire significatives. \\
+	
+	Aquests resultats els obtenim malgrat saber que el \textit{Hill Climbing} sol quedar-se atrapat fàcilment en mínims locals, ja que sempre fa passos cap a solucions millors, és a dir, sempre intenta obtenir millors resultats en cada iteració. Això significa que l'algoritme pot trobar una solució que sigui òptima en aquell espai, però que no sigui la millor solució global. \\
+	
+	En canvi, \textit{Simulated Annealing} té l'avantatge que introdueix un factor d'aleatorietat que li permet escapar d'aquests mínims locals. Inicialment, permet moure's a pitjors solucions amb certa probabilitat, la qual disminueix gradualment a mesura que es "refreda" el procés. Per això, si ajustem correctament els paràmetres, pot arribar a solucions més òptimes que \textit{Hill Climbing}, la qual cosa no ha passat en aquest cas, possiblement perquè el primer algoritme ja ha trobat un bon òptim global. \\
+	
+	Respecte al temps d'execució, veiem que per una quantitat molt alta d'entrades, el \textit{Simulated Annealing} és més ràpid que el \textit{Hill Climbing}, això pot ser degut també al fet que \textit{Simulated Annealing} pot aprofitar un temps fix d'iteracions per explorar diferents zones sense haver de reavaluar les mateixes constantment, a diferència del \textit{Hill Climbing}. Això, juntament amb el refredament, permet que \textit{Simulated Annealing} convergeixi més ràpidament cap a una solució òptima, especialment en els espais de cerca més grans (major nombre de paquets en aquest cas). D'aquesta manera, pot evitar els temps associats a quedar-se encallat en mínims locals, millorant així l'eficiència de la cerca. \\
+	
+	Com a conclusió, podem dir que per aquestes entrades del problema, l'algoritme \textit{Simulated Annealing} ens proporciona millors resultats que el \textit{Hill Climbing} respecte al temps d'execució i resultats òptims. \\
 	
 	\newpage
 	\section{Conclusions}
