@@ -46,6 +46,8 @@
 	
 	Les empreses de transport ofereixen cada dia $m$ opcions amb una capacitat màxima $C_j \in \{5, 10, 15, ..., 50\}$ kg, un preu per quilogram transportat $c_j$, i un temps d'entrega $t_j \in \{1, 2, 3, 4, 5\}$ dies. A més, si els paquets no es recullen immediatament, cal assumir un cost d'emmagatzematge de 0.25 euros per quilogram i dia. Els clients es mostren més satisfets amb entregues anticipades, la qual cosa augmenta proporcionalment als dies d'antelació. \\
 	
+	Vegeu una explicació de les classes \textit{java} en el Annex \ref{sec:annex}.
+	
 	\subsection{Definició solució}
 	
 	Una solució segons el problema que se'ns ha descrit és una assignació dels paquets a les ofertes de transport del dia apropiades amb les restriccions que la suma dels pesos dels paquets assignats a una oferta no poden superar la seva capacitat màxima i que tots els paquets arribin dins del termini d'entrega que depèn de la seva prioritat. \\
@@ -77,7 +79,7 @@
 	
 	D'aquesta manera, utilitzant la cerca local, podem obtenir solucions raonablement bones en un temps raonable, ajustant paràmetres i comparant diferents configuracions en els experiments. \\
 	
-	A través de diversos experiments, es provaran diferents configuracions de paràmetres i es compararan els resultats dels dos algorismes per determinar quin proporciona millors solucions en termes de cost i felicitat.
+	A través de diversos experiments, es provaran diferents configuracions de paràmetres i es compararan els resultats dels dos algorismes per determinar quin proporciona millors solucions en termes de cost i felicitat. \\
 	
 	\subsection{Implementació de l'Estat}
 	
@@ -102,7 +104,7 @@
 	
 	Tenint en compte això, ha sigut necessari afegir a part de la llista \textit{asignaciones}, una altra llista on per cada oferta tenim l'espai disponible per poder determinar de manera eficient, en temps constant $O(1)$ (només cal accedir a l'índex adequat de la llista per obtenir l'espai lliure), si un paquet cap a una oferta. Sense aquesta estructura de dades caldria recórrer la llista sencera \textit{asignaciones} per descobrir quins paquets estan assignats a una oferta i determinar l'espai lliure disponible, un cost lineal en funció dels paquets $O(n)$. \\
 	
-	Per aquests motius, les estructures de dades llistades abans al principi han estat les seleccionades per a la implementació de l'estat d'aquest problema plantejat, per la seva eficiència tant en espai com en temps, ja que es pot determinar en temps constant l'oferta assignada a un paquet i si un paquet és assignable a una oferta i l'espai ocupat és de l'ordre de $O(n + m)$.
+	Per aquests motius, les estructures de dades llistades abans al principi han estat les seleccionades per a la implementació de l'estat d'aquest problema plantejat, per la seva eficiència tant en espai com en temps, ja que es pot determinar en temps constant l'oferta assignada a un paquet i si un paquet és assignable a una oferta i l'espai ocupat és de l'ordre de $O(n + m)$. \\
 	
 	\subsection{Operadors}
 	
@@ -115,7 +117,7 @@
 		\item \emph{mourePaquet(p, o)}: Sigui $p$ un paquet i $o$ una oferta diferent a la qual ja està assignada, mourà el paquet $p$ a la oferta $o$. La condició d'aplicabilitat d'aquest operador és que $p$ càpiga dins de $o$ i s'entregui abans del màxim de dies d'entrega associada a la prioritat del paquet. El factor de ramificació d'aquest operador és de l'ordre de $O(n(m-1))$, ja que tenim que per cada paquet el podem assignar a totes les ofertes que hi ha menys a la que ja està assignada.
 	\end{itemize}
 	
-	L'operador \textit{moure} és imprescindible a l'hora de cercar per tot l'espai de solucions i sense ell els algorismes no trobarien solucions tan bones; això és pel fet que si només tinguéssim l'operador \textit{swap}, sempre es tindrien en compte només les mateixes ofertes de transport seleccionades a la solució inicial i no podríem potser assignar un paquet a una oferta on no hi hagi paquets, deixant d'explorar potencials solucions òptimes. Per aquest motiu hem triat aquests dos operadors perquè són complets, és a dir, a partir d'ells es pot arribar a qualsevol solució. A més, sempre asseguren que els estats resultants d'aplicar l'operador també són solucions. El factor de ramificació ha estat clau per trobar el conjunt d'operadors, ja que, dins dels conjunts possibles considerats, aquest era el que complia totes les condicions amb una ramificació menor ($O(n^2+m)$).
+	L'operador \textit{moure} és imprescindible a l'hora de cercar per tot l'espai de solucions i sense ell els algorismes no trobarien solucions tan bones; això és pel fet que si només tinguéssim l'operador \textit{swap}, sempre es tindrien en compte només les mateixes ofertes de transport seleccionades a la solució inicial i no podríem potser assignar un paquet a una oferta on no hi hagi paquets, deixant d'explorar potencials solucions òptimes. Per aquest motiu hem triat aquests dos operadors perquè són complets, és a dir, a partir d'ells es pot arribar a qualsevol solució. A més, sempre asseguren que els estats resultants d'aplicar l'operador també són solucions. El factor de ramificació ha estat clau per trobar el conjunt d'operadors, ja que, dins dels conjunts possibles considerats, aquest era el que complia totes les condicions amb una ramificació menor ($O(n^2+m)$). \\
 	
 	\subsection{Generador de Solucions Inicials}
 	
@@ -198,6 +200,7 @@
 	\[
 	O(n \log n + n \cdot m)
 	\]
+	\\
 	
 	\subsection{Funció Heurística}
 	
@@ -242,7 +245,7 @@
 		\label{tab:exp1_apartats}
 	\end{table}
 	
-	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex \ref{sec:annex} per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex1.csv}. A partir d'aquestes dades farem un box plot per tenir una representació més visual d'aquestes. Vegeu el boxplot a continuació:
+	Ja amb els experiment executats, hem col·locat els resultats al projecte \textit{GitHub} (vegeu l'annex \ref{sec:annex} per accedir-hi), en el path \texttt{./Latex/spreadsheets/ex1.csv}. A partir d'aquestes dades farem un box plot per tenir una representació més visual d'aquestes. Vegeu el box plot a continuació:
 	
 	\begin{figure}[H]
 		\centering
@@ -887,15 +890,24 @@
 	
 	
 	
-	\subsection{Fonts}
+	\subsection{Referències}
+	
 	\begin{itemize}
+		\item GitHub: \url{https://github.com/google/deepvariant} Rellevància: és el repositori oficial que inclou codi, instruccions de instal·lació, i scripts per executar DeepVariant, i, a més, models d'entrenament i eines d'avaluació. També porta a altres documents com: \url{https://google.github.io/deepvariant/posts/2020-02-20-looking-through-deepvariants-eyes/} Data d'accés: 13 d'octubre de 2024.
 		\item \emph{Creating a universal SNP and small indel variant caller with deep neural networks}:
 		Rellevància: Base teòrica de DeepVariant i explicació de l'ús de xarxes neuronales.
 		Data d'accés: 13 d'octubre de 2024.
 		Enllaç: \url{https://doi.org/10.1101/092890}
 		i \url{https://www.biorxiv.org/content/biorxiv/suppl/2016/12/19/092890.DC2/092890-1.pdf}
-		\item Enllaç: \url{https://github.com/google/deepvariant} Rellevància: és el repositori oficial que inclou codi, instruccions de instal·lació, i scripts per executar DeepVariant, i, a més, models d'entrenament i eines d'avaluació. També porta a altres documents com: \url{https://google.github.io/deepvariant/posts/2020-02-20-looking-through-deepvariants-eyes/} Data d'accés: 13 d'octubre de 2024.
 		\item Zou J, Huss M, Abid A, Mohammadi P, Torkamani A, Telenti A. \emph{A primer on deep learning in genomics}. Nat Genet. 2019 Jan;51(1):12-18. doi: 10.1038/s41588-018-0295-5. Epub 2018 Nov 26. PMID: 30478442; PMCID: PMC11180539. Rellevància: proveeix una base en la recerca en l'anàlisi de dades genòmiques utilitzant xarxes neuronals convolucionals, arquitectura de la qual està formada DeepVariant. Data d'accés: 20 d'octubre de 2024.
+		\item \emph{Deep learning for genomics: A concise overview}:
+		Rellevància: Proporciona una visió general sobre l'aplicació d'aprenentatge profund en la genòmica, incloent exemples pràctics i metodologia.
+		Data d'accés: 28 d'octubre de 2024.
+		Enllaç: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC7481958/}
+		\item \emph{Deep learning in bioinformatics and genomics}:
+		Rellevància: Explora les aplicacions de l'aprenentatge profund en bioinformàtica, amb un enfocament en la seva importància per a l'anàlisi de dades genòmiques.
+		Data d'accés: 28 d'octubre de 2024.
+		Enllaç: \url{https://www.nature.com/articles/nbt.4235}
 		\item Lin, YL., Chang, PC., Hsu, C. et al. \textit{Comparison of GATK and DeepVariant by trio sequencing}. Sci Rep 12, 1809 (2022). \url{https://doi.org/10.1038/s41598-022-05833-4} Rellevància: per observar la comparació en precisió i velocitat entre DeepVariant amb una altra eina que fa un treball similar com GATK \textit{Genome Analysis Toolkit}. Data d'accés: 17 d'octubre de 2024.
 		\item Taedong Yun, Helen Li, Pi-Chuan Chang, Michael F Lin, Andrew Carroll, Cory Y McLean, \textit{Accurate, scalable cohort variant calls using DeepVariant and GLnexus}, Bioinformatics, Volume 36, Issue 24, December 2020, Pages 5582–5589, \url{https://doi.org/10.1093/bioinformatics/btaa1081} Rellecvància: una altra comparació entre DeepVariant i \textit{GLNexus} per observar el rendiment de DeepVariant en comparació amb altres eines. Data d'accés: 17 d'octubre de 2024.
 	\end{itemize}
@@ -906,9 +918,46 @@
 		\item \emph{Informació tècnica}: Hem hagut de fer un sobreesforç perquè es requereix d'un mínim de coneixements sobre l'ADN per entendre la proposta.
 	\end{itemize}
 	
+	\newpage
 	\section{Annex}
 	\label{sec:annex}
 	
+	\subsection*{Enllaç al Codi}
 	
+	El codi font i documentació addicional del projecte estan disponibles al repositori de GitHub. Podeu accedir-hi mitjançant el següent enllaç:
+	
+	\href{https://github.com/Willyllem88/IA-LocalSearch}{GitHub - IA-LocalSearch} \\
+	
+	En aquest repositori, a més del codi, es proporcionen instruccions de compilació i execució, així com les \textit{spreadsheets} dels experiments, els \textit{spripts} en \texttt{R} i els gràfics resultants d'aquests.
+
+	\subsection*{Documentació de classes Java}
+	
+	En el desenvolupament de la pràctica s'han utilitzat diverses classes Java. A continuació, es descriu cadascuna d'elles:
+	
+	\begin{itemize}
+		\item \texttt{Paquet}: Representa un paquet individual, incloent informació com el pes i la prioritat. Aquesta classe s'encarrega de gestionar les propietats de cada paquet i proporciona mètodes per accedir a aquesta informació.
+		\item \texttt{Paquets}: Genera una estructura amb tots els paquets que s'han de lliurar. Rep com a paràmetres el nombre de paquets i la llavor per a la generació aleatòria.
+		\item \texttt{Transporte}: Representa les ofertes de transport disponibles. Rep com a paràmetres l'estructura de paquets, una proporció de pes i una llavor per a la generació aleatòria.
+		\item \texttt{Oferta}: Inclou la informació sobre les ofertes de transport, com el pes màxim i el preu per quilogram.
+	\end{itemize}
+	
+	\subsection*{Eines estadístiques per analitzar els resultats}
+	
+	Per realitzar una anàlisi completa dels resultats dels experiments, és útil emprar eines estadístiques que facilitin la comparació entre diferents mètodes. Algunes sugerències inclouen:
+	
+	\begin{itemize}
+		\item \textbf{Mitjana i desviació estàndard:} Per determinar l'estabilitat i consistència dels resultats en diferents rèpliques.
+		\item \textbf{Diagrames de caixa (Box plots):} Útils per visualitzar la dispersió dels resultats i detectar possibles valors atípics.
+	\end{itemize}
+	
+	\subsection*{Consideracions finals sobre el disseny d'experiments}
+	
+	En l'experimentació, s'han pres diverses decisions metodològiques amb l'objectiu d'obtenir resultats significatius:
+	
+	\begin{itemize}
+		\item \textbf{Elecció de la llavor:} S'ha utilitzat una llavor específica per garantir que tots els experiments fossin reproduïbles.
+		\item \textbf{Nombre de rèpliques:} Cada experiment s'ha replicat almenys deu vegades per calcular valors mitjans fiables.
+		\item \textbf{Visualització de resultats:} S'han emprat gràfics per facilitar la interpretació visual de les dades obtingudes en cada experiment.
+	\end{itemize}
 	
 \end{document}
