@@ -108,7 +108,7 @@
 	
 	\subsection{Operadors}
 	
-	Per executar els algoritmes de cerca local hem definit i implementat un conjunt d'operadors. Per parlar del seu factor de ramificació considerem $n$ el nombre de paquets a assignar i $m$ el nombre de ofertes de transport disponibles per repartir els paquets. Els operadors escollits seran els següents:
+	Per executar els algorismes de cerca local hem definit i implementat un conjunt d'operadors. Per parlar del seu factor de ramificació considerem $n$ el nombre de paquets a assignar i $m$ el nombre de ofertes de transport disponibles per repartir els paquets. Els operadors escollits seran els següents:
 	
 	\begin{itemize}
 		\item \emph{swapPaquet(p1, p2)}: Siguin $p1$ i $p2$ dos paquets diferents que pertanyen a ofertes de transport diferents, mourà $p1$ a la posició de $p2$ i a l'inrevés. La condició d'aplicabilitat d'aquesta operació és que cap de les dues ofertes sobrepassa la seva capacitat màxima i que cap paquet s'entrega més tard que el màxim de dies segons la prioritat després de fer el \textit{swap}. Aquest operador té un factor de ramificació de $O(n^2)$ ja que per cada paquet el podem intercanviar amb la resta de paquets en el cas pitjor. Per ser més precisos el factor de ramificació és $O(\frac{n·(n-1)}{2})$, això surt dels nombres combinatoris, d'agafar els $n$ paquets de 2 en 2 on l'ordre no importa; aleshores obtenim el nombre combinatori $\binom{n}{2}$. Segons la fórmula per trobar el valor d'un nombre combinatori genèric $\binom{n}{m} = \frac{n!}{m!·(n-k)!}$ obtenim la següent expressió $\frac{n!}{2!·(n-2)!}$, la qual es pot simplificar en l'expressió donada abans $\frac{n·(n-1)}{2}$.
@@ -217,9 +217,9 @@
 	\subsection{Experiment 1: Determinació dels Operadors}
 	\label{sec:exp1}
 	
-	Un factor clau en els algoritmes de cerca local és el mètode utilitzat per recórrer l'espai de cerca. Per aquest motiu, emprem operadors, que apliquen modificacions a un estat base i ens permeten navegar a través d'aquest espai. En un conjunt d'operadors, l'objectiu és minimitzar el factor de ramificació, amb l'aspiració de millorar principalment l'eficiència temporal, tot i que també es busca una millor eficiència espacial. \\
+	Un factor clau en els algorismes de cerca local és el mètode utilitzat per recórrer l'espai de cerca. Per aquest motiu, emprem operadors, que apliquen modificacions a un estat base i ens permeten navegar a través d'aquest espai. En un conjunt d'operadors, l'objectiu és minimitzar el factor de ramificació, amb l'aspiració de millorar principalment l'eficiència temporal, tot i que també es busca una millor eficiència espacial. \\
 	
-	Per provar la hipòtesi de que certs conjunts d'operadors donen millors resultats en una certa funció heurística, realitzarem experiments en el següent escenari: s'han d'enviar 100 paquets, i la proporció del pes transportable per les ofertes és de 1,2. Utilitzarem l'algoritme de \textit{Hill Climbing} per a aquest propòsit. Els diferents conjunts d'operadors seran $C_{\texttt{1}} = \{\texttt{move}\}$, $C_{\texttt{2}} = \{\texttt{swap}\}$, $C_{\texttt{3}} = \{\texttt{move}, \texttt{swap}\}$. \\
+	Per provar la hipòtesi de que certs conjunts d'operadors donen millors resultats en una certa funció heurística, realitzarem experiments en el següent escenari: s'han d'enviar 100 paquets, i la proporció del pes transportable per les ofertes és de 1,2. Utilitzarem l'algorisme de \textit{Hill Climbing} per a aquest propòsit. Els diferents conjunts d'operadors seran $C_{\texttt{1}} = \{\texttt{move}\}$, $C_{\texttt{2}} = \{\texttt{swap}\}$, $C_{\texttt{3}} = \{\texttt{move}, \texttt{swap}\}$. \\
 	
 	També hem de establir quin algorisme generador de solucions inicial emprarem. En aquest cas establirem que l'algorisme usat serà el que genera les solucions més aleatòries (\ref{sec:GenSolIni_dia}).
 	
@@ -236,7 +236,7 @@
 			Mètode & 
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
-				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions aleatori.
+				\item Establirem els algorismes \textit{Hill Climbing}, i generador de solucions aleatori.
 				\item Executarem 10 experiment els conjunts d'operadors $C_{\texttt{1}}$, $C_{\texttt{2}}$ i $C_{\texttt{3}}$, un per cada llavor.
 				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
@@ -281,14 +281,14 @@
 	
 	A partir d'aquesta observació, podríem considerar l'opció de reduir el factor de ramificació eliminant l'operador \textit{swap} del conjunt d'operadors utilitzats. La raó darrere d'aquesta decisió es fonamenta en el principi d'eficiència: simplificar el conjunt d'operadors pot conduir a una reducció del temps de càlcul i a una millora en la velocitat d'exploració de l'espai de cerca. \\
 	
-	En resum, els resultats indiquen que, tot i que el \textit{swap} aporta certes millores en situacions particulars, la seva presència no és extremadament rellevant. Això suggereix que una aproximació més eficient podria ser treballar exclusivament amb l'operador \textit{move}, permetent-nos explorar l'espai de cerca de manera més àgil i reduint potencialment el factor de ramificació, facilitant així la millora del rendiment global de l'algoritme.
+	En resum, els resultats indiquen que, tot i que el \textit{swap} aporta certes millores en situacions particulars, la seva presència no és extremadament rellevant. Això suggereix que una aproximació més eficient podria ser treballar exclusivament amb l'operador \textit{move}, permetent-nos explorar l'espai de cerca de manera més àgil i reduint potencialment el factor de ramificació, facilitant així la millora del rendiment global de l'algorisme.
 	
 	\subsection{Experiment 2: Determinació de Solucions Inicials}
 	\label{sec:exp2}
 	
 	Un altre punt que creiem molt important a l'hora de plantejar aquests problemes és la solució inicial. Una solució inicial de qualitat proporciona un diferent punt de partida per explorar l'espai de solucions, la qual cosa pot conduir a diferents resultats finals, o bé a una diferent velocitat per trobar una solució òptima. \\
 	
-	En aquest experiment, compararem dues estratègies de generació de solucions inicials per avaluar si hi ha alguna diferència notable en els resultats finals quan es fa servir l'algoritme \textit{Hill Climbing} i els operadors escollits a l'apartat anterior: \textit{swap} i \textit{move}.\\
+	En aquest experiment, compararem dues estratègies de generació de solucions inicials per avaluar si hi ha alguna diferència notable en els resultats finals quan es fa servir l'algorisme \textit{Hill Climbing} i els operadors escollits a l'apartat anterior: \textit{swap} i \textit{move}.\\
 	
 	Les dues estratègies que considerarem per la generació de l'estat inicial són:
 	
@@ -311,7 +311,7 @@
 			Mètode & 
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
-				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2.
+				\item Establirem els algorismes \textit{Hill Climbing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'1,2.
 				\item Executarem els 10 experiments amb la \textit{Solució inicial 1} i la \textit{Solució inicial 2}, un per cada llavor.
 				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
@@ -346,14 +346,14 @@
 	
 	Com clarament veiem a la \textit{Figura \ref{fig:exp2_boxplot}} i \textit{Taula \ref{tab:exp2_estadisticas}}, les diferències entre els resultats obtinguts segons les solucions inicials donades són mínimes, tant en la mediana com en el rang interquartílic (IQR). La \textit{Solució inicial 1}, és a dir, la més "òptima", presenta una mediana del preu lleugerament superior ($980.975$ comparada amb $980.87$), però la diferència no és significativa. El rang interquartílic és també lleugerament més ampli per aquesta solució, amb un IQR de $87.60$ en comparació amb els $85.59$ de l'altra solució inicial.\\
 	
-	Aquestes similituds porten a pensar que ambdues estratègies acaben atrapades en mínims locals, independentment de la qualitat de la solució inicial, per això les diferències en els resultats finals són gairebé inexistents en l'algoritme de \textit{Hill Climbing}, és a dir, totes dues estratègies portaran cap a resultats similars.\\
+	Aquestes similituds porten a pensar que ambdues estratègies acaben atrapades en mínims locals, independentment de la qualitat de la solució inicial, per això les diferències en els resultats finals són gairebé inexistents en l'algorisme de \textit{Hill Climbing}, és a dir, totes dues estratègies portaran cap a resultats similars.\\
 	
-	Després d'analitzar els resultats, podem concloure que no hi ha una diferència significativa entre les dues estratègies de generació de solucions inicials. Això ens dona a pensar que almenys en aquest escenari, l'algoritme \textit{Hill Climbing} tendeix a quedar-se en mínims locals, independentment de la qualitat de la solució inicial. Per tant, pels pròxims experiments, optarem per la generació de solucions inicials menys òptimes, és a dir, per la \textit{Solució inicial 2} \ref{sec:GenSolIni_dia}, ja que simplifica el procés de generar l'Estat Inicial i no empitjora la solució final, de fet, la millora molt lleugerament.
+	Després d'analitzar els resultats, podem concloure que no hi ha una diferència significativa entre les dues estratègies de generació de solucions inicials. Això ens dona a pensar que almenys en aquest escenari, l'algorisme \textit{Hill Climbing} tendeix a quedar-se en mínims locals, independentment de la qualitat de la solució inicial. Per tant, pels pròxims experiments, optarem per la generació de solucions inicials menys òptimes, és a dir, per la \textit{Solució inicial 2} \ref{sec:GenSolIni_dia}, ja que simplifica el procés de generar l'Estat Inicial i no empitjora la solució final, de fet, la millora molt lleugerament.
 	
 	\subsection{Experiment 3: Determinació de paràmetres del \textit{Simulated Annealing}}
 	\label{sec:exp3}
 	
-	L'algoritme de \textit{Simulated Annealing} tal com està implementat accepta els paràmetres: nombre total d'iteracions, iteracions per cada canvi de temperatura (divisor de l'anterior), paràmetres $k$ i $\lambda$ de la funció d'acceptació d'estats; els quals s'han de determinar experimentalment per tal d'obtenir el millor rendiment possible d'aquest algoritme.\\
+	L'algorisme de \textit{Simulated Annealing} tal com està implementat accepta els paràmetres: nombre total d'iteracions, iteracions per cada canvi de temperatura (divisor de l'anterior), paràmetres $k$ i $\lambda$ de la funció d'acceptació d'estats; els quals s'han de determinar experimentalment per tal d'obtenir el millor rendiment possible d'aquest algorisme.\\
 	
 	Per determinar això, hem establert un nombre d'iteracions prou gran que ens permetrà obviar aquesta variable a l'hora d'extreure conclusions sobre els altres paràmetres.
 	
@@ -370,7 +370,7 @@
 			Mètode &
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
-				\item Establirem l'algoritme \textit{Simulated Annealing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'$1.2$. El nombre d'iteracions el deixarem fix a $100$ i la solució inicial que donarem serà la \textit{Solució inicial 2} (\ref{sec:GenSolIni_dia}), triada a l'experiment anterior \textit{Experiment 2} (\ref{sec:exp2}).
+				\item Establirem l'algorisme \textit{Simulated Annealing} per un problema amb 100 paquets i una proporció de pes transportable per les ofertes d'$1.2$. El nombre d'iteracions el deixarem fix a $100$ i la solució inicial que donarem serà la \textit{Solució inicial 2} (\ref{sec:GenSolIni_dia}), triada a l'experiment anterior \textit{Experiment 2} (\ref{sec:exp2}).
 				\item Executarem els $50$ experiments amb cada conjunt de $k=\{1, 5, 25, 125\}$ i $\lambda = \{1, 0.01, 0.0001\}$.
 				\item Cadascun d'aquests experiments l'executarem amb diversos valors d'\textit{Steps}, començant per $1$ i augmentant progressivament fins a $1500$, $\{1, 100, 200, 500, ... , 90000, 100000\}$. 
 				\item Mesurarem els resultats i n'extraurem conclusions.
@@ -449,14 +449,14 @@
 	
 	Un cop hem experimentat amb els diversos factors que influeixen en la cerca d'una solució òptima al problema i hem determinat quins funcionen millor, ens interessa ara també veure com evoluciona el temps d'execució per trobar una solució per veure si és factible trobar-ho en un temps raonable.\\
 	
-	L'objectiu és analitzar com evoluciona el temps d'execució necessari per trobar una solució utilitzant l'algoritme de \textit{Hill Climbing}, en funció de dos factors clau: el nombre de paquets a enviar i la proporció de pes transportable per les ofertes. \\
+	L'objectiu és analitzar com evoluciona el temps d'execució necessari per trobar una solució utilitzant l'algorisme de \textit{Hill Climbing}, en funció de dos factors clau: el nombre de paquets a enviar i la proporció de pes transportable per les ofertes. \\
 	
 	L'escenari és el mateix que en els experiments anteriors: treballem amb la generadora d'una solució inicial d'entrega al dia (\ref{sec:GenSolIni_dia}), la funció heurística que només té en compte els costos, el conjunt d'operadors tindrà \textit{swap} i \textit{moure}. Tots aquests experiments han estat seleccionats mitjançant els experiments anteriors (\ref{sec:exp1}, \ref{sec:exp2}). Aquest cop, el focus es desplaça cap a l'anàlisi de la complexitat temporal del sistema, estudiant com es veu afectat el temps d'execució quan variem els dos paràmetres mencionats. \\
 	
 	Com que tenim dos factors a estudiar, dividim aquest experiment en dues parts:
 	
 	\begin{itemize}
-		\item \emph{Impacte de la proporció del pes transportable}: es fixarà el nombre de paquets a $100$ i s'anirà augmentant la proporció del pes transportable des de $1.2$ en increments de $0.2$ on volem identificar com la relació entre la capacitat de les ofertes i el pes dels paquets afecta el rendiment de l'algoritme.
+		\item \emph{Impacte de la proporció del pes transportable}: es fixarà el nombre de paquets a $100$ i s'anirà augmentant la proporció del pes transportable des de $1.2$ en increments de $0.2$ on volem identificar com la relació entre la capacitat de les ofertes i el pes dels paquets afecta el rendiment de l'algorisme.
 		
 		\item \emph{Impacte del nombre de paquets}: es fixarà la proporció del pes transportable a $1.2$ i es variarà el nombre de paquets, començant per $100$ i augmentant-lo de $50$ en $50$. S'analitzarà com l'increment en la quantitat de paquets afecta el temps d'execució.
 		
@@ -476,7 +476,7 @@
 			Mètode &
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
-				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
+				\item Establirem els algorismes \textit{Hill Climbing} per un problema amb 100 paquets, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
 				\item Executarem $10$ experiments per a cada una de les proporcions de pes transportable $\{1.2, 1.4, 1.5, 1.6, 1.8, 2.0 \}$, un per cada llavor.
 				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
@@ -515,7 +515,7 @@
 		\label{tab:exp4a_taula}
 	\end{table}
 	
-	En la \textit{Figura \ref{fig:exp4a_grafic_lineal}} es pot apreciar que el temps d'execució de l'algoritme de \textit{Hill Climbing} va augmentant de forma proporcional a la que ho fa la proporció del pes transportable; és a dir que s'aproxima a un creixement lineal la funció obtinguda. \\
+	En la \textit{Figura \ref{fig:exp4a_grafic_lineal}} es pot apreciar que el temps d'execució de l'algorisme de \textit{Hill Climbing} va augmentant de forma proporcional a la que ho fa la proporció del pes transportable; és a dir que s'aproxima a un creixement lineal la funció obtinguda. \\
 	
 	Dels dos operadors utilitzats, només el de \textit{move} té un factor de ramificació que depèn del nombre d'ofertes, sent de l'ordre de $O(n \cdot m)$, on $m$ és el nombre d'ofertes. En incrementar el nombre d'ofertes, també augmenta l'espai de cerca a causa del factor de ramificació d'aquest operador, de manera que buscar en un espai més gran evidentment triga més. Com que el nombre d'ofertes no té cap exponent, és raonable esperar aquest comportament lineal en el temps d'execució.
 	
@@ -535,7 +535,7 @@
 			Mètode &
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
-				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb la proporció del pes de transport fixat  $1,2$, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
+				\item Establirem els algorismes \textit{Hill Climbing} per un problema amb la proporció del pes de transport fixat  $1,2$, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
 				\item Executarem $10$ experiments per a cada nombre de paquets \{100, 150, 200, 250, 300, 350, 400 \}, un per cada llavor.
 				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
@@ -593,7 +593,7 @@
 	
 	A partir de la \textit{Taula \ref{tab:exp4b_temps}}, on es mostren els temps d'execució per diferents nombres de paquets, podem observar un creixement substancial a mesura que el nombre de paquets augmenta. La mediana i la mitjana dels temps d'execució reflecteixen aquesta tendència, confirmant la complexitat quadràtica de l'algorisme amb el factor de ramificació $O(n^2)$, tal com s'ha discutit anteriorment. \\
 	
-	En conclusió, d'acord amb la hipòtesi plantejada s'ha observat que el temps d'execució de l'algoritme de \textit{Hill Climbing} per trobar una solució a un problema donat augmenta de forma no lineal en funció del nombre de paquets a assignar; la variabilitat de temps també incrementa. En comparació amb l'experiment anterior on s'ha vist que el creixement del temps era lineal, aquí ens trobem amb un creixement quadràtic en contrast; resultats que es justifiquen analitzant els factors de ramificació dels operadors implementats a l'algoritme utilitzat. Amb aquests dos experiments s'ha pogut observar la importància del factor de ramificació, el qual s'ha de tenir en consideració a l'hora d'escollir uns bons operadors. \\
+	En conclusió, d'acord amb la hipòtesi plantejada s'ha observat que el temps d'execució de l'algorisme de \textit{Hill Climbing} per trobar una solució a un problema donat augmenta de forma no lineal en funció del nombre de paquets a assignar; la variabilitat de temps també incrementa. En comparació amb l'experiment anterior on s'ha vist que el creixement del temps era lineal, aquí ens trobem amb un creixement quadràtic en contrast; resultats que es justifiquen analitzant els factors de ramificació dels operadors implementats a l'algorisme utilitzat. Amb aquests dos experiments s'ha pogut observar la importància del factor de ramificació, el qual s'ha de tenir en consideració a l'hora d'escollir uns bons operadors. \\
 	
 	Com a puntualització extra, com s'ha esmentat en el \textit{Experiment 1 (\ref{sec:exp1})}, podríem obviar de l'operador \textit{swap}, ja que no ens ofereix una millora gaire notable. Aconseguint, d'aquesta manera, que l'increment de temps passi a ser lineal, ja que l'operador \textit{move} ho és, i seria l'únic que utilitzaríem. \\
 	
@@ -619,7 +619,7 @@
 			Mètode &
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries.
-				\item Establirem els algoritmes \textit{Hill Climbing} per un problema amb 100 paquets, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
+				\item Establirem els algorismes \textit{Hill Climbing} per un problema amb 100 paquets, amb la funció heurística que minimitza només costos i amb el generador de solucions aleatori.
 				\item Executarem $10$ experiments per a cada una de les proporcions de pes transportable $\{1.2, 1.4, 1.5, 1.6, 1.8, 2.0 \}$, un per cada llavor.
 				\item Mesurarem els resultats i n'extraurem conclusions.
 			\end{itemize} \\
@@ -657,11 +657,11 @@
 	
 	\subsection{Experiment 6: Influència de la ponderació de la felicitat (HC)}
 	
-	Un altre punt clau a l'hora de crear algoritmes de cerca local és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felicitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
+	Un altre punt clau a l'hora de crear algorismes de cerca local és l'heurística. En aquest cas, una de les heurístiques proposades no només té en compte una optimització del preu total de transport i emmagatzematge, sinó que també té en compte l'optimització de la felicitat dels clients. És important saber conèixer quins són els objectius a l'hora de fer la distribució per veure quanta importància es dona a cadascun d'aquests factors, ja que no podem, alhora, minimitzar al màxim el preu i maximitzar la felicitat dels clients. \\
 	
-	En canvi, creiem que el canvi en la ponderació de la felicitat, no hauria d'alterar gaire el temps d'execució de l'algoritme, ja que el recorregut de solucions que hi ha de fer hauria de ser semblant. \\
+	En canvi, creiem que el canvi en la ponderació de la felicitat, no hauria d'alterar gaire el temps d'execució de l'algorisme, ja que el recorregut de solucions que hi ha de fer hauria de ser semblant. \\
 	
-	Per comprovar tot això, ara avaluarem l'heurística per veure quanta influència té la felicitat en el preu resultant, variant la ponderació de la felicitat en aquesta. Per veure això, farem servir l'algoritme de \textit{Hill Climbing}, amb un enviament de 100 paquets i una proporció de pes transportable per les ofertes d'$1.2$.
+	Per comprovar tot això, ara avaluarem l'heurística per veure quanta influència té la felicitat en el preu resultant, variant la ponderació de la felicitat en aquesta. Per veure això, farem servir l'algorisme de \textit{Hill Climbing}, amb un enviament de 100 paquets i una proporció de pes transportable per les ofertes d'$1.2$.
 	
 	\begin{table}[H]
 		\centering
@@ -676,7 +676,7 @@
 			Mètode & 
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries per cada ponderació de felicitat.
-				\item Establirem els algoritmes \textit{Hill Climbing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
+				\item Establirem els algorismes \textit{Hill Climbing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
 				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
 				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
 				\item Mesurarem els resultats (preu i temps) i n'extraurem conclusions.
@@ -729,13 +729,13 @@
 	
 	També podem veure que a mesura que aquesta augmenta, entre els experiments que multipliquen la felicitat per $10$ i els que ho fan per $20$, la diferència és gairebé única. Això és possible que sigui degut a que s'apropa a un mínim local i aquesta ponderació de la felicitat no és tan alta en comparació. \\
 	
-	Si avaluem ara el temps d'execució en aquests algoritmes, vist a la \textit{Figura \ref{fig:exp6b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algoritme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
+	Si avaluem ara el temps d'execució en aquests algorismes, vist a la \textit{Figura \ref{fig:exp6b_grafic}}, sí que ens sorprèn trobar-nos un petit augment en aquest a mesura que augmentem la ponderació de la felicitat. Malgrat que aquest també depèn d'altres factors externs a l'algorisme, és possible que això sigui degut a que el ventall de solucions properes quan tenim en compte la felicitat, pot ser major. És a dir, com estem restant la felicitat al cost, hi ha més factors que influeixen al resultat. \\
 	
 	Com a conclusió, podríem dir que efectivament el preu augmenta amb un increment de la ponderació de la felicitat, però que aquest augment es manté estable arribat a un punt. I, respecte al temps d'execució, aquest sí que pot estar influenciat lleugerament per la ponderació d'aquesta felicitat.
 	
 	\subsection{Experiment 7: Influència de la ponderació de la felicitat (SA)}
 	
-	Donat l'escenari de l'experiment anterior, ara el que volem tornar a veure com afecta la felicitat a l'heurística però, aquest cop, amb l'algoritme de \textit{Simulated Annealing}. D'aquesta manera, podrem comparar tots dos algoritmes i analitzar si hi ha diferències entre les tendències de tots dos. \\
+	Donat l'escenari de l'experiment anterior, ara el que volem tornar a veure com afecta la felicitat a l'heurística però, aquest cop, amb l'algorisme de \textit{Simulated Annealing}. D'aquesta manera, podrem comparar tots dos algorismes i analitzar si hi ha diferències entre les tendències de tots dos. \\
 	
 	Per fer això, farem servir els paràmetres de \textit{Simulated Annealing} obtinguts a l'Experiment 3 (\ref{sec:exp3}).
 	
@@ -752,7 +752,7 @@
 			Mètode & 
 			\begin{itemize}
 				\item Agafarem un conjunt de $10$ llavors aleatòries per cada ponderació de felicitat.
-				\item Establirem els algoritmes \textit{Simulated Annealing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
+				\item Establirem els algorismes \textit{Simulated Annealing}, i generador de solucions pseudo-aleatori, \textit{Solució Inicial 2}.
 				\item Executarem l'experiment amb 100 paquets i una proporció d'1,2.
 				\item Els paràmetres de \textit{Simulated Annealing} que farem servir són k=1, $\lambda$=0.01, iteracions=100 i steps=20000.
 				\item Anirem augmentat de 5 en 5 la felicitat, partint de 0 i arribant fins a 20.
@@ -809,16 +809,16 @@
 	
 	\subsubsection{Disminució preu emmagatzematge}
 	
-	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/dia una quantitat considerable. Al tractar-se d'un cost significatiu dins el model, una reducció substancial podria alleugerir considerablement el cost global. Si ens fixem en la felicitat resultant, aquesta és possible que es vegi negativament afectada i que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística; l'algoritme té menys pressió per accelerar l'entrega dels paquets. L'algoritme pot permetre mantenir els paquets més temps en el magatzem sense que impacti massa en el cost total; ja que també les ofertes que entreguen en més dies els paquets acostumen a ser més barats amb les quals és necessari guardar els paquets al magatzem i com a conseqüència els paquets arriben més tard disminuint la felicitat.\\
+	Si fem que el cost d'emmagatzematge sigui més baix, això clarament farà que el cost total disminueixi, ja que aquest té una influència directa en el resultat, sent 0,25€/kg/dia una quantitat considerable. Al tractar-se d'un cost significatiu dins el model, una reducció substancial podria alleugerir considerablement el cost global. Si ens fixem en la felicitat resultant, aquesta és possible que es vegi negativament afectada i que baixi, perquè quan el preu baixa, el cost de mantenir els paquets al magatzem és menor, per la qual cosa tindrà menys pes dins l'heurística; l'algorisme té menys pressió per accelerar l'entrega dels paquets. L'algorisme pot permetre mantenir els paquets més temps en el magatzem sense que impacti massa en el cost total; ja que també les ofertes que entreguen en més dies els paquets acostumen a ser més barats amb les quals és necessari guardar els paquets al magatzem i com a conseqüència els paquets arriben més tard disminuint la felicitat.\\
 	
 	\subsubsection{Augment preu emmagatzematge}
 	
-	En canvi, si augmentem aquest cost, és possible que el resultat sigui el contrari, ja que quan el preu puja, té proporcionalment un pes més gran a l'heurística, cosa que per una banda farà que es doni menys importància a la felicitat però. Per l'altra, això incentiva a l'algoritme a intenti tenir els paquets el mínim temps possible al magatzem, perquè mantenir-los allà cada cop serà més costós, per tant, això pot resultar en que s'entregaran els paquets el més aviat possible, el qual augmentarà la felicitat dels usuaris. Però, per altra banda, si tenim en compte que està augmentant una part important de l'heurística, també veiem el cost total augmentarà.\\
+	En canvi, si augmentem aquest cost, és possible que el resultat sigui el contrari, ja que quan el preu puja, té proporcionalment un pes més gran a l'heurística, cosa que per una banda farà que es doni menys importància a la felicitat però. Per l'altra, això incentiva a l'algorisme a intenti tenir els paquets el mínim temps possible al magatzem, perquè mantenir-los allà cada cop serà més costós, per tant, això pot resultar en que s'entregaran els paquets el més aviat possible, el qual augmentarà la felicitat dels usuaris. Però, per altra banda, si tenim en compte que està augmentant una part important de l'heurística, també veiem el cost total augmentarà.\\
 	
 	
 	\subsection{Experiment 9: Especial}
 	
-	L'eficàcia temporal és un aspecte clau en els algoritmes d'intel·ligència artificial. En aquest experiment, per a una entrada donada, extraurem dades sobre el temps necessari perquè l'algoritme s'executi. Els paràmetres que proporcionarem al programa seran: 100 paquets, una proporció de $1.2$ i una llavor de $1234$. A més, utilitzarem el mètode \textit{Hill Climbing} amb els operadors més òptims, que vam examinar en el primer experiment. Aquest conjunt d'operadors inclourà les operacions \textit{move} i \textit{swap}. Només ens falta definir un últim paràmetre: el generador de solucions inicials. Aquest també ha estat seleccionat a partir d'experiments anteriors, més concretament del segon experiment, on vam obtenir els millors resultats amb el generador més 'aleatori'. \\
+	L'eficàcia temporal és un aspecte clau en els algorismes d'intel·ligència artificial. En aquest experiment, per a una entrada donada, extraurem dades sobre el temps necessari perquè l'algorisme s'executi. Els paràmetres que proporcionarem al programa seran: 100 paquets, una proporció de $1.2$ i una llavor de $1234$. A més, utilitzarem el mètode \textit{Hill Climbing} amb els operadors més òptims, que vam examinar en el primer experiment. Aquest conjunt d'operadors inclourà les operacions \textit{move} i \textit{swap}. Només ens falta definir un últim paràmetre: el generador de solucions inicials. Aquest també ha estat seleccionat a partir d'experiments anteriors, més concretament del segon experiment, on vam obtenir els millors resultats amb el generador més 'aleatori'. \\
 	
 	\begin{figure}[H]
 		\centering
@@ -833,7 +833,7 @@
 	
 	\subsection{Experiment 10: Comparativa Hill Climbing i Simulated Annealing}
 	
-	Per comparar els resultats obtinguts amb tots dos algoritmes, fets servir al llarg d'aquest treball, farem servir diferents entrades amb 400 paquets i una proporció dels paquets d'1.2, així com també els paràmetres pel \textit{Simulated Annealing} obtinguts a l'experiment 3(\ref{sec:exp3}).
+	Per comparar els resultats obtinguts amb tots dos algorismes, fets servir al llarg d'aquest treball, farem servir diferents entrades amb 400 paquets i una proporció dels paquets d'1.2, així com també els paràmetres pel \textit{Simulated Annealing} obtinguts a l'experiment 3(\ref{sec:exp3}).
 	
 	\begin{figure}[H]
 		\centering
@@ -855,25 +855,25 @@
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline
-			\textbf{Algoritme} & \textbf{MitjanaCost} & \textbf{MitjanaTemps(ms)} \\
+			\textbf{Algorisme} & \textbf{MitjanaCost} & \textbf{MitjanaTemps(ms)} \\
 			\hline
 			Hill Climbing & 3863.90 & 24507.40\\
 			\hline
 			Simulated Annealing & 3883.01 & 52.60\\
 			\hline
 		\end{tabular}
-		\caption{Estadístiques del preu i temps d'execució segons l'algoritme emprat}
+		\caption{Estadístiques del preu i temps d'execució segons l'algorisme emprat}
 		\label{tab:exp10_estadisticas}
 	\end{table}
 
-	En les anteriors figures podem observar que el temps d'execució per l'algoritme \textit{Simulated Annealing} és molt menor que per  \textit{Hill Climbing}. Però en canvi, respecte als resultats respecte al cost obtingut, podem veure que el primer algoritme obté lleugerament pitjors resultats, tot i que les diferències tampoc són gaire significatives. \\
+	En les anteriors figures podem observar que el temps d'execució per l'algorisme \textit{Simulated Annealing} és molt menor que per  \textit{Hill Climbing}. Però en canvi, respecte als resultats respecte al cost obtingut, podem veure que el primer algorisme obté lleugerament pitjors resultats, tot i que les diferències tampoc són gaire significatives. \\
 	
-	Aquests resultats els obtenim malgrat saber que el \textit{Hill Climbing} sol quedar-se atrapat fàcilment en mínims locals, ja que sempre fa passos cap a solucions millors, és a dir, sempre intenta obtenir millors resultats en cada iteració. Això significa que l'algoritme pot trobar una solució que sigui òptima en aquell espai, però que no sigui la millor solució global. \\
+	Aquests resultats els obtenim malgrat saber que el \textit{Hill Climbing} sol quedar-se atrapat fàcilment en mínims locals, ja que sempre fa passos cap a solucions millors, és a dir, sempre intenta obtenir millors resultats en cada iteració. Això significa que l'algorisme pot trobar una solució que sigui òptima en aquell espai, però que no sigui la millor solució global. \\
 	
-	En canvi, \textit{Simulated Annealing} té l'avantatge que introdueix un factor d'aleatorietat que li permet escapar d'aquests mínims locals. Inicialment, permet moure's a pitjors solucions amb certa probabilitat, la qual disminueix gradualment a mesura que es "refreda" el procés. Per això, si ajustem correctament els paràmetres, pot arribar a solucions més òptimes que \textit{Hill Climbing}, la qual cosa no ha passat en aquest cas, possiblement perquè el primer algoritme ja ha trobat un bon òptim global. \\
+	En canvi, \textit{Simulated Annealing} té l'avantatge que introdueix un factor d'aleatorietat que li permet escapar d'aquests mínims locals. Inicialment, permet moure's a pitjors solucions amb certa probabilitat, la qual disminueix gradualment a mesura que es "refreda" el procés. Per això, si ajustem correctament els paràmetres, pot arribar a solucions més òptimes que \textit{Hill Climbing}, la qual cosa no ha passat en aquest cas, possiblement perquè el primer algorisme ja ha trobat un bon òptim global. \\
 	
-	Respecte al temps d'execució, veiem que per una quantitat molt alta d'entrades, el \textit{Simulated Annealing} és més ràpid que el \textit{Hill Climbing}, això pot ser degut a diversos factors. En \textit{Simulated Annealing}, s'estableix un nombre fix d'iteracions (o passos) que defineix el temps d'execució, cosa que permet tenir un límit conegut per endavant. Cada iteració es basa en un pas o salt en l'espai de solucions, la qual cosa evita l'exploració exhaustiva de totes les possibles combinacions de solucions. Així, encara que l'espai de cerca sigui molt gran (com amb un nombre elevat de paquets), l'algoritme es mou de manera controlada i pot trobar una bona solució en un temps raonable sense haver d'explorar tot l'espai.
-	Gràcies al procés de refredament, \textit{Simulated Annealing} redueix gradualment la probabilitat d'acceptar solucions pitjors a mesura que avancen les iteracions. A l'inici, l'algoritme es mou de manera més lliure per l'espai de cerca, explorant àmpliament i evitant quedar-se encallat en mínims locals. Aquesta llibertat inicial permet que es recorri una part més gran de l'espai de cerca amb menys passos i, per tant, amb menys temps de computació. A mesura que l'algoritme "refreda", limita les exploracions i es centra en les millors solucions, cosa que li permet convergir ràpidament cap a un punt òptim.
+	Respecte al temps d'execució, veiem que per una quantitat molt alta d'entrades, el \textit{Simulated Annealing} és més ràpid que el \textit{Hill Climbing}, això pot ser degut a diversos factors. En \textit{Simulated Annealing}, s'estableix un nombre fix d'iteracions (o passos) que defineix el temps d'execució, cosa que permet tenir un límit conegut per endavant. Cada iteració es basa en un pas o salt en l'espai de solucions, la qual cosa evita l'exploració exhaustiva de totes les possibles combinacions de solucions. Així, encara que l'espai de cerca sigui molt gran (com amb un nombre elevat de paquets), l'algorisme es mou de manera controlada i pot trobar una bona solució en un temps raonable sense haver d'explorar tot l'espai.
+	Gràcies al procés de refredament, \textit{Simulated Annealing} redueix gradualment la probabilitat d'acceptar solucions pitjors a mesura que avancen les iteracions. A l'inici, l'algorisme es mou de manera més lliure per l'espai de cerca, explorant àmpliament i evitant quedar-se encallat en mínims locals. Aquesta llibertat inicial permet que es recorri una part més gran de l'espai de cerca amb menys passos i, per tant, amb menys temps de computació. A mesura que l'algorisme "refreda", limita les exploracions i es centra en les millors solucions, cosa que li permet convergir ràpidament cap a un punt òptim.
 	\textit{Hill Climbing} tendeix a explorar de manera més intensa al voltant d'una solució específica. Això significa que, per cada nova posició, busca la millora més pròxima, cosa que pot resultar ineficient quan l'espai de cerca és gran, el qual creix de forma quadràtica tal com s'ha vist a l'experiment 4 segons creixi el nombre de paquets, i les solucions òptimes estan lluny.   
 
 	
@@ -886,7 +886,7 @@
 	
 	A més, en aquest estudi s'ha evidenciat la importància de la determinació experimental dels paràmetres en els algorismes de \textit{Hill Climbing} i de \textit{Simulated Annealing} per a aconseguir resultats òptims en la cerca de solucions eficients. S'ha observat que factors com la temperatura inicial, la taxa de refredament i el nombre d'iteracions en el \textit{Simulated Annealing} afecten tant la qualitat de la solució com el temps de convergència. Així, l'ajust experimental dels paràmetres en \textit{Simulated Annealing} permet un equilibri òptim entre exploració i explotació. \\
 	
-	En futurs treballs, seria interessant investigar l'impacte de combinar altres heurístiques o ajustar més finament els paràmetres de l'algorisme de \textit{Simulated Annealing}. També s'explorarien variacions de pes dels paquets o temps de lliurament més diversificats per analitzar la robustesa del model. A més, una extensió amb algoritmes genètics, de satisfacció de restriccions o tècniques de \textit{Machine Learning} podria permetre una adaptació automàtica dels paràmetres en funció de les característiques del problema. \\
+	En futurs treballs, seria interessant investigar l'impacte de combinar altres heurístiques o ajustar més finament els paràmetres de l'algorisme de \textit{Simulated Annealing}. També s'explorarien variacions de pes dels paquets o temps de lliurament més diversificats per analitzar la robustesa del model. A més, una extensió amb algorismes genètics, de satisfacció de restriccions o tècniques de \textit{Machine Learning} podria permetre una adaptació automàtica dels paràmetres en funció de les característiques del problema. \\
 	
 	En conclusió, aquest estudi ens ha permès consolidar els coneixements adquirits sobre algorismes de cerca local i ens ha dotat de recursos per afrontar problemes complexos, adquirint resultats que poden servir de base per a futures investigacions orientades a millorar l'eficiència i adaptabilitat en aplicacions reals. \\
 	
