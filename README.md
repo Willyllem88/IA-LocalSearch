@@ -1,46 +1,43 @@
 # IA-LocalSearch
 
-## Tabla de Contenidos
+## Table of Contents
 
 - [IA-LocalSearch](#ia-localsearch)
-  - [Tabla de Contenidos](#tabla-de-contenidos)
-  - [Descripción del Proyecto](#descripción-del-proyecto)
-  - [Requisitos](#requisitos)
-  - [Dependencias](#dependencias)
-  - [Instrucciones de Ejecución](#instrucciones-de-ejecución)
+  - [Project Description](#project-description)
+  - [Requirements](#requirements)
+  - [Dependencies](#dependencies)
+  - [Execution Instructions](#execution-instructions)
 
-## Descripción del Proyecto
+## Project Description
 
-Este proyecto implementa un algoritmo de búsqueda local aplicado al problema de Azamon. Utiliza técnicas como Simulated Annealing (SA) y Hill Climbing (HC) para encontrar soluciones óptimas o aproximadas.
+This project implements a local search algorithm applied to the Azamon problem. It uses techniques such as **Simulated Annealing (SA)** and **Hill Climbing (HC)** to find optimal or near-optimal solutions. The project was an assignment for UPC-FIB's subject Artificial Intelligence.
 
-## Requisitos
+## Requirements
 
-Para compilar y ejecutar este proyecto, necesitarás:
+To compile and run this project, you will need:
 
-- **Java Development Kit (JDK)** versión 17 o más. Se ha programado con la versión (17.0.12).
+- **Java Development Kit (JDK)** version 17 or higher. The project has been developed and tested with version **17.0.12**.
 
-## Dependencias
+## Dependencies
 
-Este proyecto requiere varias librerías que ya están incluidas en las carpetas `AIMA/` y `Azamon/`. Estas son:
+The project requires several libraries, which are included in the `AIMA/` and `Azamon/` folders. These include:
 
-- **AIMA.jar**: Implementaciones de algoritmos del libro "Artificial Intelligence: A Modern Approach".
-- **Azamon.jar**: Contiene las clases relacionadas con el problema de Azamon.
-- **Librerías adicionales en AIMA/lib/**: Entre ellas, jFreeChart, junit, iText, y otras.
+- **AIMA.jar**: Implements algorithms from the book *Artificial Intelligence: A Modern Approach*.
+- **Azamon.jar**: Contains classes related to the Azamon problem.
+- **Additional libraries in AIMA/lib/**: Includes jFreeChart, JUnit, iText, and others.
 
-## Instrucciones de Ejecución
+## Execution Instructions
 
-Para compilar el código, abre una terminal en la carpeta raíz del proyecto y ejecuta el siguiente comando:
+To compile the code, open a terminal in the project's root directory and run the following command:
 
 ```bash
 javac -cp ".:AIMA/AIMA.jar:Azamon/Azamon.jar:AIMA/lib/*" src/Main.java src/implementation/*.java -d .
 ```
 
-Una vez que la compilación se haya completado, puedes ejecutar el programa con el siguiente comando:
+Once compiled, you can execute the program with the following command:
 
 ```bash
 java -cp ".:AIMA/AIMA.jar:Azamon/Azamon.jar:AIMA/lib/*:src" Main
 ```
 
-Este comando iniciará la clase `Main`, que es el punto de entrada para el programa. El mismo programa ya guiará al usuario de como debe usarse a través de la consola.
-
----
+This will launch the `Main` class, which serves as the program's entry point. The program will guide you through its usage directly via the console.
