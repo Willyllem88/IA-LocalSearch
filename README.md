@@ -10,7 +10,7 @@
 
 ## Project Description
 
-This project implements a local search algorithm applied to the Azamon problem. It uses techniques such as **Simulated Annealing (SA)** and **Hill Climbing (HC)** to find optimal or near-optimal solutions. The project was an assignment for UPC-FIB's subject Artificial Intelligence.
+This project implements a local search algorithm applied to the Azamon problem. It uses techniques such as **Simulated Annealing (SA)** and **Hill Climbing (HC)** to find optimal or near-optimal solutions. The project was an assignment for Artificial Intelligence course at UPC-FIB.
 
 ## Requirements
 
